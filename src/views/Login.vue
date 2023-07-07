@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
@@ -87,11 +87,13 @@ defineExpose({
 .LoginForm {
     margin: 0 auto;
     padding: 0 auto;
-    width: 50%;
+    width: 30%;
     // height: max-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 2px solid white;
+    border-radius: 10px;
 }
 </style>

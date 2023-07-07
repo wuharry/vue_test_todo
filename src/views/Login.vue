@@ -36,19 +36,23 @@ defineExpose({
 </script>
 
 <template>
-    <div class="Body">
-        <div class="LoginForm">
+    <div class="body">
+
+        <div class="loginform">
             <h2>Login</h2>
-            <div>
-                <span>Email</span>
-                <input value="email" type="email" />
+            <div class="input_sec">
+                <div class="email_sec">
+                    <span>Email</span>
+                    <input value="email" type="email" />
 
-            </div>
-            <div>
-                <span>Password</span>
-                <input value="email" type="password" />
+                </div>
+                <div class="password_sec">
+                    <span>Password</span>
+                    <input value="email" type="password" />
 
+                </div>
             </div>
+
             <div>
                 <input type="checkbox">
                 <span></span>
@@ -71,12 +75,12 @@ defineExpose({
 
 }
 
-.Body {
+.body {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100vw;
-    max-width:100%;
+    max-width: 100%;
     height: 100vh;
     max-height: fit-content;
     overflow: hidden;
@@ -84,7 +88,7 @@ defineExpose({
     background-size: cover;
 }
 
-.LoginForm {
+.loginform {
     margin: 0 auto;
     padding: 0 auto;
     width: 30%;
@@ -95,5 +99,18 @@ defineExpose({
     align-items: center;
     border: 2px solid white;
     border-radius: 10px;
+}
+
+.input_sec{
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    align-items: start;
+}
+.email_sec{
+
+}
+.password_sec{
+    
 }
 </style>

@@ -55,7 +55,7 @@ defineExpose({
 
             <div>
                 <input type="checkbox">
-                <span></span>
+                <span>Remeber Me Forget Password</span>
             </div>
             <button>Login</button>
             <div>
@@ -86,31 +86,33 @@ defineExpose({
     overflow: hidden;
     background: url("/moonaBackground2.jpg") no-repeat;
     background-size: cover;
+    color: white;
 }
 
 .loginform {
     margin: 0 auto;
     padding: 0 auto;
     width: 30%;
-    // height: max-content;
+    height: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    border: 2px solid white;
+    border: 1px solid white;
+    backdrop-filter:blur(8px); 
     border-radius: 10px;
+    h2{
+        font-weight: bolder;
+    }
 }
-
-.input_sec{
+.input_sec {
     // display: flex;
     // flex-direction: column;
     // justify-content: center;
     align-items: start;
 }
-.email_sec{
 
-}
-.password_sec{
-    
-}
+.email_sec {}
+
+.password_sec {}
 </style>

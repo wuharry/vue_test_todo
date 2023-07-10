@@ -2,6 +2,7 @@
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+
 /**
 * 倉庫
 */
@@ -37,19 +38,18 @@ defineExpose({
 
 <template>
     <div class="body">
-
         <div class="loginform">
             <h2>Login</h2>
             <div class="input_sec">
                 <div class="email_sec">
                     <span>Email</span>
-                    <input value="email" type="email" />
-
+                    <input type="email" />
+                    <img src="../../public/mail-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
                 </div>
                 <div class="password_sec">
                     <span>Password</span>
-                    <input value="email" type="password" />
-
+                    <input type="password" />
+                    <img src="../../public/lock-closed-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
                 </div>
             </div>
 
@@ -57,7 +57,7 @@ defineExpose({
                 <input type="checkbox">
                 <span>Remeber Me Forget Password</span>
             </div>
-            <button>Login</button>
+            <button class="loginbtn">Login</button>
             <div>
                 <span>Don't have a account</span>
                 <a href="">Regiseter</a>
@@ -93,26 +93,70 @@ defineExpose({
     margin: 0 auto;
     padding: 0 auto;
     width: 30%;
-    height: 50%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     border: 1px solid white;
-    backdrop-filter:blur(8px); 
+    backdrop-filter: blur(8px);
     border-radius: 10px;
-    h2{
+
+    h2 {
         font-weight: bolder;
+        font-size: 30px;
     }
 }
+
 .input_sec {
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
     align-items: start;
 }
 
-.email_sec {}
+.email_sec {
+    margin-top: 30px;
+    border-bottom: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    input {
+        border: none;
+        /* 移除边框 */
+        background: transparent;
+        /* 设置背景为透明 */
+        color: white;
+        /* 设置文字颜色为透明 */
+        outline: none;
+        /* 移除聚焦时的边框效果 */
+        padding-bottom: 6px;
+    }
+}
 
-.password_sec {}
+.password_sec {
+    border-bottom: 2px solid white;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    input {
+        border: none;
+        /* 移除边框 */
+        background: transparent;
+        /* 设置背景为透明 */
+        color: white;
+        /* 设置文字颜色为透明 */
+        outline: none;
+        /* 移除聚焦时的边框效果 */
+        padding-bottom: 6px;
+    }
+
+}
+
+.loginbtn{
+    width: 60%;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
 </style>

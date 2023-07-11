@@ -20,6 +20,8 @@ const router = useRouter();
 * 數據部分
 */
 const data = reactive({})
+const emailRef = ref<any>('');
+const passwordRef = ref<any>('');
 onBeforeMount(() => {
     //console.log('2.組件掛載頁面之前執行----onBeforeMount')
 })
@@ -34,6 +36,8 @@ defineExpose({
     ...toRefs(data)
 })
 
+
+
 </script>
 
 <template>
@@ -42,13 +46,25 @@ defineExpose({
             <h2>Login</h2>
             <div class="input_sec">
                 <div class="email_sec">
-                    <span>Email</span>
-                    <input type="email" />
+                    <span ref="emailRef">Email</span>
+                    <input type="email" @click="() => {
+                        emailRef.classList.add('active')
+                        emailRef.classList.remove('remove');
+                    }" @blur="() => {
+    emailRef.classList.add('remove');
+    emailRef.classList.remove('active');
+}" />
                     <img src="../../public/mail-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
                 </div>
                 <div class="password_sec">
-                    <span>Password</span>
-                    <input type="password" />
+                    <span ref="passwordRef">Password</span>
+                    <input type="password" @click="() => {
+                        passwordRef.classList.add('active')
+                        passwordRef.classList.remove('remove');
+                    }" @blur="() => {
+    passwordRef.classList.add('remove');
+    passwordRef.classList.remove('active');
+}" />
                     <img src="../../public/lock-closed-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
                 </div>
             </div>
@@ -118,7 +134,9 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     input {
+        // max-width: 100%;
         border: none;
         /* 移除边框 */
         background: transparent;
@@ -137,7 +155,9 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     input {
+        // max-width: 100%;
         border: none;
         /* 移除边框 */
         background: transparent;
@@ -151,12 +171,23 @@ defineExpose({
 
 }
 
-.loginbtn{
+.loginbtn {
     width: 60%;
     background-color: white;
     color: black;
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
+}
+
+
+.active {
+    transition: transform 1s;
+    transform: translateY(-100%);
+}
+
+.remove {
+    transition: transform 1s;
+    transform: translateY(0%);
 }
 </style>

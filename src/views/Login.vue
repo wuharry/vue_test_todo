@@ -19,7 +19,14 @@ const router = useRouter();
 /**
 * 數據部分
 */
-const data = reactive({})
+interface LoginForm {
+    email: string
+    password: string;
+}
+const loginData = ref<LoginForm>({
+    email: '',
+    password: ''
+})
 const emailRef = ref<any>('');
 const passwordRef = ref<any>('');
 onBeforeMount(() => {
@@ -32,52 +39,74 @@ watchEffect(() => {
 })
 // 使用toRefs解構
 // let { } = { ...toRefs(data) } 
-defineExpose({
-    ...toRefs(data)
-})
+// defineExpose({
+//     ...toRefs()
+// })
 
+const loginHandler = () => {
+    // axios 送出資料到後端
+    // 登陸+記錄返回的token 到loaclstorge
+    const { email, password } = loginData.value;
+    console.log('====================================');
+    console.log(`登陸資料`);
+    localStorage.getItem('email') ? console.log(localStorage.getItem('email')) : console.log(email);
+    localStorage.getItem('password') ? console.log(localStorage.getItem('password')) : console.log(password);
+    console.log('====================================');
+    loginData.value.email = '';
+    loginData.value.password = '';
+}
 
+const remeberEvent = () => {
+    // 記住我
+    const { email, password } = loginData.value;
+    localStorage.setItem('email', JSON.stringify(email));
+    localStorage.setItem('password', JSON.stringify(password));
+}
 
 </script>
 
 <template>
     <div class="body">
         <div class="loginform">
-            <h2>Login</h2>
-            <div class="input_sec">
-                <div class="email_sec">
-                    <span ref="emailRef">Email</span>
-                    <input type="email" @click="() => {
-                        emailRef.classList.add('active')
-                        emailRef.classList.remove('remove');
-                    }" @blur="() => {
+            <form @submit.prevent="loginHandler">
+                <h2>Login</h2>
+                <div class="input_sec">
+                    <div class="email_sec">
+                        <span ref="emailRef">Email</span>
+                        <input type="email" v-model="loginData.email" @click="() => {
+                            emailRef.classList.add('active');
+                            emailRef.classList.remove('remove');
+                        }" @blur="() => {
     emailRef.classList.add('remove');
     emailRef.classList.remove('active');
 }" />
-                    <img src="../../public/mail-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
-                </div>
-                <div class="password_sec">
-                    <span ref="passwordRef">Password</span>
-                    <input type="password" @click="() => {
-                        passwordRef.classList.add('active')
-                        passwordRef.classList.remove('remove');
-                    }" @blur="() => {
+                        <img src="../../public/mail-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
+                    </div>
+                    <div class="password_sec">
+                        <span ref="passwordRef">Password</span>
+                        <input type="password" v-model="loginData.password" @click="() => {
+                            passwordRef.classList.add('active');
+                            passwordRef.classList.remove('remove');
+                        }" @blur="() => {
     passwordRef.classList.add('remove');
     passwordRef.classList.remove('active');
 }" />
-                    <img src="../../public/lock-closed-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
+                        <img src="../../public/lock-closed-outline.svg" style="width: 25px; height: 25px;" alt="SVG Icon" />
+                    </div>
                 </div>
-            </div>
 
-            <div>
-                <input type="checkbox">
-                <span>Remeber Me Forget Password</span>
-            </div>
-            <button class="loginbtn">Login</button>
-            <div>
-                <span>Don't have a account</span>
-                <a href="">Regiseter</a>
-            </div>
+                <div>
+                    <input type="checkbox" @change="remeberEvent">
+                    <span>Remeber Me Forget Password</span>
+                </div>
+                <button class="loginbtn" @click="loginHandler">Login</button>
+                <div>
+                    <span>Don't have a account</span>
+                    <router-link to="/register">
+                        <a href="">Regiseter</a>
+                    </router-link>
+                </div>
+            </form>
         </div>
     </div>
 </template>

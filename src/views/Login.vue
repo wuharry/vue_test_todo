@@ -27,13 +27,18 @@ const loginData = ref<LoginForm>({
     email: '',
     password: ''
 })
-const emailRef = ref<any>('');
-const passwordRef = ref<any>('');
+let emailRef = ref<any>('');
+let passwordRef = ref<any>('');
 onBeforeMount(() => {
     //console.log('2.組件掛載頁面之前執行----onBeforeMount')
 })
 onMounted(() => {
     //console.log('3.-組件掛載到頁面之後執行-------onMounted')
+    // 檢查localstorage是否有值
+    const storedEmail = localStorage.getItem('email');
+    const storedPassword = localStorage.getItem('password');
+    loginData.value.email = storedEmail ? storedEmail : '';
+    loginData.value.password = storedPassword ? storedPassword : '';
 })
 watchEffect(() => {
 })
@@ -49,11 +54,14 @@ const loginHandler = () => {
     const { email, password } = loginData.value;
     console.log('====================================');
     console.log(`登陸資料`);
-    localStorage.getItem('email') ? console.log(localStorage.getItem('email')) : console.log(email);
-    localStorage.getItem('password') ? console.log(localStorage.getItem('password')) : console.log(password);
+    console.log(email);
+    console.log(password);
     console.log('====================================');
     loginData.value.email = '';
     loginData.value.password = '';
+    // if(axios回傳true的話){
+    // 跳轉頁面到Homepage}
+    router.push('/home');
 }
 
 const remeberEvent = () => {

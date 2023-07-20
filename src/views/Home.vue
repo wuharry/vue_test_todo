@@ -1,6 +1,4 @@
-<template>
- <div ></div>
-</template>
+
 
 <script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
@@ -24,19 +22,42 @@ const router = useRouter();
 */
 const data = reactive({})
 onBeforeMount(() => {
- //console.log('2.組件掛載頁面之前執行----onBeforeMount')
+    //console.log('2.組件掛載頁面之前執行----onBeforeMount')
 })
 onMounted(() => {
- //console.log('3.-組件掛載到頁面之後執行-------onMounted')
+    //console.log('3.-組件掛載到頁面之後執行-------onMounted')
 })
-watchEffect(()=>{
+watchEffect(() => {
 })
 // 使用toRefs解構
 // let { } = { ...toRefs(data) } 
 defineExpose({
- ...toRefs(data)
+    ...toRefs(data)
 })
 
 </script>
+
+<template>
+    <div class="container">
+        <div class="jobList"></div>
+        <div class="context"></div>
+    </div>
+</template>
 <style scoped lang='less'>
+.container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height:100vh;
+    background-color: #0be0ef;
+    display: flex;
+}
+.jobLister{
+    flex: 4;
+    display: grid;
+}
+.context{
+    flex: 6;
+    display: flex;
+}
 </style>

@@ -37,8 +37,8 @@ onMounted(() => {
     // 檢查localstorage是否有值
     const storedEmail = localStorage.getItem('email');
     const storedPassword = localStorage.getItem('password');
-    loginData.value.email = storedEmail ? storedEmail : '';
-    loginData.value.password = storedPassword ? storedPassword : '';
+    loginData.value.email = storedEmail?.length ? storedEmail : '12';
+    loginData.value.password = storedPassword?.length ? storedPassword : '123';
 })
 watchEffect(() => {
 })

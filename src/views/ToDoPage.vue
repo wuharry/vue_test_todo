@@ -4,6 +4,7 @@
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import TaskList from '@/components/TaskList.vue';
 /**
 * 倉庫
 */
@@ -21,6 +22,11 @@ const router = useRouter();
 * 數據部分
 */
 const data = reactive({})
+/* 獲取後端數據(不需要寫在生命週期)
+
+
+*/
+
 onBeforeMount(() => {
     //console.log('2.組件掛載頁面之前執行----onBeforeMount')
 })
@@ -39,8 +45,15 @@ defineExpose({
 
 <template>
     <div class="container">
-        <div class="jobList"></div>
-        <div class="context"></div>
+        <div class="optionList">
+            <!-- 左側 -->
+        </div>
+        <div class="context">
+            <span>Task</span>
+            <!-- <input>
+            <button>Create Task</button> -->
+            <TaskList />
+        </div>
     </div>
 </template>
 <style scoped lang='less'>
@@ -48,15 +61,18 @@ defineExpose({
     padding: 0;
     margin: 0;
     width: 100%;
-    height:100vh;
+    height: 100vh;
     background-color: #0be0ef;
     display: flex;
 }
-.jobLister{
+
+.jobLister {
     flex: 4;
     display: grid;
+    border: 1px;
 }
-.context{
+
+.context {
     flex: 6;
     display: flex;
 }

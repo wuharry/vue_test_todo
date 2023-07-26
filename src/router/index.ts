@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from '../views/Login.vue';
-import HomeVue from "../views/Home.vue";
+import Login from '../views/LoginPage.vue';
+import HomeVue from "../views/ToDoPage.vue";
 
 const routes = [
   {
@@ -10,8 +10,8 @@ const routes = [
     meta:{hidden:true,title:'login'}
   },
   {
-    path:'/home',
-    name:"Home",
+    path:'/todo',
+    name:"ToDo",
     component:HomeVue,
     meta:{hidden:true,title:'todo'}
   }

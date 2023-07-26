@@ -47,6 +47,7 @@ defineExpose({
     <div class="container">
         <div class="optionList">
             <!-- 左側 -->
+            left sides
         </div>
         <div class="context">
             <span>Task</span>
@@ -65,13 +66,16 @@ defineExpose({
 }
 
 .jobLister {
-    flex: 4;
+    flex: 5;
     display: grid;
     border: 1px;
 }
 
 .context {
-    flex: 6;
+    flex: 5;
     display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
 }
 </style>

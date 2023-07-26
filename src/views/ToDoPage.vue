@@ -4,7 +4,7 @@
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import TaskList from '@/components/TaskList.vue';
+import TaskList from '../components/TaskList.vue';
 /**
 * 倉庫
 */
@@ -50,8 +50,6 @@ defineExpose({
         </div>
         <div class="context">
             <span>Task</span>
-            <!-- <input>
-            <button>Create Task</button> -->
             <TaskList />
         </div>
     </div>

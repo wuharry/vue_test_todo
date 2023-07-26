@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ITask } from '@/types/Task'
+import { ITask } from '../types/Task'
 import TaskItem from './TaskItem.vue';
 const props = defineProps({
   taskArray: {

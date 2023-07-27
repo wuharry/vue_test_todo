@@ -20,6 +20,7 @@
     "src/**/*.d.ts",
     "src/**/*.vue",
     "tests/**/*.ts",
+    "src/**/*.jsx" ,
     "src/**/*.tsx",
     "src/main.ts",
     "vue-shim.d.ts"

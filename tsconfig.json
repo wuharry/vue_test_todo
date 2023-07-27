@@ -4,6 +4,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "jsxImportSource": "preact",
     "types": ["vite/client", "vue"],
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -19,6 +20,7 @@
     "src/**/*.d.ts",
     "src/**/*.vue",
     "tests/**/*.ts",
+    "src/**/*.tsx",
     "src/main.ts",
     "vue-shim.d.ts"
   ],

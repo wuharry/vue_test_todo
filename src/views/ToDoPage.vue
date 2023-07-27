@@ -65,14 +65,14 @@ defineExpose({
     display: flex;
 }
 
-.jobLister {
-    flex: 5;
+.optionList {
+    flex: 2;
     display: grid;
-    border: 1px;
+    border: 2px solid; 
 }
 
 .context {
-    flex: 5;
+    flex: 10;
     display: flex;
     flex-direction: column;
     // justify-content: center;

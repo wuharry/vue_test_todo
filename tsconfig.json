@@ -4,7 +4,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "vue",
     "types": ["vite/client", "vue"],
     "moduleResolution": "node",
     "resolveJsonModule": true,

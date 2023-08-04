@@ -20,12 +20,12 @@ const sendTaskData = () => {
   }
   taskArray.push(newTask);
   console.log(taskArray.length);
-  
+
   /**
    這裡要有api將資料送出到backend
    */
-   deadlineOptionRef.value.classList.remove('showExtraInput');
-   priorityOptionRef.value.classList.remove('showExtraInput');
+  deadlineOptionRef.value.classList.remove('showExtraInput');
+  priorityOptionRef.value.classList.remove('showExtraInput');
 }
 
 const UserInputting = (check: boolean) => {
@@ -42,7 +42,7 @@ const UserInputting = (check: boolean) => {
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @focus="UserInputting(true)"  />
+      <input type="text" v-model="task.name" @focus="UserInputting(true)" />
       <div class="optionalInput" ref="deadlineOptionRef">
         <input type="checkbox" v-model="needDeadlin">
         <input type="date" v-model="task.deadline" :disabled="!needDeadlin" />
@@ -56,34 +56,37 @@ const UserInputting = (check: boolean) => {
         </select>
       </div>
     </div>
-
     <button @click="sendTaskData">Create Task</button>
-
   </div>
-  <ul>
-    <!-- {{task}} -->
-    <li v-for="task in taskArray" :key="task.id">
-      <TaskItem :task="task" />
-      <!-- <TaskItem  /> -->
-    </li>
-
-  </ul>
+  <div>
+    <ul>
+      <li v-for="task in taskArray" :key="task.id">
+        <TaskItem :task="task" />
+      </li>
+    </ul>
+  </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .createTask {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content:center;
   height: 2.5em;
 }
 
 .userInput {
-  width: 50%;
+  /* width: 30%; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: start;
+
 }
 
 .optionalInput {
   display: flex;
+  /* width: 100%; */
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s linear 0.33s, opacity 0.33s linear;
@@ -96,7 +99,7 @@ const UserInputting = (check: boolean) => {
 }
 
 input {
-  width: 60%;
+  /* width: 60%; */
 }
 
 button {

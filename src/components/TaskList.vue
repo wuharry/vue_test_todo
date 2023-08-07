@@ -19,13 +19,14 @@ const sendTaskData = () => {
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000)
   }
   taskArray.push(newTask);
-  console.log(taskArray.length);
-
   /**
    這裡要有api將資料送出到backend
    */
   deadlineOptionRef.value.classList.remove('showExtraInput');
   priorityOptionRef.value.classList.remove('showExtraInput');
+  Object.keys(task.value).forEach((key) => {
+    task.value[key] = '';
+  });
 }
 
 const UserInputting = (check: boolean) => {
@@ -55,15 +56,15 @@ const UserInputting = (check: boolean) => {
           <option>No matter</option>
         </select>
       </div>
+      <div class="taskList">
+        <ul>
+          <li v-for="task in taskArray" :key="task.id">
+            <TaskItem :task="task" />
+          </li>
+        </ul>
+      </div>
     </div>
     <button @click="sendTaskData">Create Task</button>
-  </div>
-  <div>
-    <ul>
-      <li v-for="task in taskArray" :key="task.id">
-        <TaskItem :task="task" />
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -71,7 +72,7 @@ const UserInputting = (check: boolean) => {
 .createTask {
   display: flex;
   width: 100%;
-  justify-content:center;
+  justify-content: center;
   height: 2.5em;
 }
 
@@ -98,11 +99,22 @@ const UserInputting = (check: boolean) => {
   transition-delay: 0s;
 }
 
-input {
-  /* width: 60%; */
+input[type="text"] {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  // width: 60%;
 }
+
+input[type="checkbox"] {}
 
 button {
   width: 20%;
+}
+
+.taskList {
+  display: block;
 }
 </style>

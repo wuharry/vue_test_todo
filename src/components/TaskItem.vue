@@ -20,7 +20,9 @@ const task = props.task;
 </template>
 
 <style scoped>
+@import url('https://fonts.cdnfonts.com/css/sketch');
 .taskContain {
+  font-family: 'Sketch', sans-serif;
   display: flex;
 }
 </style>

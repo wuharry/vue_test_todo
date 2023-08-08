@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
-const task = ref<ITask>({
+const task = reactive<ITask>({
   name: '',
   deadline: '',
   priority: '',
@@ -15,7 +15,7 @@ const priorityOptionRef = ref();
 const taskArray = reactive<ITask[]>([]);
 const sendTaskData = () => {
   const newTask = {
-    ...task.value,
+    ...task,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000)
   }
   taskArray.push(newTask);
@@ -24,9 +24,11 @@ const sendTaskData = () => {
    */
   deadlineOptionRef.value.classList.remove('showExtraInput');
   priorityOptionRef.value.classList.remove('showExtraInput');
-  Object.keys(task.value).forEach((key) => {
-    task.value[key] = '';
-  });
+  for (const key in task) {
+    if (key != 'id') {
+      task[key] = ''
+    }
+  }
 }
 
 const UserInputting = (check: boolean) => {
@@ -100,15 +102,63 @@ const UserInputting = (check: boolean) => {
 }
 
 input[type="text"] {
-  padding: 10px;
+  appearance: none; //使得開發者可以完全自定義元素的外觀。
+  padding: 0 4em 0 1em;
   border: 2px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  outline: none;
-  // width: 60%;
+  outline: 0;
+  font: inherit;
+  width: 16em;
+  height: 25em;
+  &:focus {
+    outline: none;
+  }
+
 }
 
-input[type="checkbox"] {}
+input[type="date"] {
+  appearance: none; //使得開發者可以完全自定義元素的外觀。
+  border-radius: 3px;
+  border: 1px white solid;
+  outline: none;
+  width: 23.4em;
+  height: 3em;
+}
+
+input[type="checkbox"] {
+  outline: none;
+}
+
+select {
+  appearance: none; //使得開發者可以完全自定義元素的外觀。
+  border: 0;
+  outline: 0;
+  font: inherit;
+  width: 20em;
+  height: 3em;
+  padding: 0 4em 0 1em;
+  // color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  // background-color: #320a28;
+
+  option {
+    color: inherit;
+    // background-color: #320a28;
+  }
+
+  /* 移除輸入聚焦*/
+  &:focus {
+    outline: none;
+  }
+
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+}
 
 button {
   width: 20%;

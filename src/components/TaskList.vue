@@ -122,11 +122,14 @@ input[type="date"] {
   border-radius: 3px;
   border: 1px white solid;
   outline: none;
-  width: 23em;
+  width: 25em;
   height: 3em;
 }
 
 input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
   outline: none;
 }
 

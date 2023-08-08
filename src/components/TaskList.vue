@@ -89,9 +89,9 @@ const UserInputting = (check: boolean) => {
 
 .optionalInput {
   display: flex;
-  /* width: 100%; */
   visibility: hidden;
   opacity: 0;
+  width: 20em;
   transition: visibility 0s linear 0.33s, opacity 0.33s linear;
 }
 
@@ -122,7 +122,7 @@ input[type="date"] {
   border-radius: 3px;
   border: 1px white solid;
   outline: none;
-  width: 23.4em;
+  width: 23em;
   height: 3em;
 }
 
@@ -149,7 +149,7 @@ select {
     // background-color: #320a28;
   }
 
-  /* 移除輸入聚焦*/
+  /* 當有元素或的聚焦時,移除輸入聚焦效果*/
   &:focus {
     outline: none;
   }

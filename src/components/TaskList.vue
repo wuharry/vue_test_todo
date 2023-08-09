@@ -12,11 +12,11 @@ const needDeadlin = ref<boolean>(false);
 const needPriority = ref<boolean>(false);
 const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
-const taskArray = reactive<ITask[]>([]);
+let taskArray = reactive<ITask[]>([]);
 const sendTaskData = () => {
-  if(task.name==''){
+  if (task.name == '') {
     alert(`taskName不能為空`);
-    return ;
+    return;
   }
   const newTask = {
     ...task,
@@ -44,6 +44,13 @@ const UserInputting = (check: boolean) => {
     // extraOptionRef.value.classList.remove('showExtraInput');
   }
 }
+const deletTask = (id: number) => {
+  console.log(`處理`);
+  console.log(taskArray);
+  console.log(id);
+  const newArray = taskArray.filter(task => task.id !== id);
+  taskArray.splice(0, taskArray.length, ...newArray);
+}
 </script>
 
 <template>
@@ -65,7 +72,7 @@ const UserInputting = (check: boolean) => {
       <div class="taskList">
         <ul>
           <li v-for="task in taskArray" :key="task.id">
-            <TaskItem :task="task" />
+            <TaskItem :task="task" @deletTask="deletTask" />
           </li>
         </ul>
       </div>
@@ -115,6 +122,7 @@ input[type="text"] {
   font: inherit;
   width: 16em;
   height: 25em;
+
   &:focus {
     outline: none;
   }
@@ -155,9 +163,11 @@ input[type="checkbox"]::before {
   box-shadow: inset 1em 1em rgb(28, 7, 224);
 
 }
+
 input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
+
 select {
   appearance: none; //使得開發者可以完全自定義元素的外觀。
   border: 0;

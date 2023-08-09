@@ -84,7 +84,6 @@ const UserInputting = (check: boolean) => {
   flex-direction: column;
   /* justify-content: center; */
   align-items: start;
-
 }
 
 .optionalInput {
@@ -92,6 +91,7 @@ const UserInputting = (check: boolean) => {
   visibility: hidden;
   opacity: 0;
   width: 20em;
+  margin-top: 10px;
   transition: visibility 0s linear 0.33s, opacity 0.33s linear;
 }
 

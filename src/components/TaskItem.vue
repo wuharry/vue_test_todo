@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, onMounted  } from 'vue'
 import { ITask } from '../types/Task'
 const props = defineProps<{
   task: ITask;
@@ -21,6 +21,26 @@ const taskDeletEvent=()=>{
 const taskEditEvent=()=>{
 
 }
+onMounted(() =>{
+
+  switch (task.priority) {
+    case 'Height':
+        console.log(`高優先`);
+        
+      break;
+      case 'Low':
+      console.log(`低優先`);
+      
+      break;
+      case 'No matter':
+      console.log(`不重要`);
+      
+      break;
+  
+    default:
+      break;
+  }
+})
 </script>
 
 <template>

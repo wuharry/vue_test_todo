@@ -131,8 +131,29 @@ input[type="checkbox"] {
   background-color: #fff;
   margin: 0;
   outline: none;
+  font: inherit;
+  // color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
 }
 
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em rgb(28, 7, 224);
+
+}
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
 select {
   appearance: none; //使得開發者可以完全自定義元素的外觀。
   border: 0;

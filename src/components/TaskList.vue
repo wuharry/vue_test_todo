@@ -8,8 +8,8 @@ const task = reactive<ITask>({
   priority: '',
   id: 0
 });
-const needDeadlin = ref<boolean>(false);
-const needPriority = ref<boolean>(false);
+let needDeadlin = ref<boolean>(false);
+let needPriority = ref<boolean>(false);
 const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
 let taskArray = reactive<ITask[]>([]);
@@ -26,6 +26,8 @@ const sendTaskData = () => {
   /**
    這裡要有api將資料送出到backend
    */
+  needDeadlin.value = false;
+  needPriority.value = false;
   deadlineOptionRef.value.classList.remove('showExtraInput');
   priorityOptionRef.value.classList.remove('showExtraInput');
   for (const key in task) {

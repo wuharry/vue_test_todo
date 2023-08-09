@@ -14,6 +14,10 @@ const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
 const taskArray = reactive<ITask[]>([]);
 const sendTaskData = () => {
+  if(task.name==''){
+    alert(`taskName不能為空`);
+    return ;
+  }
   const newTask = {
     ...task,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000)

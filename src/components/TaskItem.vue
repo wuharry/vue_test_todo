@@ -23,15 +23,12 @@ const taskEditEvent = () => {};
 onMounted(() => {
   switch (task.priority) {
     case "Height":
-      console.log(`高優先`);
       taskBackground.value.classList.add("priorityHeight");
       break;
     case "Low":
-      console.log(`低優先`);
       taskBackground.value.classList.add("priorityLow");
       break;
     case "No matter":
-      console.log(`不重要`);
       taskBackground.value.classList.add("priorityNoMatter");
       break;
 

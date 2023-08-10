@@ -13,7 +13,7 @@ const taskStatus = ref(false);
 const taskBackground = ref();
 const jobDoneEvent = () => {
   if (taskStatus.value) {
-    taskDataRef.value.classList.add();
+    taskDataRef.value.classList.add('taskDone');
   }
 };
 const taskDeletEvent = () => {
@@ -79,5 +79,8 @@ onMounted(() => {
 }
 .priorityNoMatter {
   background-color: rgb(44, 253, 58);
+}
+.taskDone{
+  text-decoration:line-through;
 }
 </style>

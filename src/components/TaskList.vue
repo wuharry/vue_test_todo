@@ -3,10 +3,10 @@ import { ref, reactive } from "vue";
 import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
 const task = reactive<ITask>({
-  name: '',
-  deadline: '',
-  priority: '',
-  id: 0
+  name: "",
+  deadline: "",
+  priority: "",
+  id: 0,
 });
 let needDeadlin = ref<boolean>(false);
 let needPriority = ref<boolean>(false);
@@ -14,45 +14,47 @@ const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
 let taskArray = reactive<ITask[]>([]);
 const sendTaskData = () => {
-  if (task.name == '') {
+  if (task.name == "") {
     alert(`taskName不能為空`);
     return;
   }
   const newTask = {
     ...task,
-    id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000)
-  }
+    id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
+  };
   taskArray.push(newTask);
+  taskArray.sort((currentTask, nextTask) => {
+    currentTask.priority?.localeCompare(nextTask.priority);
+  });
   /**
    這裡要有api將資料送出到backend
    */
   needDeadlin.value = false;
   needPriority.value = false;
-  deadlineOptionRef.value.classList.remove('showExtraInput');
-  priorityOptionRef.value.classList.remove('showExtraInput');
+  deadlineOptionRef.value.classList.remove("showExtraInput");
+  priorityOptionRef.value.classList.remove("showExtraInput");
   for (const key in task) {
-    if (key != 'id') {
-      task[key] = ''
+    if (key != "id") {
+      task[key] = "";
     }
   }
-}
+};
 
 const UserInputting = (check: boolean) => {
   if (check) {
-    deadlineOptionRef.value.classList.add('showExtraInput');
-    priorityOptionRef.value.classList.add('showExtraInput');
-  }
-  else {
+    deadlineOptionRef.value.classList.add("showExtraInput");
+    priorityOptionRef.value.classList.add("showExtraInput");
+  } else {
     // extraOptionRef.value.classList.remove('showExtraInput');
   }
-}
+};
 const deletTask = (id: number) => {
   console.log(`處理`);
   console.log(taskArray);
   console.log(id);
-  const newArray = taskArray.filter(task => task.id !== id);
+  const newArray = taskArray.filter((task) => task.id !== id);
   taskArray.splice(0, taskArray.length, ...newArray);
-}
+};
 </script>
 
 <template>
@@ -60,11 +62,11 @@ const deletTask = (id: number) => {
     <div class="userInput">
       <input type="text" v-model="task.name" @focus="UserInputting(true)" />
       <div class="optionalInput" ref="deadlineOptionRef">
-        <input type="checkbox" v-model="needDeadlin">
+        <input type="checkbox" v-model="needDeadlin" />
         <input type="date" v-model="task.deadline" :disabled="!needDeadlin" />
       </div>
       <div class="optionalInput" ref="priorityOptionRef">
-        <input type="checkbox" v-model="needPriority">
+        <input type="checkbox" v-model="needPriority" />
         <select v-model="task.priority" :disabled="!needPriority">
           <option>Height</option>
           <option>Low</option>
@@ -128,7 +130,6 @@ input[type="text"] {
   &:focus {
     outline: none;
   }
-
 }
 
 input[type="date"] {
@@ -163,7 +164,6 @@ input[type="checkbox"]::before {
   transform: scale(0);
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em rgb(28, 7, 224);
-
 }
 
 input[type="checkbox"]:checked::before {

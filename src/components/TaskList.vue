@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
 const task = reactive<ITask>({
@@ -42,9 +42,10 @@ const sendTaskData = () => {
     if (currentVal < nextVal) {
       return 1
     }
-    
+
     return 0;
   });
+  storeTaskAtBrowser()
   /**
    這裡要有api將資料送出到backend
    */
@@ -58,8 +59,10 @@ const sendTaskData = () => {
     }
   }
 };
-
-const UserInputting = (check: boolean) => {
+const storeTaskAtBrowser = () => {
+  localStorage.setItem('taskList', JSON.stringify(taskArray));
+}
+const userInputting = (check: boolean) => {
   if (check) {
     deadlineOptionRef.value.classList.add("showExtraInput");
     priorityOptionRef.value.classList.add("showExtraInput");
@@ -74,12 +77,18 @@ const deletTask = (id: number) => {
   const newArray = taskArray.filter((task) => task.id !== id);
   taskArray.splice(0, taskArray.length, ...newArray);
 };
+
+onMounted(() => {
+  const taskListFromLocalStorage = localStorage.getItem('taskList');
+  const preTaskList: ITask[] = taskListFromLocalStorage ? JSON.parse(taskListFromLocalStorage) : [];
+  taskArray.splice(0, taskArray.length, ...preTaskList);
+})
 </script>
 
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @focus="UserInputting(true)" />
+      <input type="text" v-model="task.name" @focus="userInputting(true)" />
       <div class="optionalInput" ref="deadlineOptionRef">
         <input type="checkbox" v-model="needDeadlin" />
         <input type="date" v-model="task.deadline" :disabled="!needDeadlin" />

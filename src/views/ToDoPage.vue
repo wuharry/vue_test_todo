@@ -61,14 +61,15 @@ defineExpose({
     margin: 0;
     width: 100%;
     height: 100vh;
-    background-color: #d8f2f4;
+    background-color: white;
     display: flex;
 }
 
 .optionList {
     flex: 2;
     display: grid;
-    border: 2px solid; 
+    border: none; 
+    background-color: rgba(246, 237, 232, 0.776);
 }
 
 .context {

@@ -70,6 +70,8 @@ defineExpose({
     display: grid;
     border: none; 
     background-color: rgba(246, 237, 232, 0.776);
+    box-shadow: 1px -1px teal;
+
 }
 
 .context {

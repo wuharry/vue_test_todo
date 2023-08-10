@@ -33,7 +33,7 @@ onMounted(() => {
       break;
 
     default:
-      taskBackground.value.classList.add("priorityHeight");
+      taskBackground.value.classList.add("priorityNoMatter");
       break;
   }
 });

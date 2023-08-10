@@ -71,7 +71,7 @@ onMounted(() => {
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 }
 .priorityHeight {
-  background-color: rgba(242, 108, 12, 0.523);
+  background-color: rgba(242, 108, 12,);
 }
 .priorityLow {
   background-color: rgb(252, 252, 16);

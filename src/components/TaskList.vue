@@ -24,7 +24,11 @@ const sendTaskData = () => {
   };
   taskArray.push(newTask);
   taskArray.sort((currentTask, nextTask) => {
-    currentTask.priority?.localeCompare(nextTask.priority);
+    // 檢查Task的priority屬性是否為null,為null的話,不進行任何動作
+    //不為null,比較priority欄位後進行排序,如果無須排序的話不進行任何動作
+    return currentTask?.priority && nextTask?.priority
+    ? currentTask.priority.localeCompare(nextTask.priority)
+    : 0;
   });
   /**
    這裡要有api將資料送出到backend

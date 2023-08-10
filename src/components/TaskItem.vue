@@ -32,7 +32,7 @@ onMounted(() => {
       break;
     case "No matter":
       console.log(`不重要`);
-      taskBackground.value.classList.add("priorityHeight");
+      taskBackground.value.classList.add("priorityNoMatter");
       break;
 
     default:

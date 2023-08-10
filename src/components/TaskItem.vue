@@ -1,51 +1,50 @@
 <script setup lang="ts">
-import { ref, onMounted  } from 'vue'
-import { ITask } from '../types/Task'
+import { ref, onMounted } from "vue";
+import { ITask } from "../types/Task";
 const props = defineProps<{
   task: ITask;
 }>();
 const emit = defineEmits<{
-  deletTask:[id:number],
-}>()
+  deletTask: [id: number];
+}>();
 const task = props.task;
-const taskDataRef=ref();
-const taskStatus=ref(false);
+const taskDataRef = ref();
+const taskStatus = ref(false);
+const taskBackground = ref();
 const jobDoneEvent = () => {
-  if(taskStatus.value){
+  if (taskStatus.value) {
     taskDataRef.value.classList.add();
   }
-}
-const taskDeletEvent=()=>{
-  emit('deletTask',task.id);
-}
-const taskEditEvent=()=>{
-
-}
-onMounted(() =>{
-
+};
+const taskDeletEvent = () => {
+  emit("deletTask", task.id);
+};
+const taskEditEvent = () => {};
+onMounted(() => {
   switch (task.priority) {
-    case 'Height':
-        console.log(`高優先`);
-        
+    case "Height":
+      console.log(`高優先`);
+      taskBackground.value.classList.add("priorityHeight");
       break;
-      case 'Low':
+    case "Low":
       console.log(`低優先`);
-      
+      taskBackground.value.classList.add("priorityLow");
       break;
-      case 'No matter':
+    case "No matter":
       console.log(`不重要`);
-      
+      taskBackground.value.classList.add("priorityNoMatter");
       break;
-  
+
     default:
+      taskBackground.value.classList.add("priorityNoMatter");
       break;
   }
-})
+});
 </script>
 
 <template>
-  <div class="taskContain">
-    <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent">
+  <div class="taskContain" ref="taskBackground">
+    <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent" />
     <div ref="taskDataRef">
       <span>{{ task.name }}</span>
       <span>{{ task.deadline }}</span>
@@ -58,17 +57,26 @@ onMounted(() =>{
 </template>
 
 <style scoped>
-@import url('https://fonts.cdnfonts.com/css/sketch');
+@import url("https://fonts.cdnfonts.com/css/sketch");
 
 .taskContain {
-  font-family: 'Sketch', sans-serif;
+  font-family: "Sketch", sans-serif;
   display: flex;
   /* width: fit-content; */
-  border: 0.5px solid hsla(0, 0%, 100%, .5);
+  border: 0.5px solid hsla(0, 0%, 100%, 0.5);
   border-radius: 3px;
   padding: 5px;
 }
 .taskContain:hover {
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+}
+.priorityHeight {
+  background-color: rgba(217, 150, 25, 0.523);
+}
+.priorityLow {
+  background-color: rgb(252, 252, 16);
+}
+.priorityNoMatter {
+  background-color: rgb(44, 253, 58);
 }
 </style>

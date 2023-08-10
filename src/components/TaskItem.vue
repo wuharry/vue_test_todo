@@ -36,7 +36,7 @@ onMounted(() => {
       break;
 
     default:
-      taskBackground.value.classList.add("priorityNoMatter");
+      taskBackground.value.classList.add("priorityHeight");
       break;
   }
 });
@@ -71,7 +71,8 @@ onMounted(() => {
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 }
 .priorityHeight {
-  background-color: rgba(242, 108, 12,);
+  background-color: rgb(235, 75, 12);
+  color: white;
 }
 .priorityLow {
   background-color: rgb(252, 252, 16);

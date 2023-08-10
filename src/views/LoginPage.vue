@@ -20,8 +20,8 @@ const router = useRouter();
 * 數據部分
 */
 interface LoginForm {
-    email: string
-    password: string;
+    email: string | null
+    password: string | null;
 }
 const loginData = ref<LoginForm>({
     email: '',
@@ -37,8 +37,8 @@ onMounted(() => {
     // 檢查localstorage是否有值
     const storedEmail = localStorage.getItem('email');
     const storedPassword = localStorage.getItem('password');
-    loginData.value.email = storedEmail?.length ? storedEmail : '12';
-    loginData.value.password = storedPassword?.length ? storedPassword : '123';
+    loginData.value.email = storedEmail?.length ? storedEmail : null;
+    loginData.value.password = storedPassword?.length ? storedPassword : null;
 })
 watchEffect(() => {
 })

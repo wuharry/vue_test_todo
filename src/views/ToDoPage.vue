@@ -61,7 +61,7 @@ defineExpose({
     margin: 0;
     width: 100%;
     height: 100vh;
-    background-color: white;
+    background-color:rgb(226,232,240);
     display: flex;
 }
 
@@ -69,7 +69,7 @@ defineExpose({
     flex: 2;
     display: grid;
     border: none; 
-    background-color: rgba(246, 237, 232, 0.776);
+    background-color: rgb(241,245,249);
     box-shadow: 1px -1px teal;
 
 }

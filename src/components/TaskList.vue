@@ -147,7 +147,7 @@ onMounted(() => {
 input[type="text"] {
   appearance: none; //使得開發者可以完全自定義元素的外觀。
   padding: 0 4em 0 1em;
-  border: 2px solid #ccc;
+  border: 2px solid ;
   border-radius: 5px;
   font-size: 16px;
   outline: 0;
@@ -171,7 +171,6 @@ input[type="date"] {
 
 input[type="checkbox"] {
   appearance: none;
-  background-color: #fff;
   margin: 0;
   outline: none;
   font: inherit;

@@ -73,9 +73,11 @@ onMounted(() => {
 }
 .priorityLow {
   background-color: rgb(252, 252, 16);
+  color: black;
 }
 .priorityNoMatter {
   background-color: rgb(44, 253, 58);
+  color: black;
 }
 .taskDone{
   text-decoration:line-through;

@@ -139,7 +139,6 @@ const remeberEvent = () => {
     overflow: hidden;
     background: url("/moonaBackground2.jpg") no-repeat;
     background-size: cover;
-    color: white;
 }
 
 .loginform {

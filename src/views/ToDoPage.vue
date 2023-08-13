@@ -70,7 +70,7 @@ defineExpose({
   letter-spacing: 0.025em;
   font-size: 1.125rem;
   line-height: 1.75rem;
-  font-family: "poppins", sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 700;
 }
 

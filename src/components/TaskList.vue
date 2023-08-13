@@ -118,6 +118,7 @@ onMounted(() => {
   width: 100%;
   justify-content: center;
   height: 2.5em;
+  font-family: 'Lato', sans-serif;
 }
 
 .userInput {

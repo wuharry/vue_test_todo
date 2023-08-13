@@ -9,11 +9,15 @@ const count = ref(0)
 </script>
 
 <template>
-
+<div class="dialogContain">
+  <span>
+    Add New Task
+  </span>
+</div>
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
+.dialogContain {
+  background-color: rgb(226,232,240);
 }
 </style>

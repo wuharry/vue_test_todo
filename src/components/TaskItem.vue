@@ -61,7 +61,7 @@ onMounted(() => {
   display: flex;
   /* width: fit-content; */
   border: 0.5px solid hsla(0, 0%, 100%, 0.5);
-  border-radius: 3px;
+  border-radius:0.5em;
   padding: 5px;
 }
 .taskContain:hover {

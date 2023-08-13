@@ -24,28 +24,25 @@ const sendTaskData = () => {
   };
   taskArray.push(newTask);
   taskArray.sort((currentTask, nextTask) => {
-
     const priorityMap: { [key: string]: number } = {
-      'Height': 3,
-      'Low': 2,
-      'No matter': 1,
+      Height: 3,
+      Low: 2,
+      "No matter": 1,
     };
 
-    const currentVal =
-      (priorityMap[currentTask?.priority || ''] || 0)
-    const nextVal =
-      (priorityMap[nextTask?.priority || ''] || 0);
+    const currentVal = priorityMap[currentTask?.priority || ""] || 0;
+    const nextVal = priorityMap[nextTask?.priority || ""] || 0;
 
     if (currentVal > nextVal) {
-      return -1
+      return -1;
     }
     if (currentVal < nextVal) {
-      return 1
+      return 1;
     }
 
     return 0;
   });
-  storeTaskAtBrowser()
+  storeTaskAtBrowser();
   /**
    這裡要有api將資料送出到backend
    */
@@ -60,8 +57,8 @@ const sendTaskData = () => {
   }
 };
 const storeTaskAtBrowser = () => {
-  localStorage.setItem('taskList', JSON.stringify(taskArray));
-}
+  localStorage.setItem("taskList", JSON.stringify(taskArray));
+};
 const userInputting = (check: boolean) => {
   if (check) {
     deadlineOptionRef.value.classList.add("showExtraInput");
@@ -79,10 +76,12 @@ const deletTask = (id: number) => {
 };
 
 onMounted(() => {
-  const taskListFromLocalStorage = localStorage.getItem('taskList');
-  const preTaskList: ITask[] = taskListFromLocalStorage ? JSON.parse(taskListFromLocalStorage) : [];
+  const taskListFromLocalStorage = localStorage.getItem("taskList");
+  const preTaskList: ITask[] = taskListFromLocalStorage
+    ? JSON.parse(taskListFromLocalStorage)
+    : [];
   taskArray.splice(0, taskArray.length, ...preTaskList);
-})
+});
 </script>
 
 <template>
@@ -109,7 +108,7 @@ onMounted(() => {
         </ul>
       </div>
     </div>
-    <button @click="sendTaskData">Create Task</button>
+    <button class="CreatTaskBtn" @click="sendTaskData">Create Task</button>
   </div>
 </template>
 
@@ -146,9 +145,13 @@ onMounted(() => {
 
 input[type="text"] {
   appearance: none; //使得開發者可以完全自定義元素的外觀。
-  padding: 0 4em 0 1em;
-  border: 2px solid ;
-  border-radius: 5px;
+  padding: 0.75rem;
+  border: 2px solid;
+  border-radius: 0.5em;
+  border-width: 2px;
+  border-color: transparent;
+  color: rgb(71 85 105 / var(--tw-text-opacity));
+  font-weight: 700;
   font-size: 16px;
   outline: 0;
   font: inherit;
@@ -162,10 +165,14 @@ input[type="text"] {
 
 input[type="date"] {
   appearance: none; //使得開發者可以完全自定義元素的外觀。
-  border-radius: 3px;
-  border: 1px white solid;
+  padding: 0.75rem;
+  border-radius: 0.5em;
+  border-width: 2px;
+  border-color: transparent;
+  color: rgb(71 85 105 / var(--tw-text-opacity));
   outline: none;
   width: 25em;
+
   height: 3em;
 }
 
@@ -179,6 +186,7 @@ input[type="checkbox"] {
   height: 1.15em;
   border: 0.15em solid currentColor;
   border-radius: 0.15em;
+  border-width: 2px;
   transform: translateY(-0.075em);
   display: grid;
   place-content: center;
@@ -199,21 +207,22 @@ input[type="checkbox"]:checked::before {
 
 select {
   appearance: none; //使得開發者可以完全自定義元素的外觀。
+  padding: 0.75rem;
   border: 0;
   outline: 0;
   font: inherit;
   width: 20em;
   height: 3em;
-  padding: 0 4em 0 1em;
   // color: white;
-  border-radius: 0.25em;
-  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.5em;
+  border-width: 2px;
+  border-color: transparent;
+  color: rgb(71 85 105);
+  /* box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2); */
   cursor: pointer;
-  // background-color: #320a28;
 
   option {
     color: inherit;
-    // background-color: #320a28;
   }
 
   /* 當有元素或的聚焦時,移除輸入聚焦效果*/
@@ -227,9 +236,25 @@ select {
   }
 }
 
-button {
-  width: 20%;
+.CreatTaskBtn {
+  width: auto;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-color: transparent;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: rgb(34, 132, 245);
+  color: white;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  text-align:center;
 }
+/* button {
+  width: 20%;
+} */
 
 .taskList {
   display: block;

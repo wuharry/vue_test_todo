@@ -52,11 +52,7 @@ const loginHandler = () => {
     // axios 送出資料到後端
     // 登陸+記錄返回的token 到loaclstorge
     const { email, password } = loginData.value;
-    console.log('====================================');
-    console.log(`登陸資料`);
-    console.log(email);
-    console.log(password);
-    console.log('====================================');
+
     loginData.value.email = '';
     loginData.value.password = '';
     // if(axios回傳true的話){

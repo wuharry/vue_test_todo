@@ -14,7 +14,6 @@ defineProps({
   msg: String,
 })
 const closeDialog = () => {
-  console.log(`關閉lod`);
   emit('closeDialog');
 }
 

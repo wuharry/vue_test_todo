@@ -7,7 +7,7 @@ const task = reactive<ITask>({
   name: "",
   deadline: "",
   priority: "",
-  Description: "",
+  description: "",
   id: 0,
 });
 let showDialog = ref<boolean>(false);
@@ -15,8 +15,6 @@ const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
 let taskArray = reactive<ITask[]>([]);
 const callTaskDialog = () => {
-  console.log(`呼叫`);
-
   showDialog.value = true;
 }
 const checkTaskName = () => {
@@ -85,20 +83,7 @@ onMounted(() => {
   <div class="createTask">
     <div class="userInput">
       <input type="text" v-model="task.name" @keyup.enter="callTaskDialog" placeholder="Task Name" />
-      <!--  -->
-      <!-- <div class="optionalInput" ref="deadlineOptionRef">
-        <input type="checkbox" v-model="needDeadlin" />
-        <input type="date" v-model="task.deadline" :disabled="!needDeadlin" />
-      </div>
-      <div class="optionalInput" ref="priorityOptionRef">
-        <input type="checkbox" v-model="needPriority" />
-        <select v-model="task.priority" :disabled="!needPriority">
-          <option>Height</option>
-          <option>Low</option>
-          <option>No matter</option>
-        </select>
-      </div> -->
-      <Dialog />
+      <Dialog v-if="showDialog" />
       <div class="taskList">
         <ul>
           <li v-for="task in taskArray" :key="task.id">
@@ -129,6 +114,9 @@ onMounted(() => {
   flex-direction: column;
   /* justify-content: center; */
   align-items: start;
+  input::placeholder{
+    color: rgba(206, 184, 184, 0.671);
+  }
 }
 
 .optionalInput {
@@ -165,80 +153,6 @@ input[type="text"] {
     outline: none;
   }
 }
-
-input[type="date"] {
-  appearance: none; //使得開發者可以完全自定義元素的外觀。
-  padding: 0.75rem;
-  border-radius: 0.5em;
-  border-width: 2px;
-  border-color: transparent;
-  color: rgb(71 85 105 / var(--tw-text-opacity));
-  outline: none;
-  width: 25em;
-
-  height: 3em;
-}
-
-input[type="checkbox"] {
-  appearance: none;
-  margin: 0;
-  outline: none;
-  font: inherit;
-  // color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid currentColor;
-  border-radius: 0.15em;
-  border-width: 2px;
-  transform: translateY(-0.075em);
-  display: grid;
-  place-content: center;
-}
-
-input[type="checkbox"]::before {
-  content: "";
-  width: 0.65em;
-  height: 0.65em;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em rgb(28, 7, 224);
-}
-
-input[type="checkbox"]:checked::before {
-  transform: scale(1);
-}
-
-select {
-  appearance: none; //使得開發者可以完全自定義元素的外觀。
-  padding: 0.75rem;
-  border: 0;
-  outline: 0;
-  font: inherit;
-  width: 20em;
-  height: 3em;
-  // color: white;
-  border-radius: 0.5em;
-  border-width: 2px;
-  border-color: transparent;
-  color: rgb(71 85 105);
-  /* box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2); */
-  cursor: pointer;
-
-  option {
-    color: inherit;
-  }
-
-  /* 當有元素或的聚焦時,移除輸入聚焦效果*/
-  &:focus {
-    outline: none;
-  }
-
-  /* Remove IE arrow */
-  &::-ms-expand {
-    display: none;
-  }
-}
-
 .CreatTaskBtn {
   width: auto;
   border-radius: 0.5rem;

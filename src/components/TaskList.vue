@@ -63,13 +63,13 @@ const storeTaskAtBrowser = () => {
 };
 
 const deletTask = (id: number) => {
-  console.log(`處理`);
-  console.log(taskArray);
-  console.log(id);
   const newArray = taskArray.filter((task) => task.id !== id);
   taskArray.splice(0, taskArray.length, ...newArray);
 };
 
+const closeDialog=()=>{
+  showDialog.value=false;
+}
 onMounted(() => {
   const taskListFromLocalStorage = localStorage.getItem("taskList");
   const preTaskList: ITask[] = taskListFromLocalStorage
@@ -82,8 +82,8 @@ onMounted(() => {
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @keyup.enter="callTaskDialog" placeholder="Task Name" />
-      <Dialog v-if="showDialog" />
+      <input type="text" v-model="task.name" @keyup.enter="checkTaskName" placeholder="Task Name" />
+      <Dialog v-if="showDialog" @closeDialog="closeDialog" />
       <div class="taskList">
         <ul>
           <li v-for="task in taskArray" :key="task.id">

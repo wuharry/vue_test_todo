@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ITask } from "../types/Task";
 // import { OhVueIcon } from "oh-vue-icons";
-
+const emit = defineEmits(['closeDialog']);
 const task = reactive<ITask>({
   name: "",
   deadline: "",
@@ -13,7 +13,10 @@ const task = reactive<ITask>({
 defineProps({
   msg: String,
 })
-const priorityOptionRef = ref();
+const closeDialog = () => {
+  console.log(`關閉lod`);
+  emit('closeDialog');
+}
 
 </script>
 
@@ -23,7 +26,7 @@ const priorityOptionRef = ref();
       <span>
         Add New Task
       </span>
-      <VIcon class="closeIcon" name="io-close" />
+      <VIcon class="closeIcon" name="io-close" @click="closeDialog" />
     </div>
 
     <div class="optionalInput">
@@ -51,14 +54,15 @@ const priorityOptionRef = ref();
 
 <style lang="scss" scoped>
 .dialogContain {
-  background-color: rgba(238, 240, 242, 0.683);
+  background-color: rgba(238, 240, 242, 0.758);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   border-radius: .5em;
   border: 1px solid;
-
+  position: fixed;
+  z-index: 3;
 }
 
 .dialogHeader {

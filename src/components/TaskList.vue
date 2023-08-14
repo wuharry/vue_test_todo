@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
+import { useStore } from "vuex";
 import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
-const task = reactive<ITask>({
-  name: "",
-  deadline: "",
-  priority: "",
-  description: "",
-  id: 0,
-});
+const store = useStore();
+let task = reactive<ITask>(store.state.task);
 let showDialog = ref<boolean>(false);
-const deadlineOptionRef = ref();
-const priorityOptionRef = ref();
 let taskArray = reactive<ITask[]>([]);
 const callTaskDialog = () => {
   showDialog.value = true;
@@ -26,6 +20,7 @@ const checkTaskName = () => {
     ...task,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
+
   taskArray.push(newTask);
   taskArray.sort((currentTask, nextTask) => {
     const priorityMap: { [key: string]: number } = {
@@ -33,7 +28,6 @@ const checkTaskName = () => {
       Low: 2,
       "No matter": 1,
     };
-
     const currentVal = priorityMap[currentTask?.priority || ""] || 0;
     const nextVal = priorityMap[nextTask?.priority || ""] || 0;
 
@@ -43,32 +37,28 @@ const checkTaskName = () => {
     if (currentVal < nextVal) {
       return 1;
     }
-
     return 0;
   });
+  store.dispatch('addTask', taskArray);
   storeTaskAtBrowser();
   /**
    這裡要有api將資料送出到backend
    */
-  deadlineOptionRef.value.classList.remove("showExtraInput");
-  priorityOptionRef.value.classList.remove("showExtraInput");
   for (const key in task) {
-    if (key != "id") {
-      task[key] = "";
-    }
+    task[key] = "";
   }
 };
+// 存入localStorage
 const storeTaskAtBrowser = () => {
   localStorage.setItem("taskList", JSON.stringify(taskArray));
 };
 
 const deletTask = (id: number) => {
-  const newArray = taskArray.filter((task) => task.id !== id);
-  taskArray.splice(0, taskArray.length, ...newArray);
+  store.dispatch("removeTask", id)
 };
 
-const closeDialog=()=>{
-  showDialog.value=false;
+const closeDialog = () => {
+  showDialog.value = false;
 }
 onMounted(() => {
   const taskListFromLocalStorage = localStorage.getItem("taskList");
@@ -77,6 +67,9 @@ onMounted(() => {
     : [];
   taskArray.splice(0, taskArray.length, ...preTaskList);
 });
+watch(() => store.state.task, (newForm) => {
+  task = { ...newForm }
+})
 </script>
 
 <template>
@@ -114,7 +107,8 @@ onMounted(() => {
   flex-direction: column;
   /* justify-content: center; */
   align-items: start;
-  input::placeholder{
+
+  input::placeholder {
     color: rgba(206, 184, 184, 0.671);
   }
 }
@@ -153,6 +147,7 @@ input[type="text"] {
     outline: none;
   }
 }
+
 .CreatTaskBtn {
   width: auto;
   border-radius: 0.5rem;

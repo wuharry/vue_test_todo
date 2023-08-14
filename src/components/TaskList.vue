@@ -6,6 +6,7 @@ const task = reactive<ITask>({
   name: "",
   deadline: "",
   priority: "",
+  Description:"",
   id: 0,
 });
 let needDeadlin = ref<boolean>(false);
@@ -13,7 +14,10 @@ let needPriority = ref<boolean>(false);
 const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
 let taskArray = reactive<ITask[]>([]);
-const sendTaskData = () => {
+const callTaskDialog=()=>{
+
+}
+const checkTaskName = () => {
   if (task.name == "") {
     alert(`taskName不能為空`);
     return;
@@ -108,7 +112,7 @@ onMounted(() => {
         </ul>
       </div>
     </div>
-    <button class="CreatTaskBtn" @click="sendTaskData">Create Task</button>
+    <button class="CreatTaskBtn" @click="checkTaskName">Create Task</button>
   </div>
 </template>
 

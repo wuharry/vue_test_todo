@@ -4,4 +4,5 @@ export interface ITask {
   name: string;
   deadline: string | null;
   priority: string | null;
+  Description :string | null;
 }

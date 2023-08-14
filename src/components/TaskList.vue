@@ -2,20 +2,22 @@
 import { ref, reactive, onMounted } from "vue";
 import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
+import Dialog from "./Dialog.vue";
 const task = reactive<ITask>({
   name: "",
   deadline: "",
   priority: "",
-  Description:"",
+  Description: "",
   id: 0,
 });
-let needDeadlin = ref<boolean>(false);
-let needPriority = ref<boolean>(false);
+let showDialog = ref<boolean>(false);
 const deadlineOptionRef = ref();
 const priorityOptionRef = ref();
 let taskArray = reactive<ITask[]>([]);
-const callTaskDialog=()=>{
+const callTaskDialog = () => {
+  console.log(`呼叫`);
 
+  showDialog.value = true;
 }
 const checkTaskName = () => {
   if (task.name == "") {
@@ -50,8 +52,6 @@ const checkTaskName = () => {
   /**
    這裡要有api將資料送出到backend
    */
-  needDeadlin.value = false;
-  needPriority.value = false;
   deadlineOptionRef.value.classList.remove("showExtraInput");
   priorityOptionRef.value.classList.remove("showExtraInput");
   for (const key in task) {
@@ -63,14 +63,7 @@ const checkTaskName = () => {
 const storeTaskAtBrowser = () => {
   localStorage.setItem("taskList", JSON.stringify(taskArray));
 };
-const userInputting = (check: boolean) => {
-  if (check) {
-    deadlineOptionRef.value.classList.add("showExtraInput");
-    priorityOptionRef.value.classList.add("showExtraInput");
-  } else {
-    // extraOptionRef.value.classList.remove('showExtraInput');
-  }
-};
+
 const deletTask = (id: number) => {
   console.log(`處理`);
   console.log(taskArray);
@@ -91,8 +84,9 @@ onMounted(() => {
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @focus="userInputting(true)" />
-      <div class="optionalInput" ref="deadlineOptionRef">
+      <input type="text" v-model="task.name" @keyup.enter="callTaskDialog" placeholder="Task Name" />
+      <!--  -->
+      <!-- <div class="optionalInput" ref="deadlineOptionRef">
         <input type="checkbox" v-model="needDeadlin" />
         <input type="date" v-model="task.deadline" :disabled="!needDeadlin" />
       </div>
@@ -103,7 +97,8 @@ onMounted(() => {
           <option>Low</option>
           <option>No matter</option>
         </select>
-      </div>
+      </div> -->
+      <Dialog />
       <div class="taskList">
         <ul>
           <li v-for="task in taskArray" :key="task.id">
@@ -112,7 +107,10 @@ onMounted(() => {
         </ul>
       </div>
     </div>
-    <button class="CreatTaskBtn" @click="checkTaskName">Create Task</button>
+    <diV>
+      <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
+    </diV>
+
   </div>
 </template>
 
@@ -255,8 +253,9 @@ select {
   font-size: 100%;
   font-weight: inherit;
   line-height: inherit;
-  text-align:center;
+  text-align: center;
 }
+
 /* button {
   width: 20%;
 } */

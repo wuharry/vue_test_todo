@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, watch } from "vue";
+import { ref, reactive, onMounted, watch, computed } from "vue";
 import { useStore } from "vuex";
 import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
@@ -7,13 +7,19 @@ import Dialog from "./Dialog.vue";
 const store = useStore();
 let task = reactive<ITask>(store.state.task);
 let showDialog = ref<boolean>(false);
+const isInvalid = ref(false);
+const errorMessage = computed(() => isInvalid.value ? '輸入不正確' : '');
 let taskArray = reactive<ITask[]>([]);
 const callTaskDialog = () => {
   showDialog.value = true;
 }
-const checkTaskName = () => {
-  if (task.name == "") {
-    alert(`taskName不能為空`);
+const submitTaskName = () => {
+  console.log(task.name);
+  isInvalid.value = task.name == "" || task.name == undefined;
+  if (isInvalid.value) {
+    setTimeout(() => {
+      isInvalid.value = false
+    }, 1500)
     return;
   }
   const newTask = {
@@ -75,7 +81,11 @@ watch(() => store.state.task, (newForm) => {
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @keyup.enter="checkTaskName" placeholder="Task Name" />
+      <input type="text" v-model="task.name" @keyup.enter="submitTaskName" placeholder="Task Name" />
+      <div class="inputFeedback" v-if="isInvalid">
+        <span class="icon">❌</span>
+        <span class="text">{{ errorMessage }}</span>
+      </div>
       <Dialog v-if="showDialog" @closeDialog="closeDialog" />
       <div class="taskList">
         <ul>
@@ -111,6 +121,11 @@ watch(() => store.state.task, (newForm) => {
   input::placeholder {
     color: rgba(206, 184, 184, 0.671);
   }
+}
+
+.inputFeedback {
+  font-size: smaller;
+  color: rgba(248, 10, 10, 0.852);
 }
 
 .optionalInput {

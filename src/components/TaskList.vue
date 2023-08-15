@@ -95,9 +95,9 @@ watch(() => store.state.task, (newForm) => {
         </ul>
       </div>
     </div>
-    <diV>
+    <div>
       <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
-    </diV>
+    </div>
 
   </div>
 </template>

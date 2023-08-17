@@ -70,7 +70,7 @@ defineExpose({
   letter-spacing: 0.025em;
   font-size: 1.125rem;
   line-height: 1.75rem;
-  font-family: 'Lato', sans-serif;
+  font-family: "Monospace", monospace;
   font-weight: 700;
 }
 

@@ -45,13 +45,13 @@ onMounted(() => {
   <div class="taskContain" ref="taskBackground">
     <!-- <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent" /> -->
     <div class="TaskStatement" ref="taskDataRef">
-      <div style="display: flex;">
+      <div style="display: flex">
         <h4>TaskName:</h4> <span>{{ task.name }}</span>
       </div>
-      <div>
+      <div style="display: flex">
         <h4>Description:</h4><span>{{ task.description }}</span>
       </div>
-      <div>
+      <div style="display: flex">
         <h4>Deadline:</h4><span>{{ task.deadline }}</span>
       </div>
     </div>
@@ -89,10 +89,22 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: start;
+
   * h4 {
     font-family: "Monospace", monospace;
     padding: 0;
     margin: 0;
+  }
+
+  *span {
+    display: inline-block;
+    max-height: 1em;
+    /* 适当调整最大高度 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 在内容超出最大高度时显示省略号 */
+    white-space: nowrap;
+    /* 防止内容换行 */
   }
 }
 
@@ -113,5 +125,4 @@ onMounted(() => {
 
 .taskDone {
   text-decoration: line-through;
-}
-</style>
+}</style>

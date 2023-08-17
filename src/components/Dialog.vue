@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted ,computed} from 'vue'
 import { ITask } from "../types/Task";
-// import { OhVueIcon } from "oh-vue-icons";
 import { useStore } from "vuex";
 
 const emit = defineEmits(['closeDialog','storeTaskAtBrowser']);
@@ -25,8 +24,20 @@ const closeDialog = () => {
   clearDialogData()
 }
 const store = useStore();
+const taskNameInvalid=ref(false);
+const taskDateInvalid=ref(false);
+const errortaskName = computed(() => (taskNameInvalid.value ? "TaskName輸入不正確" : ""));
+const errortaskDate = computed(() => (taskDateInvalid.value ? "請輸入DeadLine" : ""));
 const sentTasks = () => {
-  console.log(`Dialog操作`);
+  taskNameInvalid.value = task.value.name == "" || task.value.name == undefined;
+  taskDateInvalid.value=task.value.deadline== "" || task.value.deadline == undefined;
+  if (taskNameInvalid.value||taskDateInvalid.value) {
+    setTimeout(() => {
+      taskNameInvalid.value = false;
+      taskDateInvalid.value = false;
+    }, 1500);
+    return;
+  }
   const newTask = {
     ...task.value,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
@@ -50,10 +61,18 @@ const sentTasks = () => {
     <div class="optionalInput">
       <span>Task Name</span>
       <input type="text" v-model="task.name" placeholder="task Name" @keyup.enter="sentTasks">
+      <div class="inputFeedback" v-if="taskNameInvalid">
+        <span class="icon">❌</span>
+        <span class="text">{{ errortaskName }}</span>
+      </div>
     </div>
     <div class="optionalInput">
       <span>Deadline</span>
       <input type="date" v-model="task.deadline" />
+      <div class="inputFeedback" v-if="taskDateInvalid">
+        <span class="icon">❌</span>
+        <span class="text">{{ errortaskDate }}</span>
+      </div>
     </div>
     <div class="optionalInput">
       <span>Description</span>
@@ -76,7 +95,7 @@ const sentTasks = () => {
 
 <style lang="scss" scoped>
 .dialogContain {
-  background-color: rgba(238, 240, 242, 0.758);
+  background-color: rgba(238, 240, 242, 0.952);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -110,6 +129,10 @@ const sentTasks = () => {
   width: 20em;
   margin-top: 10px;
   transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+}
+.inputFeedback {
+  font-size: smaller;
+  color: rgba(248, 10, 10, 0.852);
 }
 
 input[type="date"] {

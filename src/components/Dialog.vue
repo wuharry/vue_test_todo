@@ -4,7 +4,7 @@ import { ITask } from "../types/Task";
 // import { OhVueIcon } from "oh-vue-icons";
 import { useStore } from "vuex";
 
-const emit = defineEmits(['closeDialog']);
+const emit = defineEmits(['closeDialog','storeTaskAtBrowser']);
 const task = ref<ITask>({
   name: "",
   deadline: "",
@@ -32,6 +32,7 @@ const sentTasks = () => {
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
   store.dispatch("addTask", newTask);
+  emit('storeTaskAtBrowser')
   closeDialog()
 }
 

@@ -96,7 +96,7 @@ onMounted(() => {
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>
       </div>
-      <Dialog v-if="showDialog" @closeDialog="closeDialog"  />
+      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"  />
       <div class="taskList">
         <ul>
           <li v-for="task in taskArray" :key="task.id">

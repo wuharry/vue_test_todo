@@ -70,6 +70,7 @@ const submitTask = () => {
 
 const deletTask = (id: number) => {
   store.dispatch("removeTask", id);
+  storeTaskAtBrowser();
 };
 
 const closeDialog = () => {

@@ -39,7 +39,7 @@ onBeforeMount(() => {
 onMounted(() => {
   //console.log('3.-組件掛載到頁面之後執行-------onMounted')
 });
-watchEffect(() => {});
+watchEffect(() => { });
 // 使用toRefs解構
 // let { } = { ...toRefs(data) }
 defineExpose({
@@ -56,6 +56,9 @@ defineExpose({
     <div class="context">
       <span>Task</span>
       <TaskList />
+    </div>
+    <div class="informationColumn">
+      <!-- 資訊欄 -->
     </div>
   </div>
 </template>
@@ -79,18 +82,29 @@ defineExpose({
   display: grid;
   //   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  justify-items: center; /* 將子容器水平置中 */
+  justify-items: center;
+  /* 將子容器水平置中 */
   border: none;
   background-color: rgb(241, 245, 249);
-  box-shadow: 1px -1px teal;
+  // box-shadow: 1px -1px teal;
 }
 
 .context {
-  flex: 10;
+  flex: 8;
   display: flex;
   flex-direction: column;
   // justify-content: center;
   align-items: center;
   font-family: "Monospace", monospace;
+}
+
+.informationColumn {
+  flex: 2;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  border: none;
+  background-color: rgb(241, 245, 249);
+  // box-shadow: 1px -1px teal;
 }
 </style>

@@ -67,7 +67,7 @@ defineExpose({
   padding: 0;
   margin: 0;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: rgb(226, 232, 240);
   display: flex;
   letter-spacing: 0.025em;

@@ -55,9 +55,11 @@ onMounted(() => {
         <h4>Deadline:</h4><span>{{ task.deadline }}</span>
       </div>
     </div>
-    <div>
-      <button @click="">Edit</button>
+    <div class="">
+      <button @click="">Finish</button>
       <button @click="taskDeletEvent">Delet</button>
+      <button @click="">Edit</button>
+      
     </div>
   </div>
 </template>
@@ -71,7 +73,7 @@ onMounted(() => {
   /* grid的列布局,auto-fill=根据容器的宽度自动填充
     minmax(21em, 1fr) 则表示每列的最小宽度是 21em 
   */
-  grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+  grid-template-columns: 3fr 1fr; /* 两个列的比例是 3:1 */
   width: 100%;
   height: 5em;
   border: 0.5px solid hsla(0, 0%, 100%, 0.2);
@@ -89,7 +91,7 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: start;
-
+  overflow: hidden;
   * h4 {
     font-family: "Monospace", monospace;
     padding: 0;

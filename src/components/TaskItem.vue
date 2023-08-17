@@ -10,9 +10,9 @@ const emit = defineEmits<{
 }>();
 const store = useStore();
 const task = props.task;
-const taskDataRef = ref();
 const taskStatus = ref(false);
 const taskBackground = ref();
+const taskDataRef = ref();
 const jobDoneEvent = () => {
   if (taskStatus.value) {
     taskDataRef.value.classList.add('taskDone');

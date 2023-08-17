@@ -12,7 +12,6 @@ export default createStore({
       console.log(`addTask`);
       state.task.push(newTask);
       //   預設排版
-
       state.task.sort((currentTask, nextTask) => {
         const priorityMap: { [key: string]: number } = {
           Height: 3,
@@ -51,9 +50,12 @@ export default createStore({
     removeTask({ commit }, taskId) {
       commit("removeTask", taskId);
     },
-    updateTask({ commit }, preTaskArray: ITask[]) {
+    updateTask({ commit }) {
       commit("updateTask");
     },
+    sortByDate({ commit }){
+        commit('sortByDate');
+    }
   },
   modules: {},
   plugins: [],

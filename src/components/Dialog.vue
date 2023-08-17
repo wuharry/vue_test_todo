@@ -2,8 +2,10 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ITask } from "../types/Task";
 // import { OhVueIcon } from "oh-vue-icons";
+import { useStore } from "vuex";
+
 const emit = defineEmits(['closeDialog']);
-const task = reactive<ITask>({
+const task = ref<ITask>({
   name: "",
   deadline: "",
   priority: "",
@@ -13,8 +15,24 @@ const task = reactive<ITask>({
 defineProps({
   msg: String,
 })
+const clearDialogData = () => {
+  for (const key in task.value) {
+    task.value[key] = "";
+  }
+}
 const closeDialog = () => {
   emit('closeDialog');
+  clearDialogData()
+}
+const store = useStore();
+const sentTasks = () => {
+  console.log(`Dialog操作`);
+  const newTask = {
+    ...task.value,
+    id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
+  };
+  store.dispatch("addTask", newTask);
+  closeDialog()
 }
 
 </script>
@@ -30,7 +48,7 @@ const closeDialog = () => {
 
     <div class="optionalInput">
       <span>Task Name</span>
-      <input type="text" v-model="task.description" placeholder="task Name">
+      <input type="text" v-model="task.name" placeholder="task Name" @keyup.enter="sentTasks">
     </div>
     <div class="optionalInput">
       <span>Deadline</span>
@@ -47,6 +65,10 @@ const closeDialog = () => {
         <option>Low</option>
         <option>No matter</option>
       </select>
+    </div>
+    <div style="flex">
+      <button class="CreatTaskBtn" @click="sentTasks">Create Task</button>
+      <button class="CreatTaskBtn" @click="closeDialog">Cancel</button>
     </div>
   </div>
 </template>
@@ -151,5 +173,22 @@ input[type="text"] {
   &:focus {
     outline: none;
   }
+}
+
+.CreatTaskBtn {
+  width: auto;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-color: transparent;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: rgb(34, 132, 245);
+  color: white;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: center;
 }
 </style>

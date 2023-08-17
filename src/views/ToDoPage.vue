@@ -52,6 +52,15 @@ defineExpose({
     <div class="optionList">
       <!-- 左側 -->
       <div class="">Option List</div>
+      <div class="options">
+        <VIcon class="icon" name="la-list-alt-solid" />
+      </div>
+      <div class="options">
+        <VIcon class="icon" name="bi-calendar-day" />
+      </div>
+      <div class="options">
+        <VIcon class="icon" name="md-noteadd-outlined" />
+      </div>
     </div>
     <div class="context">
       <span>Task</span>
@@ -83,6 +92,7 @@ defineExpose({
   //   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   justify-items: center;
+  
   /* 將子容器水平置中 */
   border: none;
   background-color: rgb(241, 245, 249);
@@ -106,5 +116,17 @@ defineExpose({
   border: none;
   background-color: rgb(241, 245, 249);
   // box-shadow: 1px -1px teal;
+}
+.options{
+  height: 6.5em;
+}
+.options:hover{
+  border: 1px solid;
+  border-radius: .5em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+}
+.icon{
+  width: 5.5em;
+  height: 5.5em;
 }
 </style>

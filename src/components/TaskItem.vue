@@ -175,11 +175,13 @@ onMounted(() => {
 
 //外部置入
 
+// 隱藏原生元素
 .checkbox-wrapper-44 input[type="checkbox"] {
     display: none;
     visibility: hidden;
   }
 
+  // 
   .checkbox-wrapper-44 *,
   .checkbox-wrapper-44 *::before,
   .checkbox-wrapper-44 *::after {

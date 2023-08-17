@@ -40,24 +40,7 @@ const submitTask = () => {
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
 
-  // taskArray.push(newTask);
-  // taskArray.sort((currentTask, nextTask) => {
-  //   const priorityMap: { [key: string]: number } = {
-  //     Height: 3,
-  //     Low: 2,
-  //     "No matter": 1,
-  //   };
-  //   const currentVal = priorityMap[currentTask?.priority || ""] || 0;
-  //   const nextVal = priorityMap[nextTask?.priority || ""] || 0;
 
-  //   if (currentVal > nextVal) {
-  //     return -1;
-  //   }
-  //   if (currentVal < nextVal) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
   store.dispatch("addTask", newTask);
   storeTaskAtBrowser();
   /**

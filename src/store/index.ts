@@ -14,8 +14,10 @@ export default createStore({
       console.log(state.task);
     },
     removeTask(state, taskId: number) {
+        console.log(`deletTask`);
       const newArray = state.task.filter((task) => task.id !== taskId);
       state.task.splice(0, state.task.length, ...newArray);
+      console.log(state.task);
     },
   },
   actions: {

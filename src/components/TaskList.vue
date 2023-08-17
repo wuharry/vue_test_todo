@@ -17,12 +17,14 @@ const callTaskDialog = () => {
   showDialog.value = true;
 };
 
-let taskArray = reactive<ITask[]>([]);
+let taskArray = computed(() => store.state.task);
 const isInvalid = ref(false);
 const errorMessage = computed(() => (isInvalid.value ? "輸入不正確" : ""));
+// 存入localStorage
 const storeTaskAtBrowser = () => {
-  localStorage.setItem("taskList", JSON.stringify(taskArray));
+  // localStorage.setItem("taskList", JSON.stringify(taskArray));
 };
+
 const submitTaskName = () => {
   console.log(`submitTaskName`);
   isInvalid.value = task.value.name == "" || task.value.name == undefined;
@@ -60,12 +62,10 @@ const submitTaskName = () => {
   /**
    這裡要有api將資料送出到backend
    */
-  for (const key in task) {
+  for (const key in task.value) {
     task.value[key] = "";
   }
 };
-// 存入localStorage
-
 
 const deletTask = (id: number) => {
   store.dispatch("removeTask", id);
@@ -74,6 +74,7 @@ const deletTask = (id: number) => {
 const closeDialog = () => {
   showDialog.value = false;
 };
+
 // onMounted(() => {
 //   const taskListFromLocalStorage = localStorage.getItem("taskList");
 //   const preTaskList: ITask[] = taskListFromLocalStorage
@@ -81,26 +82,13 @@ const closeDialog = () => {
 //     : [];
 //   taskArray.splice(0, taskArray.length, ...preTaskList);
 // });
-watch(
-  () => store.state.task,
-  (newForm) => {
-    console.log(`更新的值`);
-    console.log(newForm);
-    
-    taskArray.splice(0, taskArray.length, ...newForm);
-  }
-);
+
 </script>
 
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input
-        type="text"
-        v-model="task.name"
-        @keyup.enter="submitTaskName"
-        placeholder="Task Name"
-      />
+      <input type="text" v-model="task.name" @keyup.enter="submitTaskName" placeholder="Task Name" />
       <div class="inputFeedback" v-if="isInvalid">
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>

@@ -25,8 +25,8 @@ const storeTaskAtBrowser = () => {
   // localStorage.setItem("taskList", JSON.stringify(taskArray));
 };
 
-const submitTaskName = () => {
-  console.log(`submitTaskName`);
+const submitTask = () => {
+  console.log(`submitTask`);
   isInvalid.value = task.value.name == "" || task.value.name == undefined;
   if (isInvalid.value) {
     setTimeout(() => {
@@ -88,12 +88,12 @@ const closeDialog = () => {
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @keyup.enter="submitTaskName" placeholder="Task Name" />
+      <input type="text" v-model="task.name" @keyup.enter="submitTask" placeholder="Task Name" />
       <div class="inputFeedback" v-if="isInvalid">
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>
       </div>
-      <Dialog v-if="showDialog" @closeDialog="closeDialog" />
+      <Dialog v-if="showDialog" @closeDialog="closeDialog" @submitTask="submitTask" />
       <div class="taskList">
         <ul>
           <li v-for="task in taskArray" :key="task.id">

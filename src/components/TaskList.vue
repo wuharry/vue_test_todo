@@ -5,83 +5,102 @@ import { ITask } from "../types/Task";
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 const store = useStore();
-let task = reactive<ITask>(store.state.task);
+let task = ref<ITask>({
+  id: 0,
+  name: "",
+  deadline: null,
+  priority: null,
+  description: null,
+});
 let showDialog = ref<boolean>(false);
-const isInvalid = ref(false);
-const errorMessage = computed(() => isInvalid.value ? '輸入不正確' : '');
-let taskArray = reactive<ITask[]>([]);
 const callTaskDialog = () => {
   showDialog.value = true;
-}
+};
+
+let taskArray = reactive<ITask[]>([]);
+const isInvalid = ref(false);
+const errorMessage = computed(() => (isInvalid.value ? "輸入不正確" : ""));
+const storeTaskAtBrowser = () => {
+  localStorage.setItem("taskList", JSON.stringify(taskArray));
+};
 const submitTaskName = () => {
-  console.log(task.name);
-  isInvalid.value = task.name == "" || task.name == undefined;
+  console.log(`submitTaskName`);
+  isInvalid.value = task.value.name == "" || task.value.name == undefined;
   if (isInvalid.value) {
     setTimeout(() => {
-      isInvalid.value = false
-    }, 1500)
+      isInvalid.value = false;
+    }, 1500);
     return;
   }
   const newTask = {
-    ...task,
+    ...task.value,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
 
-  taskArray.push(newTask);
-  taskArray.sort((currentTask, nextTask) => {
-    const priorityMap: { [key: string]: number } = {
-      Height: 3,
-      Low: 2,
-      "No matter": 1,
-    };
-    const currentVal = priorityMap[currentTask?.priority || ""] || 0;
-    const nextVal = priorityMap[nextTask?.priority || ""] || 0;
+  // taskArray.push(newTask);
+  // taskArray.sort((currentTask, nextTask) => {
+  //   const priorityMap: { [key: string]: number } = {
+  //     Height: 3,
+  //     Low: 2,
+  //     "No matter": 1,
+  //   };
+  //   const currentVal = priorityMap[currentTask?.priority || ""] || 0;
+  //   const nextVal = priorityMap[nextTask?.priority || ""] || 0;
 
-    if (currentVal > nextVal) {
-      return -1;
-    }
-    if (currentVal < nextVal) {
-      return 1;
-    }
-    return 0;
-  });
-  store.dispatch('addTask', taskArray);
+  //   if (currentVal > nextVal) {
+  //     return -1;
+  //   }
+  //   if (currentVal < nextVal) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
+  store.dispatch("addTask", newTask);
   storeTaskAtBrowser();
   /**
    這裡要有api將資料送出到backend
    */
   for (const key in task) {
-    task[key] = "";
+    task.value[key] = "";
   }
 };
 // 存入localStorage
-const storeTaskAtBrowser = () => {
-  localStorage.setItem("taskList", JSON.stringify(taskArray));
-};
+
 
 const deletTask = (id: number) => {
-  store.dispatch("removeTask", id)
+  store.dispatch("removeTask", id);
 };
 
 const closeDialog = () => {
   showDialog.value = false;
-}
-onMounted(() => {
-  const taskListFromLocalStorage = localStorage.getItem("taskList");
-  const preTaskList: ITask[] = taskListFromLocalStorage
-    ? JSON.parse(taskListFromLocalStorage)
-    : [];
-  taskArray.splice(0, taskArray.length, ...preTaskList);
-});
-watch(() => store.state.task, (newForm) => {
-  task = { ...newForm }
-})
+};
+// onMounted(() => {
+//   const taskListFromLocalStorage = localStorage.getItem("taskList");
+//   const preTaskList: ITask[] = taskListFromLocalStorage
+//     ? JSON.parse(taskListFromLocalStorage)
+//     : [];
+//   taskArray.splice(0, taskArray.length, ...preTaskList);
+// });
+watch(
+  () => store.state.task,
+  (newForm) => {
+    console.log(`更新的值`);
+    console.log(newForm);
+    
+    taskArray.splice(0, taskArray.length, ...newForm);
+  }
+);
 </script>
 
 <template>
   <div class="createTask">
     <div class="userInput">
-      <input type="text" v-model="task.name" @keyup.enter="submitTaskName" placeholder="Task Name" />
+      <input
+        type="text"
+        v-model="task.name"
+        @keyup.enter="submitTaskName"
+        placeholder="Task Name"
+      />
       <div class="inputFeedback" v-if="isInvalid">
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>
@@ -98,7 +117,6 @@ watch(() => store.state.task, (newForm) => {
     <div>
       <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
     </div>
-
   </div>
 </template>
 
@@ -108,7 +126,7 @@ watch(() => store.state.task, (newForm) => {
   width: 100%;
   justify-content: center;
   height: 2.5em;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .userInput {

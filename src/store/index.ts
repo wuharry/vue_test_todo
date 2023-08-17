@@ -9,7 +9,9 @@ export default createStore({
   },
   mutations: {
     addTask(state, newTask: ITask) {
+      console.log(`addTask`);
       state.task.push(newTask);
+      console.log(state.task);
     },
     removeTask(state, taskId: number) {
       const newArray = state.task.filter((task) => task.id !== taskId);

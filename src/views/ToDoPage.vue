@@ -91,5 +91,6 @@ defineExpose({
   flex-direction: column;
   // justify-content: center;
   align-items: center;
+  font-family: "Monospace", monospace;
 }
 </style>

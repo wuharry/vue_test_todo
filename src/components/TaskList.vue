@@ -22,7 +22,8 @@ const isInvalid = ref(false);
 const errorMessage = computed(() => (isInvalid.value ? "輸入不正確" : ""));
 // 存入localStorage
 const storeTaskAtBrowser = () => {
-  // localStorage.setItem("taskList", JSON.stringify(taskArray));
+  const plainTaskArray = taskArray.value.map((task: ITask) => ({ ...task }));
+  localStorage.setItem("taskList", JSON.stringify(plainTaskArray));
 };
 
 const submitTask = () => {
@@ -75,13 +76,14 @@ const closeDialog = () => {
   showDialog.value = false;
 };
 
-// onMounted(() => {
-//   const taskListFromLocalStorage = localStorage.getItem("taskList");
-//   const preTaskList: ITask[] = taskListFromLocalStorage
-//     ? JSON.parse(taskListFromLocalStorage)
-//     : [];
-//   taskArray.splice(0, taskArray.length, ...preTaskList);
-// });
+onMounted(() => {
+  const taskListFromLocalStorage = localStorage.getItem("taskList");
+  const preTaskList: ITask[] = taskListFromLocalStorage
+    ? JSON.parse(taskListFromLocalStorage)
+    : [];
+    store.commit('updateTask', preTaskList);
+  // taskArray.splice(0, taskArray.length, ...preTaskList);
+});
 
 </script>
 

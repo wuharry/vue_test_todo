@@ -1,0 +1,16 @@
+/* 
+box-sizing: border-box;
+意味着元素的总宽度和高度包括了padding和border，而不会影响到元素的内容宽度和高度。
+--background-color: #fff;：CSS 变量（自定义属性）
+--checkbox-height: 25px;：CSS 变量,定義checkbox高度
+
+//-moz-keyframes 是针对 Mozilla Firefox 浏览器的特定前缀,用來解決瀏覽器相容性問題
+  @-moz-keyframes dothabottomcheck-19 {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: calc(var(--checkbox-height) / 2);
+    }
+  }
+*/

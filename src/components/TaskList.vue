@@ -65,7 +65,7 @@ onMounted(() => {
   const preTaskList: ITask[] = taskListFromLocalStorage
     ? JSON.parse(taskListFromLocalStorage)
     : [];
-    store.commit('updateTask', preTaskList);
+  store.commit('updateTask', preTaskList);
   // taskArray.splice(0, taskArray.length, ...preTaskList);
 });
 
@@ -79,17 +79,21 @@ onMounted(() => {
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>
       </div>
-      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"  />
-      <div class="taskList">
-        <ul>
-          <li v-for="task in taskArray" :key="task.id">
-            <TaskItem :task="task" @deletTask="deletTask" />
-          </li>
-        </ul>
-      </div>
+      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser" />
+
     </div>
     <div>
       <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
+    </div>
+  </div>
+  <div class="showTaskData">
+    <span>Task List({{ taskArray.length }} Tasks)</span>
+    <div class="taskList">
+      <ul>
+        <div v-for="task in taskArray" :key="task.id">
+          <TaskItem :task="task" @deletTask="deletTask" />
+        </div>
+      </ul>
     </div>
   </div>
 </template>
@@ -100,7 +104,8 @@ onMounted(() => {
   width: 100%;
   justify-content: center;
   height: 2.5em;
-  font-family: "Lato", sans-serif;
+  font-family: "Monospace", monospace;
+  margin-bottom: 2em;
 }
 
 .userInput {
@@ -177,6 +182,20 @@ input[type="text"] {
 } */
 
 .taskList {
-  display: block;
+  display: flex;
+  width: 100%;
+  ul{
+    width: 90%;
+  }
+}
+
+.showTaskData {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  // height: 2.5em;
+  padding: .5em 1em;
+  font-family: "Monospace", monospace;
 }
 </style>

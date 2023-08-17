@@ -11,6 +11,26 @@ export default createStore({
     addTask(state, newTask: ITask) {
       console.log(`addTask`);
       state.task.push(newTask);
+      //   預設排版
+
+      state.task.sort((currentTask, nextTask) => {
+        const priorityMap: { [key: string]: number } = {
+          Height: 3,
+          Low: 2,
+          "No matter": 1,
+        };
+        const currentVal = priorityMap[currentTask?.priority || ""] || 0;
+        const nextVal = priorityMap[nextTask?.priority || ""] || 0;
+
+        if (currentVal > nextVal) {
+          return -1;
+        }
+        if (currentVal < nextVal) {
+          return 1;
+        }
+        return 0;
+      });
+
       console.log(state.task);
     },
     removeTask(state, taskId: number) {
@@ -20,8 +40,8 @@ export default createStore({
       console.log(state.task);
     },
     updateTask(state, preTaskArray: ITask[]) {
-        console.log(`updateTask`);
-        state.task.splice(0, state.task.length, ...preTaskArray);
+      console.log(`updateTask`);
+      state.task.splice(0, state.task.length, ...preTaskArray);
     },
   },
   actions: {

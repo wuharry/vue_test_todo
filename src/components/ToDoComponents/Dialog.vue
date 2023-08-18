@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted ,computed} from 'vue'
-import { ITask } from "../types/Task";
+import { ITask } from '@/types/Task';
 import { useStore } from "vuex";
 
 const emit = defineEmits(['closeDialog','storeTaskAtBrowser']);

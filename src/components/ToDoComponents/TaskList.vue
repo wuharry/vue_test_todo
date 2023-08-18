@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch, computed } from "vue";
 import { useStore } from "vuex";
-import { ITask } from "../types/Task";
+import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 const store = useStore();

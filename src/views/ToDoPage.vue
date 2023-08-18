@@ -10,7 +10,7 @@ import {
 } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import TaskList from "../components/TaskList.vue";
+import {TaskList} from "@/components/ToDoComponents";
 /**
  * 倉庫
  */

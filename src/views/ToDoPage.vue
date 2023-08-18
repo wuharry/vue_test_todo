@@ -69,11 +69,12 @@ defineExpose({
     </div>
     <div class="informationColumn">
       <!-- 資訊欄 -->
+      <!-- <span>informationColumn</span> -->
       <WeatherWidget />
     </div>
   </div>
 </template>
-<style scoped lang="less">
+<style scoped lang="scss">
 .container {
   padding: 0;
   margin: 0;
@@ -113,8 +114,10 @@ defineExpose({
 .informationColumn {
   flex: 2;
   display: grid;
+  //   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   justify-items: center;
+  /* 將子容器水平置中 */
   border: none;
   background-color: rgb(241, 245, 249);
   // box-shadow: 1px -1px teal;

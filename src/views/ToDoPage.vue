@@ -10,7 +10,8 @@ import {
 } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import {TaskList} from "@/components/ToDoComponents";
+import { TaskList } from "../components/ToDoComponents";
+import { WeatherWidget } from "../components/informationColumn";
 /**
  * 倉庫
  */
@@ -68,6 +69,7 @@ defineExpose({
     </div>
     <div class="informationColumn">
       <!-- 資訊欄 -->
+      <WeatherWidget />
     </div>
   </div>
 </template>
@@ -92,7 +94,7 @@ defineExpose({
   //   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   justify-items: center;
-  
+
   /* 將子容器水平置中 */
   border: none;
   background-color: rgb(241, 245, 249);
@@ -117,16 +119,18 @@ defineExpose({
   background-color: rgb(241, 245, 249);
   // box-shadow: 1px -1px teal;
 }
-.options{
+
+.options {
   height: 6.5em;
 }
-.options:hover{
+
+.options:hover {
   border: 1px solid;
   border-radius: .5em;
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 }
-.icon{
+
+.icon {
   width: 5.5em;
   height: 5.5em;
-}
-</style>
+}</style>

@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 import axios from "axios";
-defineProps({
-  msg: String,
-})
-onMounted(async () => {
-const options = {
-  method: 'GET',
-  url: 'http://api.weatherapi.com/v1',
-  param:{
-    
-  }
-};
 
+console.log(`天氣啟動`);
+const options = {
+  method: "GET",
+  url: "https://api.weatherapi.com/v1/current.json?key=fed9d997bf574afbace92916231808&q=Taiwan&aqi=yes",
+};
 try {
-	const response = await axios.request(options);
-	console.log(response.data);
+  const response = await axios.request(options);
+  console.log(`天氣`);
+
+  console.log(response.data);
 } catch (error) {
-	console.error(error);
+  console.log(`失敗`);
+
+  console.error(error);
 }
-})
-const count = ref(0)
+console.log(`圓神啟動`);
+
+const count = ref(0);
 </script>
 
 <template>
-  <div class="weatherContainer">
-
-  </div>
+  <div class="weatherContainer"></div>
 </template>
 
 <style scoped lang="scss">

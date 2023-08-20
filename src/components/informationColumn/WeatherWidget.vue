@@ -1,33 +1,35 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
+const fetchWeatherData = async () => {
+  const options = {
+    method: "GET",
+    url: "https://api.weatherapi.com/v1/current.json?key=fed9d997bf574afbace92916231808&q=Taiwan&aqi=yes",
+  };
+  try {
+    const response = await axios.request(options);
+    console.log(`天氣`);
+    console.log(response.data);
+  } catch (error) {
+    console.log(`失敗`);
 
-console.log(`天氣啟動`);
-const options = {
-  method: "GET",
-  url: "https://api.weatherapi.com/v1/current.json?key=fed9d997bf574afbace92916231808&q=Taiwan&aqi=yes",
+    console.error(error);
+  }
 };
-try {
-  const response = await axios.request(options);
-  console.log(`天氣`);
 
-  console.log(response.data);
-} catch (error) {
-  console.log(`失敗`);
-
-  console.error(error);
-}
-console.log(`圓神啟動`);
+fetchWeatherData();
 
 const count = ref(0);
 </script>
 
 <template>
-  <div class="weatherContainer"></div>
+  <div>
+    <p>Weather Widget Content Here</p>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.weatherContainer {
+.weatherCard {
   width: 11em;
   height: 13em;
   background-color: black;

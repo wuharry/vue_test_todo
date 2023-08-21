@@ -10,6 +10,12 @@ import {
   FaEdit,
   BiCalendarDay,
   LaListAltSolid,
+  BiCloudRainHeavy,
+  WiDayRain,
+  WiNightAltRain,
+  SiSnowflake,
+  RiWindyLine,
+  RiSunLine
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -17,7 +23,13 @@ addIcons(
   RiDeleteBin2Line,
   FaEdit,
   BiCalendarDay,
-  LaListAltSolid
+  LaListAltSolid,
+  BiCloudRainHeavy,
+  WiDayRain,
+  WiNightAltRain,
+  SiSnowflake,
+  RiWindyLine,
+  RiSunLine
 );
 // 創建一個 Vue 應用實例。它接受一個根組件作為參數,App
 const app = createApp(App)

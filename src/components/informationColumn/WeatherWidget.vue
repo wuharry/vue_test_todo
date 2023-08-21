@@ -42,12 +42,24 @@ const count = ref(0);
       <!-- 溫度,風速,濕度 -->
       <div class="cardTop">
         <!-- 降雨機率暫不提供改為溫度 -->
-        <span> {{ weatherData.tempC }}</span>
-        <span> {{ weatherData.windKph }}</span>
-        <span>{{ weatherData.humidity }}</span>
+        <div>
+          <VIcon class="" name="la-temperature-high-solid" />
+          <span>{{ weatherData.tempC }}</span>
+        </div>
+        <div>
+          <VIcon class="" name="ri-windy-line" />
+          <span> {{ weatherData.windKph }}</span>
+        </div>
+        <div>
+          <VIcon class="" name="wi-humidity" />
+          <span>{{ weatherData.humidity }}</span>
+        </div>
+
       </div>
       <!-- pm2.5,uv,天氣 -->
-      <div></div>
+      <div class="">
+
+      </div>
       <!-- 位置,時間(根據時間,天氣背景也要更換) -->
       <div></div>
       <!-- 氣候圖片 -->

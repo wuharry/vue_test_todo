@@ -2,13 +2,13 @@
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 const weatherData = ref({
-  location: '',
+  location: "",
   tempC: 0,
   humidity: 0,
   uv: 0,
   windKph: 0,
   pm2_5: 0,
-  weather: ''
+  weather: "",
 });
 const fetchWeatherData = async () => {
   const options = {
@@ -35,20 +35,23 @@ const fetchWeatherData = async () => {
 fetchWeatherData();
 
 const weatherCardRef = ref();
-weatherData.value.weather = 'sun';
-watch(() => weatherData.value.weather, (newValue, oldValue) => {
-  console.log(newValue);
-  weatherCardRef.value.classList.add('hot');
-});
 
+watch(
+  () => weatherData.value.weather,
+  (newValue, oldValue) => {
+    weatherData.value.weather = "sun";
+    console.log(newValue);
+    weatherCardRef.value.classList.add("hot");
+  }
+);
 </script>
 
 <template>
   <div>
     <!-- <p>Weather Widget Content Here</p> -->
     <div ref="weatherCardRef">
-      <span class="sun"></span>
-      <span class="sunx"></span>
+      <span class="sun" v-if="weatherData.weather === 'sun'"></span>
+      <span class="sunx" v-if="weatherData.weather === 'sun'"></span>
       <div class="weatherCard">
         <!-- 溫度,風速,濕度 -->
         <div class="cardTop">
@@ -65,7 +68,6 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
             <VIcon class="" name="wi-humidity" />
             <span>{{ weatherData.humidity }}</span>
           </div>
-
         </div>
         <!-- pm2.5,uv,天氣 -->
         <div class="cardMid">
@@ -75,7 +77,7 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
         </div> -->
           <div>
             <VIcon class="" name="" />
-            <span>{{ }}</span>
+            <span>{{}}</span>
           </div>
           <!-- <div>
           <VIcon class="" name="" />
@@ -83,13 +85,11 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
         </div> -->
           <div>
             <VIcon class="" name="" />
-            <span>{{ }}</span>
+            <span>{{}}</span>
           </div>
         </div>
         <!-- 位置,時間(根據時間,天氣背景也要更換) -->
-        <div>
-
-        </div>
+        <div></div>
         <!-- 氣候圖片 -->
         <div></div>
       </div>
@@ -101,7 +101,7 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
 .weatherCard {
   width: 11em;
   height: 16em;
-  margin-top: 1em;
+  margin-top: 2em;
   // background-color: rgba(29, 126, 222, 0.388);
   border-radius: 1em;
 }
@@ -109,6 +109,7 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
 .cardTop {
   display: flex;
   justify-content: space-around;
+  padding-top: 2.2em;
 }
 
 .cardMid {
@@ -120,9 +121,11 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
   // position: absolute;
   // top: 25%;
   // left: 20%;
-  background: linear-gradient(to top right,
-      rgba(255, 87, 34, 1) 0%,
-      rgba(251, 140, 0, 1) 100%);
+  background: linear-gradient(
+    to top right,
+    rgba(255, 87, 34, 1) 0%,
+    rgba(251, 140, 0, 1) 100%
+  );
   box-shadow: 1px 1px 30px rgba(255, 111, 0, 1);
   border-radius: 1em;
 }
@@ -130,21 +133,23 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
 .sun {
   position: absolute;
   top: 3%;
-  left: 93%;
+  left: 95.5%;
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  background: linear-gradient(to bottom left,
-      rgba(255, 235, 59, 1) 0%,
-      rgba(249, 168, 37, 1) 90%);
+  background: linear-gradient(
+    to bottom left,
+    rgba(255, 235, 59, 1) 0%,
+    rgba(249, 168, 37, 1) 90%
+  );
   box-shadow: 1px 1px 30px rgba(255, 160, 0, 1);
   animation: inex 3s infinite linear;
 }
 
 .sunx {
   position: absolute;
-  top: 30%;
-  left: 45%;
+  top: 8%;
+  left: 94%;
   width: 10px;
   height: 10px;
   border-radius: 100%;
@@ -157,9 +162,11 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
   // position: absolute;
   // top: 25%;
   // left: 45%;
-  background: linear-gradient(to top right,
-      rgba(63, 81, 181, 1) 0%,
-      rgba(3, 155, 229, 1) 40%);
+  background: linear-gradient(
+    to top right,
+    rgba(63, 81, 181, 1) 0%,
+    rgba(3, 155, 229, 1) 40%
+  );
   box-shadow: 1px 1px 30px rgba(2, 119, 189, 1);
   border-radius: 1em;
 }
@@ -192,9 +199,11 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
   position: absolute;
   top: 25%;
   left: 70%;
-  background: linear-gradient(to top right,
-      rgba(117, 117, 117, 1) 0%,
-      rgba(33, 33, 33, 1) 90%);
+  background: linear-gradient(
+    to top right,
+    rgba(117, 117, 117, 1) 0%,
+    rgba(33, 33, 33, 1) 90%
+  );
   box-shadow: 1px 1px 30px rgba(33, 33, 33, 1);
   border-radius: 1em;
 }
@@ -246,9 +255,11 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
   // position: absolute;
   top: 60%;
   left: 30%;
-  background: linear-gradient(to top right,
-      rgba(156, 204, 101, 1) 0%,
-      rgba(38, 198, 218, 1) 50%);
+  background: linear-gradient(
+    to top right,
+    rgba(156, 204, 101, 1) 0%,
+    rgba(38, 198, 218, 1) 50%
+  );
   box-shadow: 1px 1px 30px rgba(38, 198, 218, 1);
   border-radius: 1em;
 }
@@ -270,9 +281,11 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
   // position: absolute;
   top: 60%;
   left: 60%;
-  background: linear-gradient(to bottom right,
-      rgba(63, 81, 181, 1) 0%,
-      rgba(171, 71, 188, 1) 70%);
+  background: linear-gradient(
+    to bottom right,
+    rgba(63, 81, 181, 1) 0%,
+    rgba(171, 71, 188, 1) 70%
+  );
   box-shadow: 1px 1px 30px rgba(81, 45, 168, 1);
   border-radius: 1em;
 }
@@ -352,12 +365,6 @@ watch(() => weatherData.value.weather, (newValue, oldValue) => {
   height: 15px;
   animation: meteor 1.5s infinite linear;
 }
-
-
-
-
-
-
 
 // 動畫格式宣告
 @keyframes inex {

@@ -15,7 +15,9 @@ import {
   WiNightAltRain,
   SiSnowflake,
   RiWindyLine,
-  RiSunLine
+  RiSunLine,
+  LaTemperatureHighSolid,
+  WiHumidity
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -29,7 +31,9 @@ addIcons(
   WiNightAltRain,
   SiSnowflake,
   RiWindyLine,
-  RiSunLine
+  RiSunLine,
+  LaTemperatureHighSolid,
+  WiHumidity
 );
 // 創建一個 Vue 應用實例。它接受一個根組件作為參數,App
 const app = createApp(App)

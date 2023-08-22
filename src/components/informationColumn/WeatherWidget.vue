@@ -32,15 +32,40 @@ const fetchWeatherData = async () => {
 };
 
 fetchWeatherData();
+const weatherJudgment = (weather: string) => {
+  if (weather == 'Clear' || weather == 'Partly cloudy') {
+    return 'sun'
+  }
+  // 夜晚
+  // if () {
+  //   return 'moon'
+  // }
 
+  if (weather == 'Cloudy' || weather == 'Overcast' || weather == 'Mist' || weather == 'Fog') {
+    return 'Cloudy'
+  }
+  if (weather == 'Freezing fog' || weather == 'Patchy snow nearby' || weather == 'Blowing snow'
+    || weather == 'Blizzard' || weather == 'Patchy freezing drizzle nearby') {
+    return 'stormy'
+  }
+  if (weather == 'Patchy rain nearby' || weather == 'Patchy sleet nearby'
+    || weather == 'Thundery outbreaks in nearby' || weather == 'Patchy light rain in area with thunder'
+    || weather == 'Patchy light snow in area with thunder'
+    || weather == 'Patchy moderate snow in area with thunder'
+    || weather == 'Moderate or heavy snow in area with thunder'
+  ) {
+    return 'breezy'
+  }
+  //  之前沒有資料的話
+  return ''
+}
 const weatherCardRef = ref();
 let prevClass = '';
 watch(
   () => weatherData.value.weather,
   (newValue, oldValue) => {
-    // prevClass=oldValue
-    prevClass = weatherData.value.weather;
-    weatherData.value.weather = "cloud";
+    prevClass = weatherJudgment(oldValue);
+    weatherJudgment(newValue)
     console.log(`舊的天氣`);
     console.log(prevClass);
     switch (weatherData.value.weather) {

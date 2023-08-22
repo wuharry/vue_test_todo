@@ -11,7 +11,7 @@ import {
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { TaskList } from "../components/ToDoComponents";
-import { WeatherWidget } from "../components/informationColumn";
+import { WeatherWidget, Calendar } from "../components/informationColumn";
 /**
  * 倉庫
  */
@@ -71,6 +71,7 @@ defineExpose({
       <!-- 資訊欄 -->
       <!-- <span>informationColumn</span> -->
       <WeatherWidget />
+      <Calendar />
     </div>
   </div>
 </template>
@@ -114,7 +115,7 @@ defineExpose({
 .informationColumn {
   flex: 2;
   display: grid;
-  //   grid-template-columns: repeat(3, 1fr);
+  // grid-template-rows: repeat(2, 1fr);
   gap: 10px;
   justify-items: center;
   /* 將子容器水平置中 */
@@ -136,4 +137,5 @@ defineExpose({
 .icon {
   width: 5.5em;
   height: 5.5em;
-}</style>
+}
+</style>

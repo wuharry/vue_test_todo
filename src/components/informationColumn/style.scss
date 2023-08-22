@@ -1,268 +1,295 @@
 .weatherCard {
-    width: 11em;
-    height: 16em;
-    margin-top: 2em;
+  width: 11em;
+  height: 16em;
+  margin-top: 2em;
+}
+
+.cardBackground {
+  border-radius: 1em;
+}
+
+.cardFont {
+  color: black;
+}
+
+.cardFont2 {
+  color: white;
+}
+
+// 晴天+晴天背景加設置
+.hot {
+  background: linear-gradient(
+    to top right,
+    rgba(255, 87, 34, 1) 0%,
+    rgba(251, 140, 0, 1) 100%
+  );
+  box-shadow: 1px 1px 30px rgba(255, 111, 0, 1);
+}
+
+.sun {
+  position: absolute;
+  top: 3%;
+  left: 95.5%;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background: linear-gradient(
+    to bottom left,
+    rgba(255, 235, 59, 1) 0%,
+    rgba(249, 168, 37, 1) 90%
+  );
+  box-shadow: 1px 1px 30px rgba(255, 160, 0, 1);
+  animation: inex 3s infinite linear;
+}
+
+.sunx {
+  position: absolute;
+  top: 8%;
+  left: 94%;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #fff;
+  opacity: 0.2;
+}
+
+// 陰天
+.cloudy {
+  background: linear-gradient(
+    to top right,
+    rgba(63, 81, 181, 1) 0%,
+    rgba(3, 155, 229, 1) 40%
+  );
+  box-shadow: 1px 1px 30px rgba(2, 119, 189, 1);
+}
+
+.cloud {
+  position: absolute;
+  top: 5%;
+  left: 95%;
+  width: 60px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgba(129, 212, 250, 1);
+  box-shadow: 1px 1px 30px rgba(0, 151, 167, 1);
+  animation: move 3s infinite linear;
+}
+
+.cloudx {
+  position: absolute;
+  top: 9%;
+  left: 93.5%;
+  width: 60px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgba(129, 212, 250, 1);
+  animation: move 3s infinite linear;
+}
+
+// 下雪
+.stormy {
+  background: linear-gradient(
+    to top right,
+    rgba(117, 117, 117, 1) 0%,
+    rgba(33, 33, 33, 1) 90%
+  );
+  box-shadow: 1px 1px 30px rgba(33, 33, 33, 1);
+}
+
+.snowe {
+  position: absolute;
+  top: 51%;
+  left: 95%;
+  width: 40px;
+  height: 40px;
+  border-radius: 60px;
+  background-color: #ddd;
+}
+
+.snowex {
+  position: absolute;
+  top: 49%;
+  left: 96%;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #bbb;
+}
+
+.stick {
+  position: absolute;
+  top: 52%;
+  left: 94.4%;
+  width: 3px;
+  height: 15px;
+  transform: rotate(-45deg);
+  background-color: #333;
+}
+
+.stick2 {
+  position: absolute;
+  top: 52%;
+  left: 98.6%;
+  width: 3px;
+  height: 15px;
+  transform: rotate(45deg);
+  background-color: #333;
+}
+
+// 閃電
+.breezy {
+  // position: absolute;
+  top: 60%;
+  left: 30%;
+  background: linear-gradient(
+    to top right,
+    rgba(156, 204, 101, 1) 0%,
+    rgba(38, 198, 218, 1) 50%
+  );
+  box-shadow: 1px 1px 30px rgba(38, 198, 218, 1);
+}
+
+.cloudr {
+  position: absolute;
+  top: 8%;
+  left: 92%;
+  width: 60px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgba(96, 125, 139, 1);
+  box-shadow: 1px 1px 30px rgba(84, 110, 122, 1);
+  animation: flash 1.5s infinite linear;
+}
+
+// 晚上
+.night {
+  background: linear-gradient(
+    to bottom right,
+    rgba(63, 81, 181, 1) 0%,
+    rgba(171, 71, 188, 1) 70%
+  );
+  box-shadow: 1px 1px 30px rgba(81, 45, 168, 1);
+}
+
+.moon {
+  position: absolute;
+  top: 2%;
+  left: 94%;
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  background: rgba(255, 241, 118, 1);
+  box-shadow: 1px 1px 30px rgba(224, 224, 224, 1);
+}
+
+.spot1 {
+  position: absolute;
+  top: 6%;
+  left: 96%;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #777;
+}
+
+.spot2 {
+  position: absolute;
+  top: 10%;
+  left: 95%;
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  background-color: #777;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 2.2em;
+}
+
+.cardMid {
+  display: flex;
+  padding-left: 0.7em;
+  .font {
+    flex: 1;
+    margin-top: 1.5em;
+    font-size: smaller;
   }
-  
-  .cardBackground {
-    border-radius: 1em;
+  .iconSec {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .Icon {
+      width: 3em;
+      height: 3em;
+    }
   }
-  
-  .cardFont {
-    color: black;
+}
+.cardBotton {
+  padding-top: 2.2em;
+  padding-left: 0.7em;
+}
+
+// 動畫格式宣告
+@keyframes inex {
+  50% {
+    opacity: 0.4;
   }
-  
-  .cardFont2 {
-    color: white;
+
+  60% {
+    opacity: 1;
   }
-  
-  
-  // 晴天+晴天背景加設置
-  .hot {
-    background: linear-gradient(to top right,
-        rgba(255, 87, 34, 1) 0%,
-        rgba(251, 140, 0, 1) 100%);
-    box-shadow: 1px 1px 30px rgba(255, 111, 0, 1);
-  
+}
+
+@keyframes move {
+  50% {
+    transform: translateX(-10px);
   }
-  
-  .sun {
-    position: absolute;
-    top: 3%;
-    left: 95.5%;
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    background: linear-gradient(to bottom left,
-        rgba(255, 235, 59, 1) 0%,
-        rgba(249, 168, 37, 1) 90%);
-    box-shadow: 1px 1px 30px rgba(255, 160, 0, 1);
-    animation: inex 3s infinite linear;
+}
+
+@keyframes fall {
+  10% {
+    opacity: 0.8;
   }
-  
-  .sunx {
-    position: absolute;
-    top: 8%;
-    left: 94%;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    background-color: #fff;
-    opacity: 0.2;
+
+  50% {
+    opacity: 1;
+    transform: translate(-10px, 30px);
   }
-  
-  // 陰天
-  .cloudy {
-    background: linear-gradient(to top right,
-        rgba(63, 81, 181, 1) 0%,
-        rgba(3, 155, 229, 1) 40%);
-    box-shadow: 1px 1px 30px rgba(2, 119, 189, 1);
-  
+
+  100% {
+    transform: translate(-25px, 70px);
   }
-  
-  .cloud {
-    position: absolute;
-    top: 5%;
-    left: 95%;
-    width: 60px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: rgba(129, 212, 250, 1);
-    box-shadow: 1px 1px 30px rgba(0, 151, 167, 1);
-    animation: move 3s infinite linear;
-  }
-  
-  .cloudx {
-    position: absolute;
-    top: 9%;
-    left: 93.5%;
-    width: 60px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: rgba(129, 212, 250, 1);
-    animation: move 3s infinite linear;
-  }
-  
-  // 下雪
-  .stormy {
-    background: linear-gradient(to top right,
-        rgba(117, 117, 117, 1) 0%,
-        rgba(33, 33, 33, 1) 90%);
-    box-shadow: 1px 1px 30px rgba(33, 33, 33, 1);
-  
-  }
-  
-  .snowe {
-    position: absolute;
-    top: 51%;
-    left: 95%;
-    width: 40px;
-    height: 40px;
-    border-radius: 60px;
-    background-color: #ddd;
-  }
-  
-  .snowex {
-    position: absolute;
-    top: 49%;
-    left: 96%;
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    background-color: #bbb;
-  }
-  
-  .stick {
-    position: absolute;
-    top: 52%;
-    left: 94.4%;
-    width: 3px;
-    height: 15px;
-    transform: rotate(-45deg);
-    background-color: #333;
-  
-  }
-  
-  .stick2 {
-    position: absolute;
-    top: 52%;
-    left: 98.6%;
-    width: 3px;
-    height: 15px;
-    transform: rotate(45deg);
-    background-color: #333;
-  }
-  
-  // 閃電
-  .breezy {
-    // position: absolute;
-    top: 60%;
-    left: 30%;
-    background: linear-gradient(to top right,
-        rgba(156, 204, 101, 1) 0%,
-        rgba(38, 198, 218, 1) 50%);
-    box-shadow: 1px 1px 30px rgba(38, 198, 218, 1);
-  }
-  
-  .cloudr {
-    position: absolute;
-    top: 8%;
-    left: 92%;
-    width: 60px;
-    height: 20px;
-    border-radius: 10px;
+}
+
+@keyframes flash {
+  48% {
     background-color: rgba(96, 125, 139, 1);
-    box-shadow: 1px 1px 30px rgba(84, 110, 122, 1);
-    animation: flash 1.5s infinite linear;
   }
-  
-  // 晚上
-  .night {
-    background: linear-gradient(to bottom right,
-        rgba(63, 81, 181, 1) 0%,
-        rgba(171, 71, 188, 1) 70%);
-    box-shadow: 1px 1px 30px rgba(81, 45, 168, 1);
+
+  50% {
+    background-color: #fff;
   }
-  
-  .moon {
-    position: absolute;
-    top: 2%;
-    left: 94%;
-    width: 70px;
-    height: 70px;
-    border-radius: 100%;
-    background: rgba(255, 241, 118, 1);
-    box-shadow: 1px 1px 30px rgba(224, 224, 224, 1);
+
+  55% {
+    background-color: rgba(96, 125, 139, 1);
   }
-  
-  .spot1 {
-    position: absolute;
-    top: 6%;
-    left: 96%;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    background-color: #777;
+
+  57% {
+    background-color: #fff;
   }
-  
-  .spot2 {
-    position: absolute;
-    top: 10%;
-    left: 95%;
-    width: 5px;
-    height: 5px;
-    border-radius: 100%;
-    background-color: #777;
+}
+
+@keyframes meteor {
+  10% {
+    opacity: 1;
   }
-  
-  .cardTop {
-    display: flex;
-    justify-content: space-around;
-    padding-top: 2.2em;
+
+  80% {
+    left: 10%;
+    top: 75%;
+    opacity: 0;
   }
-  
-  .cardMid {
-    display: flex;
-  }
-  
-  // 動畫格式宣告
-  @keyframes inex {
-    50% {
-      opacity: 0.4;
-    }
-  
-    60% {
-      opacity: 1;
-    }
-  }
-  
-  @keyframes move {
-    50% {
-      transform: translateX(-10px);
-    }
-  }
-  
-  @keyframes fall {
-    10% {
-      opacity: 0.8;
-    }
-  
-    50% {
-      opacity: 1;
-      transform: translate(-10px, 30px);
-    }
-  
-    100% {
-      transform: translate(-25px, 70px);
-    }
-  }
-  
-  @keyframes flash {
-    48% {
-      background-color: rgba(96, 125, 139, 1);
-    }
-  
-    50% {
-      background-color: #fff;
-    }
-  
-    55% {
-      background-color: rgba(96, 125, 139, 1);
-    }
-  
-    57% {
-      background-color: #fff;
-    }
-  }
-  
-  @keyframes meteor {
-    10% {
-      opacity: 1;
-    }
-  
-    80% {
-      left: 10%;
-      top: 75%;
-      opacity: 0;
-    }
-  }
+}

@@ -9,15 +9,17 @@ import {
   RiDeleteBin2Line,
   FaEdit,
   BiCalendarDay,
-  LaListAltSolid,
-  BiCloudRainHeavy,
-  WiDayRain,
-  WiNightAltRain,
-  SiSnowflake,
-  RiWindyLine,
-  RiSunLine,
+  LaListAltSolid, 
+  WiHumidity, 
   LaTemperatureHighSolid,
-  WiHumidity
+  BiCloudRainHeavy, //雨天
+  WiDayRain, //太陽雨
+  WiNightAltRain, //夜雨
+  SiSnowflake, //雪
+  RiWindyLine, //大風
+  RiSunLine, //晴天
+  OiClock, //時間
+  OiLocation , //地點
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -33,7 +35,9 @@ addIcons(
   RiWindyLine,
   RiSunLine,
   LaTemperatureHighSolid,
-  WiHumidity
+  WiHumidity,
+  OiClock,
+  OiLocation 
 );
 // 創建一個 Vue 應用實例。它接受一個根組件作為參數,App
 const app = createApp(App)

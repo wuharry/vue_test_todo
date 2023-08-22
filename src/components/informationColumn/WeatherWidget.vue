@@ -32,7 +32,7 @@ const fetchWeatherData = async () => {
     const timeParts = dateTimeParts[1].split(':');
     const hour = parseInt(timeParts[0]);
     timestamp = hour;
-    // console.log(response.data);
+    console.log(response.data);
   } catch (error) {
     console.log(`失敗`);
     console.error(error);
@@ -73,7 +73,6 @@ const weatherJudgment = (weather: string) => {
   return
 }
 const weatherCardRef = ref();
-let prevClass = '';
 watch(
   () => weatherData.value.weather,
   (newValue, oldValue) => {
@@ -83,32 +82,26 @@ watch(
       case "sun":
         weatherCardRef.value.classList.add("hot");
         weatherCardRef.value.classList.add("cardFont");
-        // weatherCardRef.value.classList.remove(prevClass);
         break;
       case "Cloudy":
         weatherCardRef.value.classList.add("cloudy");
         weatherCardRef.value.classList.add("cardFont2");
-        // weatherCardRef.value.classList.remove(prevClass);
         break;
       case "stormy":
         weatherCardRef.value.classList.add("stormy");
         weatherCardRef.value.classList.add("cardFont2");
-        // weatherCardRef.value.classList.remove(prevClass);
         break;
       case "breezy":
         weatherCardRef.value.classList.add("breezy");
         weatherCardRef.value.classList.add("cardFont");
-        // weatherCardRef.value.classList.remove(prevClass);
         break;
       case "night":
         weatherCardRef.value.classList.add("night");
         weatherCardRef.value.classList.add("cardFont");
-        // weatherCardRef.value.classList.remove(prevClass);
         break;
       default:
         break;
     }
-    prevClass = meteorological.value;
   }
 );
 </script>
@@ -146,29 +139,27 @@ watch(
             <span>{{ weatherData.humidity }}</span>
           </div>
         </div>
-        <!-- pm2.5,uv,天氣 -->
+        <!-- pm2.5,天氣,uv -->
         <div class="cardMid">
-          <!-- <div>
-          <VIcon class="" name="" />
-          <span>{{ }}</span>
-        </div> -->
-          <div>
-            <VIcon class="" name="" />
-            <span>{{}}</span>
+          <div class="font">
+            pm2.5:<span>{{ weatherData.pm2_5 }}</span>
+            UV:<span>{{ weatherData.uv }}</span>
           </div>
-          <!-- <div>
-          <VIcon class="" name="" />
-          <span>{{ }}</span>
-        </div> -->
-          <div>
-            <VIcon class="" name="" />
-            <span>{{}}</span>
+          <div class="iconSec">
+            <VIcon class="Icon" name="ri-sun-line" />
           </div>
         </div>
-        <!-- 位置,時間(根據時間,天氣背景也要更換) -->
-        <div></div>
-        <!-- 氣候圖片 -->
-        <div></div>
+        <!-- 位置,時間 -->
+        <div class="cardBotton">
+          <div>
+            <VIcon class="" name="oi-clock" />
+            <span>{{ weatherData.location }}</span>
+          </div>
+          <div>
+            <VIcon class="" name="oi-location" />
+            <span>{{ weatherData.time }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

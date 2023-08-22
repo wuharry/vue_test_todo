@@ -9,7 +9,9 @@ const weatherData = ref({
   windKph: 0,
   pm2_5: 0,
   weather: "",
+  time: ""
 });
+let timestamp: number;
 const fetchWeatherData = async () => {
   const options = {
     method: "GET",
@@ -24,7 +26,13 @@ const fetchWeatherData = async () => {
     weatherData.value.windKph = response.data.current.wind_kph;
     weatherData.value.pm2_5 = response.data.current.air_quality.pm2_5;
     weatherData.value.weather = response.data.current.condition.text;
-    console.log(weatherData.value);
+    const dateTimeParts = response.data.current.last_updated.split(' '); // 拆分日期和时间部分
+    const dateParts = dateTimeParts[0].split('-'); // 拆分日期的年、月、日部分
+    weatherData.value.time = `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`;
+    const timeParts = dateTimeParts[1].split(':');
+    const hour = parseInt(timeParts[0]);
+    timestamp = hour;
+    // console.log(response.data);
   } catch (error) {
     console.log(`失敗`);
     console.error(error);
@@ -34,15 +42,15 @@ const fetchWeatherData = async () => {
 fetchWeatherData();
 let meteorological = ref('');
 const weatherJudgment = (weather: string) => {
+  // 夜晚
+  if (timestamp < 6 && timestamp >= 18) {
+    meteorological.value = 'moon'
+    return
+  }
   if (weather == 'Clear' || weather == 'Partly cloudy') {
     meteorological.value = 'sun'
     return
   }
-  // 夜晚
-  // if () {
-  //   return 'moon'
-  // }
-
   if (weather == 'Cloudy' || weather == 'Overcast' || weather == 'Mist' || weather == 'Fog') {
     meteorological.value = 'Cloudy'
     return
@@ -70,9 +78,7 @@ watch(
   () => weatherData.value.weather,
   (newValue, oldValue) => {
     weatherJudgment(newValue);
-    meteorological.value = 'night'
     console.log(meteorological.value);
-
     switch (meteorological.value) {
       case "sun":
         weatherCardRef.value.classList.add("hot");

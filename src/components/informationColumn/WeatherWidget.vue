@@ -17,7 +17,6 @@ const fetchWeatherData = async () => {
   };
   try {
     const response = await axios.request(options);
-    console.log(response.data);
     weatherData.value.location = response.data.location.name;
     weatherData.value.tempC = response.data.current.temp_c;
     weatherData.value.humidity = response.data.current.humidity;
@@ -35,21 +34,24 @@ const fetchWeatherData = async () => {
 fetchWeatherData();
 
 const weatherCardRef = ref();
-
+let prevClass = '';
 watch(
   () => weatherData.value.weather,
   (newValue, oldValue) => {
-    weatherData.value.weather = "sun";
-    console.log(newValue);
+    // prevClass=oldValue
+    prevClass = weatherData.value.weather;
+    weatherData.value.weather = "cloud";
+    console.log(`舊的天氣`);
+    console.log(prevClass);
     switch (weatherData.value.weather) {
       case "sun":
         weatherCardRef.value.classList.add("hot");
-        weatherCardRef.value.classList.remove("cloud");
-        weatherCardRef.value.classList.remove("cloud");
+        weatherCardRef.value.classList.remove(prevClass);
         break;
       case "cloud":
+        weatherCardRef.value.classList.add("cloudy");
+        weatherCardRef.value.classList.remove(prevClass);
         break;
-
       default:
         break;
     }
@@ -60,11 +62,11 @@ watch(
 <template>
   <div>
     <!-- <p>Weather Widget Content Here</p> -->
-    <div ref="weatherCardRef">
+    <div class="cardBackground" ref="weatherCardRef">
       <span class="sun" v-if="weatherData.weather === 'sun'"></span>
       <span class="sunx" v-if="weatherData.weather === 'sun'"></span>
-      <span class="cloud" v-if="weatherData.weather === 'clound'"></span>
-      <span class="cloudx" v-if="weatherData.weather === 'clound'"></span>
+      <span class="cloud" v-if="weatherData.weather === 'cloud'"></span>
+      <span class="cloudx" v-if="weatherData.weather === 'cloud'"></span>
       <div class="weatherCard">
         <!-- 溫度,風速,濕度 -->
         <div class="cardTop">
@@ -115,32 +117,21 @@ watch(
   width: 11em;
   height: 16em;
   margin-top: 2em;
-  // background-color: rgba(29, 126, 222, 0.388);
+}
+
+.cardBackground {
   border-radius: 1em;
 }
 
-.cardTop {
-  display: flex;
-  justify-content: space-around;
-  padding-top: 2.2em;
-}
 
-.cardMid {
-  display: flex;
-}
 
 // 晴天+晴天背景加設置
 .hot {
-  // position: absolute;
-  // top: 25%;
-  // left: 20%;
-  background: linear-gradient(
-    to top right,
-    rgba(255, 87, 34, 1) 0%,
-    rgba(251, 140, 0, 1) 100%
-  );
+  background: linear-gradient(to top right,
+      rgba(255, 87, 34, 1) 0%,
+      rgba(251, 140, 0, 1) 100%);
   box-shadow: 1px 1px 30px rgba(255, 111, 0, 1);
-  border-radius: 1em;
+
 }
 
 .sun {
@@ -150,11 +141,9 @@ watch(
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  background: linear-gradient(
-    to bottom left,
-    rgba(255, 235, 59, 1) 0%,
-    rgba(249, 168, 37, 1) 90%
-  );
+  background: linear-gradient(to bottom left,
+      rgba(255, 235, 59, 1) 0%,
+      rgba(249, 168, 37, 1) 90%);
   box-shadow: 1px 1px 30px rgba(255, 160, 0, 1);
   animation: inex 3s infinite linear;
 }
@@ -172,22 +161,17 @@ watch(
 
 // 陰天
 .cloudy {
-  // position: absolute;
-  // top: 25%;
-  // left: 45%;
-  background: linear-gradient(
-    to top right,
-    rgba(63, 81, 181, 1) 0%,
-    rgba(3, 155, 229, 1) 40%
-  );
+  background: linear-gradient(to top right,
+      rgba(63, 81, 181, 1) 0%,
+      rgba(3, 155, 229, 1) 40%);
   box-shadow: 1px 1px 30px rgba(2, 119, 189, 1);
-  border-radius: 1em;
+
 }
 
 .cloud {
   position: absolute;
   top: 5%;
-  left: 70%;
+  left: 95%;
   width: 60px;
   height: 20px;
   border-radius: 10px;
@@ -198,8 +182,8 @@ watch(
 
 .cloudx {
   position: absolute;
-  top: 23%;
-  left: 55%;
+  top: 9%;
+  left: 93.5%;
   width: 60px;
   height: 20px;
   border-radius: 10px;
@@ -212,13 +196,11 @@ watch(
   position: absolute;
   top: 25%;
   left: 70%;
-  background: linear-gradient(
-    to top right,
-    rgba(117, 117, 117, 1) 0%,
-    rgba(33, 33, 33, 1) 90%
-  );
+  background: linear-gradient(to top right,
+      rgba(117, 117, 117, 1) 0%,
+      rgba(33, 33, 33, 1) 90%);
   box-shadow: 1px 1px 30px rgba(33, 33, 33, 1);
-  border-radius: 1em;
+
 }
 
 .snowe {
@@ -268,13 +250,10 @@ watch(
   // position: absolute;
   top: 60%;
   left: 30%;
-  background: linear-gradient(
-    to top right,
-    rgba(156, 204, 101, 1) 0%,
-    rgba(38, 198, 218, 1) 50%
-  );
+  background: linear-gradient(to top right,
+      rgba(156, 204, 101, 1) 0%,
+      rgba(38, 198, 218, 1) 50%);
   box-shadow: 1px 1px 30px rgba(38, 198, 218, 1);
-  border-radius: 1em;
 }
 
 .cloudr {
@@ -294,13 +273,10 @@ watch(
   // position: absolute;
   top: 60%;
   left: 60%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(63, 81, 181, 1) 0%,
-    rgba(171, 71, 188, 1) 70%
-  );
+  background: linear-gradient(to bottom right,
+      rgba(63, 81, 181, 1) 0%,
+      rgba(171, 71, 188, 1) 70%);
   box-shadow: 1px 1px 30px rgba(81, 45, 168, 1);
-  border-radius: 1em;
 }
 
 .moon {
@@ -334,49 +310,14 @@ watch(
   background-color: #777;
 }
 
-.night li {
-  position: absolute;
-  list-style: none;
-  width: 3px;
-  height: 3px;
-  border-radius: 100%;
-  background-color: #fff;
-
-  transform: rotate(45deg);
+.cardTop {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 2.2em;
 }
 
-.night li:nth-child(1) {
-  top: 30%;
-  left: 65%;
-}
-
-.night li:nth-child(2) {
-  top: 35%;
-  left: 53%;
-}
-
-.night li:nth-child(3) {
-  opacity: 0;
-  top: 20%;
-  left: 75%;
-  width: 2px;
-  height: 2px;
-  animation: meteor 1.5s infinite linear;
-  animation-delay: 0.6s;
-}
-
-.night li:nth-child(4) {
-  top: 5%;
-  left: 50%;
-}
-
-.night li:nth-child(5) {
-  opacity: 0;
-  top: 20%;
-  left: 55%;
-  width: 1px;
-  height: 15px;
-  animation: meteor 1.5s infinite linear;
+.cardMid {
+  display: flex;
 }
 
 // 動畫格式宣告

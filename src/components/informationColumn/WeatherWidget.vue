@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import axios from "axios";
 const weatherData = ref({
   location: "",
@@ -32,9 +32,11 @@ const fetchWeatherData = async () => {
 };
 
 fetchWeatherData();
+let meteorological = ref('');
 const weatherJudgment = (weather: string) => {
   if (weather == 'Clear' || weather == 'Partly cloudy') {
-    return 'sun'
+    meteorological.value = 'sun'
+    return
   }
   // 夜晚
   // if () {
@@ -42,11 +44,13 @@ const weatherJudgment = (weather: string) => {
   // }
 
   if (weather == 'Cloudy' || weather == 'Overcast' || weather == 'Mist' || weather == 'Fog') {
-    return 'Cloudy'
+    meteorological.value = 'Cloudy'
+    return
   }
   if (weather == 'Freezing fog' || weather == 'Patchy snow nearby' || weather == 'Blowing snow'
     || weather == 'Blizzard' || weather == 'Patchy freezing drizzle nearby') {
-    return 'stormy'
+    meteorological.value = 'stormy'
+    return
   }
   if (weather == 'Patchy rain nearby' || weather == 'Patchy sleet nearby'
     || weather == 'Thundery outbreaks in nearby' || weather == 'Patchy light rain in area with thunder'
@@ -54,32 +58,51 @@ const weatherJudgment = (weather: string) => {
     || weather == 'Patchy moderate snow in area with thunder'
     || weather == 'Moderate or heavy snow in area with thunder'
   ) {
-    return 'breezy'
+    meteorological.value = 'breezy'
+    return
   }
   //  之前沒有資料的話
-  return ''
+  return
 }
 const weatherCardRef = ref();
 let prevClass = '';
 watch(
   () => weatherData.value.weather,
   (newValue, oldValue) => {
-    prevClass = weatherJudgment(oldValue);
-    weatherJudgment(newValue)
-    console.log(`舊的天氣`);
-    console.log(prevClass);
-    switch (weatherData.value.weather) {
+    weatherJudgment(newValue);
+    meteorological.value = 'night'
+    console.log(meteorological.value);
+
+    switch (meteorological.value) {
       case "sun":
         weatherCardRef.value.classList.add("hot");
-        weatherCardRef.value.classList.remove(prevClass);
+        weatherCardRef.value.classList.add("cardFont");
+        // weatherCardRef.value.classList.remove(prevClass);
         break;
-      case "cloud":
+      case "Cloudy":
         weatherCardRef.value.classList.add("cloudy");
-        weatherCardRef.value.classList.remove(prevClass);
+        weatherCardRef.value.classList.add("cardFont2");
+        // weatherCardRef.value.classList.remove(prevClass);
+        break;
+      case "stormy":
+        weatherCardRef.value.classList.add("stormy");
+        weatherCardRef.value.classList.add("cardFont2");
+        // weatherCardRef.value.classList.remove(prevClass);
+        break;
+      case "breezy":
+        weatherCardRef.value.classList.add("breezy");
+        weatherCardRef.value.classList.add("cardFont");
+        // weatherCardRef.value.classList.remove(prevClass);
+        break;
+        case "night":
+        weatherCardRef.value.classList.add("night");
+        weatherCardRef.value.classList.add("cardFont");
+        // weatherCardRef.value.classList.remove(prevClass);
         break;
       default:
         break;
     }
+    prevClass = meteorological.value;
   }
 );
 </script>
@@ -88,10 +111,18 @@ watch(
   <div>
     <!-- <p>Weather Widget Content Here</p> -->
     <div class="cardBackground" ref="weatherCardRef">
-      <span class="sun" v-if="weatherData.weather === 'sun'"></span>
-      <span class="sunx" v-if="weatherData.weather === 'sun'"></span>
-      <span class="cloud" v-if="weatherData.weather === 'cloud'"></span>
-      <span class="cloudx" v-if="weatherData.weather === 'cloud'"></span>
+      <span class="sun" v-if="meteorological === 'sun'"></span>
+      <span class="sunx" v-if="meteorological === 'sun'"></span>
+      <span class="cloud" v-if="meteorological === 'Cloudy'"></span>
+      <span class="cloudx" v-if="meteorological === 'Cloudy'"></span>
+      <span class="snowe" v-if="meteorological === 'stormy'"></span>
+      <span class="snowex" v-if="meteorological === 'stormy'"></span>
+      <span class="stick" v-if="meteorological === 'stormy'"></span>
+      <span class="stick2" v-if="meteorological === 'stormy'"></span>
+      <span class="cloudr" v-if="meteorological === 'breezy'"></span>
+      <span class="moon" v-if="meteorological === 'night'"></span>
+      <span class="spot1" v-if="meteorological === 'night'"></span>
+      <span class="spot2" v-if="meteorological === 'night'"></span>
       <div class="weatherCard">
         <!-- 溫度,風速,濕度 -->
         <div class="cardTop">
@@ -148,6 +179,13 @@ watch(
   border-radius: 1em;
 }
 
+.cardFont {
+  color: black;
+}
+
+.cardFont2 {
+  color: white;
+}
 
 
 // 晴天+晴天背景加設置
@@ -218,9 +256,6 @@ watch(
 
 // 下雪
 .stormy {
-  position: absolute;
-  top: 25%;
-  left: 70%;
   background: linear-gradient(to top right,
       rgba(117, 117, 117, 1) 0%,
       rgba(33, 33, 33, 1) 90%);
@@ -230,8 +265,8 @@ watch(
 
 .snowe {
   position: absolute;
-  top: 60%;
-  left: 40%;
+  top: 51%;
+  left: 95%;
   width: 40px;
   height: 40px;
   border-radius: 60px;
@@ -240,8 +275,8 @@ watch(
 
 .snowex {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 49%;
+  left: 96%;
   width: 15px;
   height: 15px;
   border-radius: 15px;
@@ -250,24 +285,23 @@ watch(
 
 .stick {
   position: absolute;
-  top: 60%;
-  left: 40%;
+  top: 52%;
+  left: 94.4%;
   width: 3px;
   height: 15px;
   transform: rotate(-45deg);
   background-color: #333;
-  z-index: -10;
+
 }
 
 .stick2 {
   position: absolute;
-  top: 60%;
-  left: 70%;
+  top: 52%;
+  left: 98.6%;
   width: 3px;
   height: 15px;
   transform: rotate(45deg);
   background-color: #333;
-  z-index: -10;
 }
 
 // 閃電
@@ -283,8 +317,8 @@ watch(
 
 .cloudr {
   position: absolute;
-  top: 5%;
-  left: 60%;
+  top: 8%;
+  left: 92%;
   width: 60px;
   height: 20px;
   border-radius: 10px;
@@ -295,9 +329,6 @@ watch(
 
 // 晚上
 .night {
-  // position: absolute;
-  top: 60%;
-  left: 60%;
   background: linear-gradient(to bottom right,
       rgba(63, 81, 181, 1) 0%,
       rgba(171, 71, 188, 1) 70%);
@@ -306,8 +337,8 @@ watch(
 
 .moon {
   position: absolute;
-  top: -10%;
-  left: 65%;
+  top: 2%;
+  left: 94%;
   width: 70px;
   height: 70px;
   border-radius: 100%;
@@ -317,8 +348,8 @@ watch(
 
 .spot1 {
   position: absolute;
-  top: 0%;
-  left: 85%;
+  top: 6%;
+  left: 96%;
   width: 10px;
   height: 10px;
   border-radius: 100%;
@@ -327,8 +358,8 @@ watch(
 
 .spot2 {
   position: absolute;
-  top: 30%;
-  left: 75%;
+  top: 10%;
+  left: 95%;
   width: 5px;
   height: 5px;
   border-radius: 100%;

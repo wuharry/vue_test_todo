@@ -41,7 +41,18 @@ watch(
   (newValue, oldValue) => {
     weatherData.value.weather = "sun";
     console.log(newValue);
-    weatherCardRef.value.classList.add("hot");
+    switch (weatherData.value.weather) {
+      case "sun":
+        weatherCardRef.value.classList.add("hot");
+        weatherCardRef.value.classList.remove("cloud");
+        weatherCardRef.value.classList.remove("cloud");
+        break;
+      case "cloud":
+        break;
+
+      default:
+        break;
+    }
   }
 );
 </script>
@@ -52,6 +63,8 @@ watch(
     <div ref="weatherCardRef">
       <span class="sun" v-if="weatherData.weather === 'sun'"></span>
       <span class="sunx" v-if="weatherData.weather === 'sun'"></span>
+      <span class="cloud" v-if="weatherData.weather === 'clound'"></span>
+      <span class="cloudx" v-if="weatherData.weather === 'clound'"></span>
       <div class="weatherCard">
         <!-- 溫度,風速,濕度 -->
         <div class="cardTop">

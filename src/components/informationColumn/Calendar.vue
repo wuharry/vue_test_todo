@@ -82,8 +82,8 @@ function navigateToCurrentMonth(): void {
 }
 
 function selectDate(e: Event): void {
-  const target = e.target as HTMLElement;
-  console.log(`${target.textContent} ${calMonthName.value[calendar.value.getMonth()]} ${calendar.value.getFullYear()}`);
+    const target = e.target as HTMLElement;
+    console.log(`${target.textContent} ${calMonthName.value[calendar.value.getMonth()]} ${calendar.value.getFullYear()}`);
 }
 
 function plotSelectors(): void {
@@ -120,7 +120,7 @@ onMounted(() => {
 });
 
 </script>
-  
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
 
 :root {

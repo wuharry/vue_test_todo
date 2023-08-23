@@ -1,7 +1,9 @@
 <template>
     <div class="calendar">
         <!-- 上方控制區 -->
-        <div class="calendar-controls"></div>
+        <div class="calendar-controls">
+            
+        </div>
         <!-- 中間區塊 -->
         <div class="calendar-today-date"></div>
         <!-- 最下方日歷 -->
@@ -37,6 +39,7 @@ const daysInMonth = (year: number, month: number): number => {
     return new Date(year, month, 0).getDate();
 }
 const firstDay = (): Date => {
+    // calendar.value.getMonth() 1月是0,12月是11
     return new Date(calendar.value.getFullYear(), calendar.value.getMonth(), 1);
 }
 const lastDay = (): Date => {
@@ -44,23 +47,37 @@ const lastDay = (): Date => {
 }
 // 獲取當月第一天星期
 const firstDayNumber = (): number => {
-    // return firstDay().getDay() + 1;
     return firstDay().getDay();
 }
 const lastDayNumber = (): number => {
-    // return lastDay().getDay() + 1;
     return lastDay().getDay();
 }
 // 獲取前一個月總天數
-const getPreviousMonthLastDate=()=> {
-    console.log(calendar.value.getMonth());
-      let lastDate = new Date(
+const getPreviousMonthLastDate = () => {
+    console.log(calendar.value.getMonth() - 1);
+    let lastDate = new Date(
         calendar.value.getFullYear(),
-        calendar.value.getMonth()-1,
+        calendar.value.getMonth() - 1,
         0
-      ).getDate();
-      return lastDate;
-    }
+    ).getDate();
+    return lastDate;
+}
+// 導資料到前一個月
+const navigateToPreviousMonth = () => {
+    calendar.value.setMonth(calendar.value.getMonth() - 1);
+}
+// 導資料到後一個月
+const navigateToNextMonth = () => {
+    calendar.value.setMonth(calendar.value.getMonth() + 1);
+}
+// 導資料到當前月
+const navigateToCurrentMonth = () => {
+    let currentMonth = calendarControl.localDate.getMonth();
+    let currentYear = calendarControl.localDate.getFullYear();
+    calendar.value.setMonth(currentMonth);
+    calendar.value.setFullYear(currentYear);
+}
+
 
 onMounted(() => {
     getPreviousMonthLastDate()

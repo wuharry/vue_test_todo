@@ -1,30 +1,14 @@
 <template>
     <div class="calendar">
-        <div class="calendar-inner">
-            <div class="calendar-controls">
-                <div class="calendar-prev">
-                    <a href="#" @click="navigateToPreviousMonth">
-                        <!-- SVG 图标代码 -->
-                    </a>
-                </div>
-                <div class="calendar-year-month">
-                    <div class="calendar-month-label">{{ calMonthName[calendar.getMonth()] }}</div>
-                    <div>-</div>
-                    <div class="calendar-year-label">{{ calendar.getFullYear() }}</div>
-                </div>
-                <div class="calendar-next">
-                    <a href="#" @click="navigateToNextMonth">
-                        <!-- SVG 图标代码 -->
-                    </a>
-                </div>
-            </div>
-            <div class="calendar-today-date">
-                Today: {{ calWeekDays[localDate.getDay()] }}, {{ localDate.getDate() }}, {{
-                    calMonthName[localDate.getMonth()] }} {{ localDate.getFullYear() }}
-            </div>
-            <div class="calendar-body">
-                <!-- 日历内容 -->
-            </div>
+        <!-- 上方控制區 -->
+        <div class="calendar-controls"></div>
+        <!-- 中間區塊 -->
+        <div class="calendar-today-date"></div>
+        <!-- 最下方日歷 -->
+        <div class="calendar-body">
+            <!-- 第一排內容 -->
+
+            <!-- 主內容 -->
         </div>
     </div>
 </template>
@@ -32,97 +16,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-const calendar = ref(new Date());
-const localDate = ref(new Date());
-const calWeekDays = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-const calMonthName = ref([
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-]);
-
-function daysInMonth(month: number, year: number): number {
-    return new Date(year, month, 0).getDate();
-}
-
-function firstDay(): Date {
-    return new Date(calendar.value.getFullYear(), calendar.value.getMonth(), 1);
-}
-
-function lastDay(): Date {
-    return new Date(calendar.value.getFullYear(), calendar.value.getMonth() + 1, 0);
-}
-
-function firstDayNumber(): number {
-    return firstDay().getDay() + 1;
-}
-
-function lastDayNumber(): number {
-    return lastDay().getDay() + 1;
-}
-
-function getPreviousMonthLastDate(): number {
-    return new Date(calendar.value.getFullYear(), calendar.value.getMonth(), 0).getDate();
-}
-
-function navigateToPreviousMonth(): void {
-    calendar.value.setMonth(calendar.value.getMonth() - 1);
-    attachEventsOnNextPrev();
-}
-
-function navigateToNextMonth(): void {
-    calendar.value.setMonth(calendar.value.getMonth() + 1);
-    attachEventsOnNextPrev();
-}
-
-function navigateToCurrentMonth(): void {
-    const currentMonth = localDate.value.getMonth();
-    const currentYear = localDate.value.getFullYear();
-    calendar.value.setMonth(currentMonth);
-    calendar.value.setFullYear(currentYear); // 使用 setFullYear
-    attachEventsOnNextPrev();
-}
-
-function selectDate(e: Event): void {
-    const target = e.target as HTMLElement;
-    console.log(`${target.textContent} ${calMonthName.value[calendar.value.getMonth()]} ${calendar.value.getFullYear()}`);
-}
-
-function plotSelectors(): void {
-    // 在模板中实现即可
-}
-
-function plotDayNames(): void {
-    // 在模板中实现即可
-}
-
-function plotDates(): void {
-    // 在模板中实现即可
-}
-
-function attachEvents(): void {
-    // 在模板中实现即可
-}
-
-function highlightToday(): void {
-    // 在模板中实现即可
-}
-
-
-
-function attachEventsOnNextPrev(): void {
-    plotDates();
-    attachEvents();
-}
+const calendarControl = {
+    localDate: new Date(),
+    // 其他程式碼屬性和方法
+};
 
 onMounted(() => {
-    plotSelectors();
-    plotDates();
-    attachEvents();
-});
 
+});
 </script>
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
-
 :root {
     --calendar-bg-color: #262829;
     --calendar-font-color: #FFF;
@@ -144,69 +47,66 @@ onMounted(() => {
 
 .calendar {
     font-family: 'IBM Plex Sans', sans-serif;
-    position: relative;
+    padding: 10px 10px;
     max-width: 400px;
-    /*change as per your design need */
-    min-width: 320px;
-    background: var(--calendar-bg-color);
-    color: var(--calendar-font-color);
+    position: relative;
     margin: 20px auto;
     box-sizing: border-box;
     overflow: hidden;
     font-weight: normal;
-    border-radius: var(--calendar-border-radius);
+    border-radius: .5em;
 }
 
-.calendar-inner {
-    padding: 10px 10px;
-}
 
-.calendar .calendar-inner .calendar-body {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-}
 
-.calendar .calendar-inner .calendar-body div {
-    padding: 4px;
-    min-height: 30px;
-    line-height: 30px;
-    border: 1px solid transparent;
-    margin: 10px 2px 0px;
-}
-
-.calendar .calendar-inner .calendar-body div:nth-child(-n+7) {
-    border: 1px solid transparent;
-    border-bottom: 1px solid var(--weekdays-border-bottom-color);
-}
-
-.calendar .calendar-inner .calendar-body div:nth-child(-n+7):hover {
-    border: 1px solid transparent;
-    border-bottom: 1px solid var(--weekdays-border-bottom-color);
-}
-
-.calendar .calendar-inner .calendar-body div>a {
-    color: var(--calendar-font-color);
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-}
-
-.calendar .calendar-inner .calendar-body div:hover {
-    border: 1px solid var(--calendar-date-hover-color);
-    border-radius: 4px;
-}
-
-.calendar .calendar-inner .calendar-body div.empty-dates:hover {
-    border: 1px solid transparent;
-}
-
-.calendar .calendar-inner .calendar-controls {
+.calendar .calendar-controls {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
-.calendar .calendar-inner .calendar-today-date {
+.calendar .calendar-controls .calendar-year-month {
+    display: flex;
+    min-width: 100px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.calendar .calendar-controls .calendar-next {
+    text-align: right;
+}
+
+.calendar .calendar-controls .calendar-year-month .calendar-year-label,
+.calendar .calendar-controls .calendar-year-month .calendar-month-label {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.calendar .calendar-controls .calendar-next a,
+.calendar .calendar-controls .calendar-prev a {
+    color: var(--calendar-font-color);
+    font-family: arial, consolas, sans-serif;
+    font-size: 26px;
+    text-decoration: none;
+    padding: 4px 12px;
+    display: inline-block;
+    background: var(--calendar-nextprev-bg-color);
+    margin: 10px 0 10px 0;
+}
+
+.calendar .calendar-controls .calendar-next a svg,
+.calendar .calendar-controls .calendar-prev a svg {
+    height: 20px;
+    width: 20px;
+}
+
+.calendar .calendar-controls .calendar-next a svg path,
+.calendar .calendar-controls .calendar-prev a svg path {
+    fill: var(--next-prev-arrow-color);
+}
+
+// 中部
+
+.calendar .calendar-today-date {
     display: grid;
     text-align: center;
     cursor: pointer;
@@ -218,67 +118,52 @@ onMounted(() => {
     margin: auto;
 }
 
-.calendar .calendar-inner .calendar-controls .calendar-year-month {
+// 底部
+.calendar .calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+}
+
+.calendar .calendar-body div {
+    padding: 4px;
+    min-height: 30px;
+    line-height: 30px;
+    border: 1px solid transparent;
+    margin: 10px 2px 0px;
+}
+
+.calendar .calendar-body div:nth-child(-n+7) {
+    border: 1px solid transparent;
+    border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar .calendar-body div:nth-child(-n+7):hover {
+    border: 1px solid transparent;
+    border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar .calendar-body div>a {
+    color: var(--calendar-font-color);
+    text-decoration: none;
     display: flex;
-    min-width: 100px;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: center;
 }
 
-.calendar .calendar-inner .calendar-controls .calendar-next {
-    text-align: right;
-}
-
-.calendar .calendar-inner .calendar-controls .calendar-year-month .calendar-year-label,
-.calendar .calendar-inner .calendar-controls .calendar-year-month .calendar-month-label {
-    font-weight: 500;
-    font-size: 20px;
-}
-
-.calendar .calendar-inner .calendar-body .calendar-today {
-    background: var(--calendar-today-color);
+.calendar .calendar-body div:hover {
+    border: 1px solid var(--calendar-date-hover-color);
     border-radius: 4px;
 }
 
-.calendar .calendar-inner .calendar-body .calendar-today:hover {
+.calendar .calendar-body div.empty-dates:hover {
     border: 1px solid transparent;
 }
 
-.calendar .calendar-inner .calendar-body .calendar-today a {
+.calendar.calendar-body .calendar-today:hover {
+    border: 1px solid transparent;
+}
+
+.calendar.calendar-body .calendar-today a {
     outline: 2px solid var(--calendar-today-innerborder-color);
-}
-
-.calendar .calendar-inner .calendar-controls .calendar-next a,
-.calendar .calendar-inner .calendar-controls .calendar-prev a {
-    color: var(--calendar-font-color);
-    font-family: arial, consolas, sans-serif;
-    font-size: 26px;
-    text-decoration: none;
-    padding: 4px 12px;
-    display: inline-block;
-    background: var(--calendar-nextprev-bg-color);
-    margin: 10px 0 10px 0;
-}
-
-.calendar .calendar-inner .calendar-controls .calendar-next a svg,
-.calendar .calendar-inner .calendar-controls .calendar-prev a svg {
-    height: 20px;
-    width: 20px;
-}
-
-.calendar .calendar-inner .calendar-controls .calendar-next a svg path,
-.calendar .calendar-inner .calendar-controls .calendar-prev a svg path {
-    fill: var(--next-prev-arrow-color);
-}
-
-.calendar .calendar-inner .calendar-body .prev-dates,
-.calendar .calendar-inner .calendar-body .next-dates {
-    color: var(--calendar-prevnext-date-color);
-}
-
-.calendar .calendar-inner .calendar-body .prev-dates:hover,
-.calendar .calendar-inner .calendar-body .next-dates:hover {
-    border: 1px solid transparent;
-    pointer-events: none;
 }
 </style>

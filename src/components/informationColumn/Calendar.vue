@@ -7,7 +7,9 @@
         <!-- 最下方日歷 -->
         <div class="calendar-body">
             <!-- 第一排內容 -->
-
+            <div style="font-size: x-small; width: 2.5em; padding: 0; margin: 0;" v-for="dayOfWeek in calWeekDays">
+                {{ dayOfWeek }}
+            </div>
             <!-- 主內容 -->
         </div>
     </div>
@@ -15,14 +17,54 @@
   
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-
+const calendar = ref(new Date());
+const localDate = ref(new Date());
+const calWeekDays = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
+const calMonthName = ref([
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+]);
+const prevMonthDays = ref([]); //前一個月天數
+const currentMonthDays = ref([]);//當前月天數
+const nextMonthDays = ref([]);//下一個月天數
 const calendarControl = {
     localDate: new Date(),
     // 其他程式碼屬性和方法
 };
 
-onMounted(() => {
+// 當前月有幾天
+const daysInMonth = (year: number, month: number): number => {
+    return new Date(year, month, 0).getDate();
+}
+const firstDay = (): Date => {
+    return new Date(calendar.value.getFullYear(), calendar.value.getMonth(), 1);
+}
+const lastDay = (): Date => {
+    return new Date(calendar.value.getFullYear(), calendar.value.getMonth() + 1, 0);
+}
+// 獲取當月第一天星期
+const firstDayNumber = (): number => {
+    // return firstDay().getDay() + 1;
+    return firstDay().getDay();
+}
+const lastDayNumber = (): number => {
+    // return lastDay().getDay() + 1;
+    return lastDay().getDay();
+}
+// 獲取前一個月總天數
+const getPreviousMonthLastDate=()=> {
+    console.log(calendar.value.getMonth());
+      let lastDate = new Date(
+        calendar.value.getFullYear(),
+        calendar.value.getMonth()-1,
+        0
+      ).getDate();
+      return lastDate;
+    }
 
+onMounted(() => {
+    getPreviousMonthLastDate()
+    console.log(getPreviousMonthLastDate());
 });
 </script>
 <style lang="scss" scoped>
@@ -78,14 +120,14 @@ onMounted(() => {
 .calendar .calendar-controls .calendar-year-month .calendar-year-label,
 .calendar .calendar-controls .calendar-year-month .calendar-month-label {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .calendar .calendar-controls .calendar-next a,
 .calendar .calendar-controls .calendar-prev a {
     color: var(--calendar-font-color);
     font-family: arial, consolas, sans-serif;
-    font-size: 26px;
+    font-size: 16px;
     text-decoration: none;
     padding: 4px 12px;
     display: inline-block;
@@ -120,9 +162,12 @@ onMounted(() => {
 
 // 底部
 .calendar .calendar-body {
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
+    padding: 0;
+
 }
 
 .calendar .calendar-body div {

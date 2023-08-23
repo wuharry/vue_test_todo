@@ -9,7 +9,7 @@ const weatherData = ref({
   windKph: 0,
   pm2_5: 0,
   weather: "",
-  time: ""
+  time: "",
 });
 let timestamp: number;
 const fetchWeatherData = async () => {
@@ -26,10 +26,10 @@ const fetchWeatherData = async () => {
     weatherData.value.windKph = response.data.current.wind_kph;
     weatherData.value.pm2_5 = response.data.current.air_quality.pm2_5;
     weatherData.value.weather = response.data.current.condition.text;
-    const dateTimeParts = response.data.current.last_updated.split(' '); // 拆分日期和时间部分
-    const dateParts = dateTimeParts[0].split('-'); // 拆分日期的年、月、日部分
+    const dateTimeParts = response.data.current.last_updated.split(" "); // 拆分日期和时间部分
+    const dateParts = dateTimeParts[0].split("-"); // 拆分日期的年、月、日部分
     weatherData.value.time = `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`;
-    const timeParts = dateTimeParts[1].split(':');
+    const timeParts = dateTimeParts[1].split(":");
     const hour = parseInt(timeParts[0]);
     timestamp = hour;
     console.log(response.data);
@@ -40,38 +40,55 @@ const fetchWeatherData = async () => {
 };
 
 fetchWeatherData();
-let meteorological = ref('');
+let meteorological = ref("");
 const weatherJudgment = (weather: string) => {
   // 夜晚
-  if (timestamp < 6 && timestamp >= 18) {
-    meteorological.value = 'moon'
-    return
+  console.log(timestamp);
+
+  if (timestamp < 6 || timestamp >= 18) {
+    meteorological.value = "night";
+    console.log(`啟動`);
+
+    return;
   }
-  if (weather == 'Clear' || weather == 'Partly cloudy') {
-    meteorological.value = 'sun'
-    return
+  if (weather == "Clear" || weather == "Partly cloudy") {
+    meteorological.value = "sun";
+    return;
   }
-  if (weather == 'Cloudy' || weather == 'Overcast' || weather == 'Mist' || weather == 'Fog') {
-    meteorological.value = 'Cloudy'
-    return
-  }
-  if (weather == 'Freezing fog' || weather == 'Patchy snow nearby' || weather == 'Blowing snow'
-    || weather == 'Blizzard' || weather == 'Patchy freezing drizzle nearby') {
-    meteorological.value = 'stormy'
-    return
-  }
-  if (weather == 'Patchy rain nearby' || weather == 'Patchy sleet nearby'
-    || weather == 'Thundery outbreaks in nearby' || weather == 'Patchy light rain in area with thunder'
-    || weather == 'Patchy light snow in area with thunder'
-    || weather == 'Patchy moderate snow in area with thunder'
-    || weather == 'Moderate or heavy snow in area with thunder'
+  if (
+    weather == "Cloudy" ||
+    weather == "Overcast" ||
+    weather == "Mist" ||
+    weather == "Fog"
   ) {
-    meteorological.value = 'breezy'
-    return
+    meteorological.value = "Cloudy";
+    return;
+  }
+  if (
+    weather == "Freezing fog" ||
+    weather == "Patchy snow nearby" ||
+    weather == "Blowing snow" ||
+    weather == "Blizzard" ||
+    weather == "Patchy freezing drizzle nearby"
+  ) {
+    meteorological.value = "stormy";
+    return;
+  }
+  if (
+    weather == "Patchy rain nearby" ||
+    weather == "Patchy sleet nearby" ||
+    weather == "Thundery outbreaks in nearby" ||
+    weather == "Patchy light rain in area with thunder" ||
+    weather == "Patchy light snow in area with thunder" ||
+    weather == "Patchy moderate snow in area with thunder" ||
+    weather == "Moderate or heavy snow in area with thunder"
+  ) {
+    meteorological.value = "breezy";
+    return;
   }
   //  之前沒有資料的話
-  return
-}
+  return;
+};
 const weatherCardRef = ref();
 watch(
   () => weatherData.value.weather,
@@ -142,8 +159,9 @@ watch(
         <!-- pm2.5,天氣,uv -->
         <div class="cardMid">
           <div class="font">
-            pm2.5:<span>{{ weatherData.pm2_5 }}</span>
-            UV:<span>{{ weatherData.uv }}</span>
+            pm2.5:<span>{{ weatherData.pm2_5 }}</span> UV:<span>{{
+              weatherData.uv
+            }}</span>
           </div>
           <div class="iconSec">
             <VIcon class="Icon" name="ri-sun-line" />

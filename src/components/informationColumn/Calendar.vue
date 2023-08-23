@@ -7,7 +7,7 @@
             <path fill="#666" d="M88.2 3.8L35.8 56.23 28 64l7.8 7.78 52.4 52.4 9.78-7.76L45.58 64l52.4-52.4z" />
           </svg></a></div>
       <div class="calendar-year-month">
-        <div class="calendar-month-label"></div>
+        <div class="calendar-month-label">{{ month }}</div>
         <div>-</div>
         <div class="calendar-year-label">
           {{ year }}
@@ -87,7 +87,7 @@ const navigateToPreviousMonth = () => {
 // 導資料到後一個月
 const navigateToNextMonth = () => {
   console.log(`navigateToNextMonth`);
-  
+
   calendar.value.setMonth(calendar.value.getMonth() + 1);
 }
 // 導資料到當前月

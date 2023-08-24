@@ -35,16 +35,17 @@
 <script setup lang="ts">
 
 import { ref, onMounted, computed } from 'vue';
-const calendar = ref(new Date());
-const localDate = ref(new Date());
+const calendar = ref(new Date()); //日歷時間'變動'
+const localDate = ref(new Date()); //當前時間'固定'
 const year = computed(() => localDate.value.getFullYear());
-const month = computed(() => localDate.value.getMonth() + 1);
-const day = computed(() => localDate.value.getDate());
-const calWeekDays = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-const calMonthName = ref([
+const calMonthName = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-]);
+];
+const month = computed(() => calMonthName[localDate.value.getMonth()]);
+const day = computed(() => localDate.value.getDate());
+const calWeekDays = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
+
 const prevMonthDays = ref([]); //前一個月天數
 const currentMonthDays = ref([]);//當前月天數
 const nextMonthDays = ref([]);//下一個月天數

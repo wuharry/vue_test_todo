@@ -129,7 +129,8 @@ defineExpose({
 }
 
 .options:hover {
-  border: 1px solid;
+  border: 1px ;
+  border-style:outset;
   border-radius: .5em;
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 }

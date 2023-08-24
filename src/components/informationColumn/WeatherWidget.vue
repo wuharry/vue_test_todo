@@ -32,9 +32,7 @@ const fetchWeatherData = async () => {
     const timeParts = dateTimeParts[1].split(":");
     const hour = parseInt(timeParts[0]);
     timestamp = hour;
-    console.log(response.data);
   } catch (error) {
-    console.log(`失敗`);
     console.error(error);
   }
 };
@@ -43,12 +41,8 @@ fetchWeatherData();
 let meteorological = ref("");
 const weatherJudgment = (weather: string) => {
   // 夜晚
-  console.log(timestamp);
-
   if (timestamp < 6 || timestamp >= 18) {
     meteorological.value = "night";
-    console.log(`啟動`);
-
     return;
   }
   if (weather == "Clear" || weather == "Partly cloudy") {
@@ -94,7 +88,6 @@ watch(
   () => weatherData.value.weather,
   (newValue, oldValue) => {
     weatherJudgment(newValue);
-    console.log(meteorological.value);
     switch (meteorological.value) {
       case "sun":
         weatherCardRef.value.classList.add("hot");

@@ -81,9 +81,7 @@ const getPreviousMonthLastDate = () => {
         localDate.value.getMonth(),
         0
     ).getDate();
-    console.log(localDate.value.getFullYear());
-    console.log(localDate.value.getMonth() );
-    console.log(lastDate);
+
 
     return lastDate;
 }
@@ -109,15 +107,12 @@ onMounted(() => {
     const firstDayOfMonth = firstDayNumber()
     const daysPerMonth = daysInMonth(year.value, (localDate.value.getMonth() + 1));
     const daysPreMonth = getPreviousMonthLastDate();
-    console.log(daysPreMonth);
     for (let day = firstDayOfMonth; day > 0; day--) {
         currentMonthDays.value.push(daysPreMonth + 1 - day);
     }
     for (let day = 1; day <= daysPerMonth; day++) {
         currentMonthDays.value.push(day);
     }
-    console.log(currentMonthDays.value);
-
 });
 </script>
 <style lang="scss" scoped>

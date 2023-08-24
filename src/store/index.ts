@@ -9,7 +9,6 @@ export default createStore({
   },
   mutations: {
     addTask(state, newTask: ITask) {
-      console.log(`addTask`);
       state.task.push(newTask);
       //   預設排版
       state.task.sort((currentTask, nextTask) => {
@@ -30,16 +29,12 @@ export default createStore({
         return 0;
       });
 
-      console.log(state.task);
     },
     removeTask(state, taskId: number) {
-      console.log(`deletTask`);
       const newArray = state.task.filter((task) => task.id !== taskId);
       state.task.splice(0, state.task.length, ...newArray);
-      console.log(state.task);
     },
     updateTask(state, preTaskArray: ITask[]) {
-      console.log(`updateTask`);
       state.task.splice(0, state.task.length, ...preTaskArray);
     },
   },

@@ -27,7 +27,6 @@ const storeTaskAtBrowser = () => {
 };
 
 const submitTask = () => {
-  console.log(`submitTask`);
   isInvalid.value = task.value.name == "" || task.value.name == undefined;
   if (isInvalid.value) {
     setTimeout(() => {

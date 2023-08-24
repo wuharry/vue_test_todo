@@ -38,7 +38,6 @@
 <script setup lang="ts">
 
 import { ref, onMounted, computed } from 'vue';
-const calendar = ref(new Date()); //日歷時間'變動'
 const localDate = ref(new Date()); //當前時間'固定'
 const year = computed(() => localDate.value.getFullYear());
 const calMonthName = [
@@ -63,10 +62,10 @@ const daysInMonth = (year: number, month: number): number => {
 }
 const firstDay = (): Date => {
     // calendar.value.getMonth() 1月是0,12月是11
-    return new Date(calendar.value.getFullYear(), calendar.value.getMonth(), 1);
+    return new Date(localDate.value.getFullYear(), localDate.value.getMonth(), 1);
 }
 const lastDay = (): Date => {
-    return new Date(calendar.value.getFullYear(), calendar.value.getMonth() + 1, 0);
+    return new Date(localDate.value.getFullYear(), localDate.value.getMonth() + 1, 0);
 }
 // 獲取當月第一天星期
 const firstDayNumber = (): number => {
@@ -78,26 +77,26 @@ const lastDayNumber = (): number => {
 // 獲取前一個月總天數
 const getPreviousMonthLastDate = () => {
     let lastDate = new Date(
-        calendar.value.getFullYear(),
-        calendar.value.getMonth() - 1,
+        localDate.value.getFullYear(),
+        localDate.value.getMonth() - 1,
         0
     ).getDate();
     return lastDate;
 }
 // 導資料到前一個月
 const navigateToPreviousMonth = () => {
-    calendar.value.setMonth(calendar.value.getMonth() - 1);
+    localDate.value.setMonth(localDate.value.getMonth() - 1);
 }
 // 導資料到後一個月
 const navigateToNextMonth = () => {
-    calendar.value.setMonth(calendar.value.getMonth() + 1);
+    localDate.value.setMonth(localDate.value.getMonth() + 1);
 }
 // 導資料到當前月
 const navigateToCurrentMonth = () => {
     let currentMonth = calendarControl.localDate.getMonth();
     let currentYear = calendarControl.localDate.getFullYear();
-    calendar.value.setMonth(currentMonth);
-    calendar.value.setFullYear(currentYear);
+    localDate.value.setMonth(currentMonth);
+    localDate.value.setFullYear(currentYear);
 }
 
 
@@ -105,11 +104,10 @@ onMounted(() => {
     // currentMonthDays.value 
     const firstDayOfMonth = firstDayNumber()
     const daysPerMonth = daysInMonth(year.value, (localDate.value.getMonth() + 1));
-    const daysPreMonth = daysInMonth(year.value, (localDate.value.getMonth()));
+    const daysPreMonth = getPreviousMonthLastDate();
     console.log(daysPreMonth);
-
     for (let day = firstDayOfMonth; day > 0; day--) {
-        currentMonthDays.value.push(daysPreMonth + 1 - day);
+        currentMonthDays.value.push(daysPreMonth + 2 - day);
     }
     for (let day = 1; day <= daysPerMonth; day++) {
         currentMonthDays.value.push(day);

@@ -78,9 +78,13 @@ const lastDayNumber = (): number => {
 const getPreviousMonthLastDate = () => {
     let lastDate = new Date(
         localDate.value.getFullYear(),
-        localDate.value.getMonth() - 1,
+        localDate.value.getMonth(),
         0
     ).getDate();
+    console.log(localDate.value.getFullYear());
+    console.log(localDate.value.getMonth() );
+    console.log(lastDate);
+
     return lastDate;
 }
 // 導資料到前一個月
@@ -107,7 +111,7 @@ onMounted(() => {
     const daysPreMonth = getPreviousMonthLastDate();
     console.log(daysPreMonth);
     for (let day = firstDayOfMonth; day > 0; day--) {
-        currentMonthDays.value.push(daysPreMonth + 2 - day);
+        currentMonthDays.value.push(daysPreMonth + 1 - day);
     }
     for (let day = 1; day <= daysPerMonth; day++) {
         currentMonthDays.value.push(day);

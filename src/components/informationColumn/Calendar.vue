@@ -127,7 +127,7 @@ onMounted(() => {
 .calendar {
   font-family: 'IBM Plex Sans', sans-serif;
   padding: 10px 10px;
-  max-width: 400px;
+  max-width: 50rem;
   position: relative;
   margin: 20px auto;
   box-sizing: border-box;
@@ -210,7 +210,7 @@ onMounted(() => {
 }
 
 .calendar .calendar-body div {
-  padding: 4px;
+  padding: 1.5px;
   min-height: 30px;
   line-height: 30px;
   border: 1px solid transparent;

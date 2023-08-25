@@ -86,11 +86,11 @@ const getPreviousMonthLastDate = () => {
 }
 // 導資料到前一個月
 const navigateToPreviousMonth = () => {
-  localDate.value.setMonth(localDate.value.getMonth() - 1);
+    localDate.value = new Date(localDate.value.setMonth(localDate.value.getMonth() - 1));
 }
 // 導資料到後一個月
 const navigateToNextMonth = () => {
-  localDate.value.setMonth(localDate.value.getMonth() + 1);
+    localDate.value = new Date( localDate.value.setMonth(localDate.value.getMonth() + 1));
 }
 // 導資料到當前月
 const navigateToCurrentMonth = () => {

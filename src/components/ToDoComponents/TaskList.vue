@@ -18,15 +18,15 @@ const callTaskDialog = () => {
 };
 
 let taskArray = computed(() => store.state.task);
-const isInvalid = ref(false);
+const isInvalid = ref<boolean>(false);
 const errorMessage = computed(() => (isInvalid.value ? "輸入不正確" : ""));
 // 存入localStorage
-const storeTaskAtBrowser = () => {
+const storeTaskAtBrowser = (): void => {
   const plainTaskArray = taskArray.value.map((task: ITask) => ({ ...task }));
   localStorage.setItem("taskList", JSON.stringify(plainTaskArray));
 };
 
-const submitTask = () => {
+const submitTask = (): void => {
   isInvalid.value = task.value.name == "" || task.value.name == undefined;
   if (isInvalid.value) {
     setTimeout(() => {
@@ -50,12 +50,12 @@ const submitTask = () => {
   }
 };
 
-const deletTask = (id: number) => {
+const deletTask = (id: number): void => {
   store.dispatch("removeTask", id);
   storeTaskAtBrowser();
 };
 
-const closeDialog = () => {
+const closeDialog = (): void => {
   showDialog.value = false;
 };
 

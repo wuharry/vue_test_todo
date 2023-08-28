@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted ,computed} from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { ITask } from '@/types/Task';
 import { useStore } from "vuex";
 
-const emit = defineEmits(['closeDialog','storeTaskAtBrowser']);
+const emit = defineEmits(['closeDialog', 'storeTaskAtBrowser']);
 const task = ref<ITask>({
   name: "",
   deadline: "",
@@ -14,24 +14,24 @@ const task = ref<ITask>({
 defineProps({
   msg: String,
 })
-const clearDialogData = () => {
+const clearDialogData = (): void => {
   for (const key in task.value) {
     task.value[key] = "";
   }
 }
-const closeDialog = () => {
+const closeDialog = (): void => {
   emit('closeDialog');
   clearDialogData()
 }
 const store = useStore();
-const taskNameInvalid=ref(false);
-const taskDateInvalid=ref(false);
+const taskNameInvalid = ref(false);
+const taskDateInvalid = ref(false);
 const errortaskName = computed(() => (taskNameInvalid.value ? "TaskName輸入不正確" : ""));
 const errortaskDate = computed(() => (taskDateInvalid.value ? "請輸入DeadLine" : ""));
 const sentTasks = () => {
   taskNameInvalid.value = task.value.name == "" || task.value.name == undefined;
-  taskDateInvalid.value=task.value.deadline== "" || task.value.deadline == undefined;
-  if (taskNameInvalid.value||taskDateInvalid.value) {
+  taskDateInvalid.value = task.value.deadline == "" || task.value.deadline == undefined;
+  if (taskNameInvalid.value || taskDateInvalid.value) {
     setTimeout(() => {
       taskNameInvalid.value = false;
       taskDateInvalid.value = false;
@@ -130,6 +130,7 @@ const sentTasks = () => {
   margin-top: 10px;
   transition: visibility 0s linear 0.33s, opacity 0.33s linear;
 }
+
 .inputFeedback {
   font-size: smaller;
   color: rgba(248, 10, 10, 0.852);

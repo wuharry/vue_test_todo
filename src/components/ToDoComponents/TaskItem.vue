@@ -7,24 +7,26 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   deletTask: [id: number];
-  jobDoneEvent: [id: number,checked:boolean];
+  jobDoneEvent: [id: number, checked: boolean];
 }>();
 const checked = ref(false);
-const task = props.task;
-const taskStatus = ref(false);
+const task: ITask = props.task;
+const taskStatus = ref<boolean>(false);
+// html element
 const taskBackground = ref();
 const taskDataRef = ref();
-const jobDoneEvent = (value: number) => {
-  emit("jobDoneEvent", value,(!checked.value));
+
+const jobDoneEvent = (value: number): void => {
+  emit("jobDoneEvent", value, (!checked.value));
   console.log();
   if (taskStatus.value) {
     taskDataRef.value.classList.add('taskDone');
   }
 };
-const taskDeletEvent = () => {
+const taskDeletEvent = (): void => {
   emit("deletTask", task.id);
 };
-const taskEditEvent = () => { };
+const taskEditEvent = (): void => { };
 onMounted(() => {
   switch (task.priority) {
     case "Height":

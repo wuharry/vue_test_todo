@@ -12,7 +12,7 @@ const weatherData = ref({
   time: "",
 });
 let timestamp: number;
-const fetchWeatherData = async () => {
+const fetchWeatherData = async ():Promise<void> => {
   const options = {
     method: "GET",
     url: "https://api.weatherapi.com/v1/current.json?key=fed9d997bf574afbace92916231808&q=Taiwan&aqi=yes",
@@ -39,7 +39,7 @@ const fetchWeatherData = async () => {
 
 fetchWeatherData();
 let meteorological = ref("");
-const weatherJudgment = (weather: string) => {
+const weatherJudgment = (weather: string):void => {
   // 夜晚
   if (timestamp < 6 || timestamp >= 18) {
     meteorological.value = "night";

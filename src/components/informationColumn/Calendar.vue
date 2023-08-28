@@ -74,7 +74,7 @@ const lastDayNumber = (): number => {
   return lastDay().getDay();
 }
 // 獲取前一個月總天數
-const getPreviousMonthLastDate = () => {
+const getPreviousMonthLastDate = ():number => {
   let lastDate = new Date(
     localDate.value.getFullYear(),
     localDate.value.getMonth(),
@@ -85,15 +85,15 @@ const getPreviousMonthLastDate = () => {
   return lastDate;
 }
 // 導資料到前一個月
-const navigateToPreviousMonth = () => {
+const navigateToPreviousMonth = ():void => {
     localDate.value = new Date(localDate.value.setMonth(localDate.value.getMonth() - 1));
 }
 // 導資料到後一個月
-const navigateToNextMonth = () => {
+const navigateToNextMonth = ():void => {
     localDate.value = new Date( localDate.value.setMonth(localDate.value.getMonth() + 1));
 }
 // 導資料到當前月
-const navigateToCurrentMonth = () => {
+const navigateToCurrentMonth = ():void => {
   let currentMonth = calendarControl.localDate.getMonth();
   let currentYear = calendarControl.localDate.getFullYear();
   localDate.value.setMonth(currentMonth);

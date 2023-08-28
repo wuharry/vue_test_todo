@@ -36,7 +36,7 @@
   
 <script setup lang="ts">
 
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed,watch } from 'vue';
 const localDate = ref(new Date()); //當前時間'固定'
 const year = computed(() => localDate.value.getFullYear());
 const calMonthName = [
@@ -102,7 +102,6 @@ const navigateToCurrentMonth = () => {
 
 
 onMounted(() => {
-  // currentMonthDays.value 
   const firstDayOfMonth = firstDayNumber()
   const daysPerMonth = daysInMonth(year.value, (localDate.value.getMonth() + 1));
   const daysPreMonth = getPreviousMonthLastDate();
@@ -113,6 +112,9 @@ onMounted(() => {
     currentMonthDays.value.push(day);
   }
 });
+watch(localDate,()=>{
+
+})
 </script>
 <style lang="scss" scoped>
 /* --calendar-current-date-color: #1b1f21;

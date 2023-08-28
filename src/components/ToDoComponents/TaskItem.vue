@@ -17,7 +17,6 @@ const taskBackground = ref();
 const taskDataRef = ref();
 
 const jobDoneEvent = (value: number): void => {
-  task.completed= (!checked.value);
   emit("jobDoneEvent", value, (!checked.value));
   if (taskStatus.value) {
     taskDataRef.value.classList.add('taskDone');

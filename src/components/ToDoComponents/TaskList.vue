@@ -68,14 +68,17 @@ const calculateCompletionPercentage = (completedTasks: number, total: number): n
   return completionPercentage
 }
 const jobDoneEvent = (taskID: number, checked: boolean): void => {
-  if (checked) {
-    completedTasks.value += taskArray.value.filter((task: ITask) => { return task.id === taskID }).length;
-    progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
-  } else {
-    completedTasks.value -= taskArray.value.filter((task: ITask) => { return task.id == taskID }).length;
-    progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
-  }
 
+  taskArray.value.map((task: ITask) => {
+    if (checked && task.id === taskID) {
+      completedTasks.value++;
+    }else if(!checked && task.id === taskID){
+      completedTasks.value--;
+    }
+  })
+
+  progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+  store.commit('updateTask', taskArray.value);
 }
 
 onMounted(() => {
@@ -85,7 +88,6 @@ onMounted(() => {
     ? JSON.parse(taskListFromLocalStorage)
     : [];
   store.commit('updateTask', preTaskList);
-  // taskArray.splice(0, taskArray.length, ...preTaskList);
 });
 
 </script>

@@ -72,7 +72,7 @@ const jobDoneEvent = (taskID: number, checked: boolean): void => {
   taskArray.value.map((task: ITask) => {
     if (checked && task.id === taskID) {
       completedTasks.value++;
-    }else if(!checked && task.id === taskID){
+    } else if (!checked && task.id === taskID) {
       completedTasks.value--;
     }
   })
@@ -80,7 +80,9 @@ const jobDoneEvent = (taskID: number, checked: boolean): void => {
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
   store.commit('updateTask', taskArray.value);
 }
+const deletAllTask=():void=>{
 
+}
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
   const taskListFromLocalStorage = localStorage.getItem("taskList");
@@ -88,6 +90,7 @@ onMounted(() => {
     ? JSON.parse(taskListFromLocalStorage)
     : [];
   store.commit('updateTask', preTaskList);
+  // progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
 });
 
 </script>
@@ -108,14 +111,20 @@ onMounted(() => {
     </div>
   </div>
   <div class="showTaskData">
-    <span>Task List({{ taskArray.length }} Tasks)</span>
-    <div class="progress">
-      <!-- 進度條:role="progressbar",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100"
-      這些屬性是html原生的-->
-      <div class="progressBar" role="progressbar" v-bind:style='"width: " + progreso + "%"' aria-valuenow="25"
-        aria-valuemin="0" aria-valuemax="100">{{ progreso }}%
+    <div class="taskStatus">
+      <span>Task List({{ taskArray.length }} Tasks)</span>
+      <div class="progress">
+        <!-- 進度條:role="progressbar",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100"
+        這些屬性是html原生的-->
+        <div class="progressBar" role="progressbar" v-bind:style='"width: " + progreso + "%"' aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100">{{ progreso }}%
+        </div>
       </div>
+      <button class="iconButton" @click="deletAllTask">
+        <VIcon class="icon" name="ri-delete-bin-2-line" />
+      </button>
     </div>
+
     <div class="taskList">
       <ul>
         <div v-for="task in taskArray" :key="task.id">
@@ -208,7 +217,11 @@ input[type="text"] {
 /* button {
   width: 20%;
 } */
-
+.taskStatus{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 .progress {
   display: flex;
   height: 1rem;

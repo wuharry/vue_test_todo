@@ -59,13 +59,30 @@ const closeDialog = () => {
   showDialog.value = false;
 };
 
+let progreso = ref(0);
+const completedTasks = ref(0);
+const jobDoneEvent = (taskID: number, checked: boolean): void => {
+  if (checked) {
+    completedTasks.value += taskArray.value.filter((task: ITask) => { return task.id == taskID }).length;
+    const completionPercentage = (completedTasks.value / taskArray.value.length) * 100;
+    progreso.value = completionPercentage;
+  } else {
+    completedTasks.value -= taskArray.value.filter((task: ITask) => { return task.id == taskID }).length;
+    const completionPercentage = (completedTasks.value / taskArray.value.length) * 100;
+    progreso.value = completionPercentage;
+  }
+
+}
+
 onMounted(() => {
+  // 之後這邊要抓取後端的store,然後存到localstorge
   const taskListFromLocalStorage = localStorage.getItem("taskList");
   const preTaskList: ITask[] = taskListFromLocalStorage
     ? JSON.parse(taskListFromLocalStorage)
     : [];
   store.commit('updateTask', preTaskList);
   // taskArray.splice(0, taskArray.length, ...preTaskList);
+  console.log(preTaskList.length);
 });
 
 </script>
@@ -87,10 +104,17 @@ onMounted(() => {
   </div>
   <div class="showTaskData">
     <span>Task List({{ taskArray.length }} Tasks)</span>
+    <div class="progress">
+      <!-- 進度條:role="progressbar",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100"
+      這些屬性是html原生的-->
+      <div class="progressBar" role="progressbar" v-bind:style='"width: " + progreso + "%"' aria-valuenow="25"
+        aria-valuemin="0" aria-valuemax="100">{{ progreso }}%
+      </div>
+    </div>
     <div class="taskList">
       <ul>
         <div v-for="task in taskArray" :key="task.id">
-          <TaskItem :task="task" @deletTask="deletTask" />
+          <TaskItem :task="task" @deletTask="deletTask" @jobDoneEvent="jobDoneEvent" />
         </div>
       </ul>
     </div>
@@ -180,10 +204,36 @@ input[type="text"] {
   width: 20%;
 } */
 
+.progress {
+  display: flex;
+  height: 1rem;
+  width: 20em;
+  overflow: hidden;
+  line-height: 0;
+  font-size: .75rem;
+  background-color: #bec1c5;
+  border-radius: 0.25rem;
+}
+
+.progressBar {
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #007bff;
+  transition: width .6s ease;
+}
+
 .taskList {
   display: flex;
   width: 100%;
-  ul{
+
+  ul {
     width: 90%;
   }
 }

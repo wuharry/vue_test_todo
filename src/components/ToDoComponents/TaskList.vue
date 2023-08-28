@@ -11,7 +11,9 @@ let task = ref<ITask>({
   deadline: null,
   priority: null,
   description: null,
+  completed: false
 });
+const { value: taskValue } = task;
 let showDialog = ref<boolean>(false);
 const callTaskDialog = () => {
   showDialog.value = true;
@@ -27,7 +29,7 @@ const storeTaskAtBrowser = (): void => {
 };
 
 const submitTask = (): void => {
-  isInvalid.value = task.value.name == "" || task.value.name == undefined;
+  isInvalid.value = taskValue.name == "" || taskValue.name == undefined;
   if (isInvalid.value) {
     setTimeout(() => {
       isInvalid.value = false;
@@ -35,7 +37,7 @@ const submitTask = (): void => {
     return;
   }
   const newTask = {
-    ...task.value,
+    ...taskValue,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
 
@@ -45,8 +47,8 @@ const submitTask = (): void => {
   /**
    這裡要有api將資料送出到backend
    */
-  for (const key in task.value) {
-    task.value[key] = "";
+  for (const key in taskValue) {
+    taskValue[key] = "";
   }
 };
 
@@ -61,15 +63,17 @@ const closeDialog = (): void => {
 
 let progreso = ref(0);
 const completedTasks = ref(0);
+const calculateCompletionPercentage = (completedTasks: number, total: number): number => {
+  const completionPercentage = (completedTasks / total) * 100;
+  return completionPercentage
+}
 const jobDoneEvent = (taskID: number, checked: boolean): void => {
   if (checked) {
-    completedTasks.value += taskArray.value.filter((task: ITask) => { return task.id == taskID }).length;
-    const completionPercentage = (completedTasks.value / taskArray.value.length) * 100;
-    progreso.value = completionPercentage;
+    completedTasks.value += taskArray.value.filter((task: ITask) => { return task.id === taskID }).length;
+    progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
   } else {
     completedTasks.value -= taskArray.value.filter((task: ITask) => { return task.id == taskID }).length;
-    const completionPercentage = (completedTasks.value / taskArray.value.length) * 100;
-    progreso.value = completionPercentage;
+    progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
   }
 
 }
@@ -82,7 +86,6 @@ onMounted(() => {
     : [];
   store.commit('updateTask', preTaskList);
   // taskArray.splice(0, taskArray.length, ...preTaskList);
-  console.log(preTaskList.length);
 });
 
 </script>

@@ -10,6 +10,7 @@ const task = ref<ITask>({
   priority: "",
   description: "",
   id: 0,
+  completed:false
 });
 defineProps({
   msg: String,

@@ -80,8 +80,12 @@ const jobDoneEvent = (taskID: number, checked: boolean): void => {
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
   store.commit('updateTask', taskArray.value);
 }
-const deletAllTask=():void=>{
-
+const deletAllTask = (): void => {
+  taskArray.value.forEach((task: ITask) => {
+    console.log(`出發`);
+    
+    deletTask(task.id);
+  });
 }
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
@@ -217,11 +221,12 @@ input[type="text"] {
 /* button {
   width: 20%;
 } */
-.taskStatus{
+.taskStatus {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
+
 .progress {
   display: flex;
   height: 1rem;
@@ -245,6 +250,25 @@ input[type="text"] {
   white-space: nowrap;
   background-color: #007bff;
   transition: width .6s ease;
+}
+
+.iconButton {
+  // 移除button格式
+  background-color: transparent;
+  width: 2.2em;
+  height: 2.2em;
+  border: none;
+  margin: .6em;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none; // Just in case we missed anything.
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .taskList {

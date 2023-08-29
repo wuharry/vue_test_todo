@@ -83,6 +83,11 @@ const jobDoneEvent = (taskID: number, checked: boolean): void => {
 const deletAllTask=():void=>{
 
 }
+
+const searchValue=ref<string>('');
+const searchTask=():void=>{
+
+}
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
   const taskListFromLocalStorage = localStorage.getItem("taskList");
@@ -103,12 +108,18 @@ onMounted(() => {
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>
       </div>
-      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser" />
-
-    </div>
-    <div>
       <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
+      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser" />
     </div>
+    <div class="userInput">
+      <input type="text"  v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />
+      <div class="inputFeedback"  v-if="isInvalid">
+        <span class="icon">❌</span>
+        <span class="text">{{ errorMessage }}</span>
+      </div>
+      <button class="CreatTaskBtn" @click="searchTask">Search Task</button>
+    </div>
+
   </div>
   <div class="showTaskData">
     <div class="taskStatus">
@@ -139,19 +150,16 @@ onMounted(() => {
 .createTask {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: space-around;
   height: 2.5em;
   font-family: "Monospace", monospace;
   margin-bottom: 2em;
 }
 
 .userInput {
-  /* width: 30%; */
   display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
+  flex-direction: row;
   align-items: start;
-
   input::placeholder {
     color: rgba(206, 184, 184, 0.671);
   }
@@ -186,11 +194,11 @@ input[type="text"] {
   border-color: transparent;
   color: rgb(71 85 105 / var(--tw-text-opacity));
   font-weight: 700;
-  font-size: 16px;
+  font-size: 12px;
   outline: 0;
   font: inherit;
-  width: 16em;
-  height: 25em;
+  width: 10em;
+  height: 1em;
 
   &:focus {
     outline: none;
@@ -198,30 +206,31 @@ input[type="text"] {
 }
 
 .CreatTaskBtn {
-  width: auto;
+  width: 25%;
+  height: 5em;
   border-radius: 0.5rem;
   border-width: 2px;
   border-color: transparent;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  margin-left: .4em;
   background-color: rgb(34, 132, 245);
   color: white;
-  font-size: 100%;
-  font-weight: inherit;
-  line-height: inherit;
+  font-size: 50%;
   text-align: center;
 }
 
 /* button {
   width: 20%;
 } */
-.taskStatus{
+.taskStatus {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
+
 .progress {
   display: flex;
   height: 1rem;

@@ -12,7 +12,7 @@ const weatherData = ref({
   time: "",
 });
 let timestamp: number;
-const fetchWeatherData = async ():Promise<void> => {
+const fetchWeatherData = async (): Promise<void> => {
   const options = {
     method: "GET",
     url: "https://api.weatherapi.com/v1/current.json?key=fed9d997bf574afbace92916231808&q=Taiwan&aqi=yes",
@@ -35,11 +35,13 @@ const fetchWeatherData = async ():Promise<void> => {
   } catch (error) {
     console.error(error);
   }
+  console.log(weatherData.value.weather);
+
 };
 
 fetchWeatherData();
 let meteorological = ref("");
-const weatherJudgment = (weather: string):void => {
+const weatherJudgment = (weather: string): void => {
   // 夜晚
   if (timestamp < 6 || timestamp >= 18) {
     meteorological.value = "night";
@@ -70,6 +72,7 @@ const weatherJudgment = (weather: string):void => {
   }
   if (
     weather == "Patchy rain nearby" ||
+    weather == "Light rain" ||
     weather == "Patchy sleet nearby" ||
     weather == "Thundery outbreaks in nearby" ||
     weather == "Patchy light rain in area with thunder" ||

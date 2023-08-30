@@ -81,15 +81,16 @@ const jobDoneEvent = (taskID: number, checked: boolean): void => {
   store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
-  taskArray.value.forEach((task: ITask) => {
-    console.log(`出發`);
-    
+  // 在進行deletallTask,使用for迴圈去異步更改state,會間接影響到taskArray(它有computed屬性去監聽state)
+  //導致它在for迴圈中會有新的長度並停止for迴圈,所以需要讓foreach迴圈先跑完再影響到畫面跟屬性
+  const tempArray = [...taskArray.value]; // 构建临时数组
+  tempArray.forEach((task: ITask) => {
     deletTask(task.id);
   });
 }
 
-const searchValue=ref<string>('');
-const searchTask=():void=>{
+const searchValue = ref<string>('');
+const searchTask = (): void => {
 
 }
 onMounted(() => {
@@ -100,6 +101,7 @@ onMounted(() => {
     : [];
   store.commit('updateTask', preTaskList);
   // progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+  console.log(taskArray.value);
 });
 
 </script>
@@ -116,8 +118,8 @@ onMounted(() => {
       <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser" />
     </div>
     <div class="userInput">
-      <input type="text"  v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />
-      <div class="inputFeedback"  v-if="isInvalid">
+      <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />
+      <div class="inputFeedback" v-if="isInvalid">
         <span class="icon">❌</span>
         <span class="text">{{ errorMessage }}</span>
       </div>
@@ -164,6 +166,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: start;
+
   input::placeholder {
     color: rgba(206, 184, 184, 0.671);
   }

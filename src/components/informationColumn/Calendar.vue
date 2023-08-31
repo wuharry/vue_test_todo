@@ -36,7 +36,7 @@
   
 <script setup lang="ts">
 
-import { ref, onMounted, computed,watch } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 const localDate = ref(new Date()); //當前時間'固定'
 const year = computed(() => localDate.value.getFullYear());
 const calMonthName = [
@@ -74,7 +74,7 @@ const lastDayNumber = (): number => {
   return lastDay().getDay();
 }
 // 獲取前一個月總天數
-const getPreviousMonthLastDate = ():number => {
+const getPreviousMonthLastDate = (): number => {
   let lastDate = new Date(
     localDate.value.getFullYear(),
     localDate.value.getMonth(),
@@ -85,23 +85,26 @@ const getPreviousMonthLastDate = ():number => {
   return lastDate;
 }
 // 導資料到前一個月
-const navigateToPreviousMonth = ():void => {
-    localDate.value = new Date(localDate.value.setMonth(localDate.value.getMonth() - 1));
+const navigateToPreviousMonth = (): void => {
+  localDate.value = new Date(localDate.value.setMonth(localDate.value.getMonth() - 1));
+  setCalenderData();
 }
 // 導資料到後一個月
-const navigateToNextMonth = ():void => {
-    localDate.value = new Date( localDate.value.setMonth(localDate.value.getMonth() + 1));
+const navigateToNextMonth = (): void => {
+  localDate.value = new Date(localDate.value.setMonth(localDate.value.getMonth() + 1));
+  setCalenderData();
 }
 // 導資料到當前月
-const navigateToCurrentMonth = ():void => {
+const navigateToCurrentMonth = (): void => {
   let currentMonth = calendarControl.localDate.getMonth();
   let currentYear = calendarControl.localDate.getFullYear();
   localDate.value.setMonth(currentMonth);
   localDate.value.setFullYear(currentYear);
+  setCalenderData();
 }
 
-
-onMounted(() => {
+const setCalenderData = () => {
+  currentMonthDays.value = [];
   const firstDayOfMonth = firstDayNumber()
   const daysPerMonth = daysInMonth(year.value, (localDate.value.getMonth() + 1));
   const daysPreMonth = getPreviousMonthLastDate();
@@ -111,8 +114,11 @@ onMounted(() => {
   for (let day = 1; day <= daysPerMonth; day++) {
     currentMonthDays.value.push(day);
   }
+}
+onMounted(() => {
+  setCalenderData();
 });
-watch(localDate,()=>{
+watch(localDate, () => {
 
 })
 </script>

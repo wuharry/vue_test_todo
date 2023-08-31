@@ -19,15 +19,14 @@
           </svg></a></div>
     </div>
     <!-- 中間區塊 -->
-    <div class="calendar-today-date"></div>
     <!-- 最下方日歷 -->
     <div class="calendar-body">
       <!-- 第一排內容 -->
-      <div class="week" v-for="dayOfWeek in calWeekDays">
+      <div class="week" v-for="dayOfWeek in calWeekDays" :key="dayOfWeek">
         {{ dayOfWeek }}
       </div>
       <!-- 主內容  class="number-item" -->
-      <div v-for="day in currentMonthDays">
+      <div v-for="(day, index) in currentMonthDays" :key="index" :class="{ 'calendar-today-date': index === todayindex }">
         {{ day }}
       </div>
     </div>
@@ -44,12 +43,9 @@ const calMonthName = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 const month = computed(() => calMonthName[localDate.value.getMonth()]);
-const day = computed(() => localDate.value.getDate());//當前日期
+const today = computed(() => localDate.value.getDate());//當前日期
 const calWeekDays = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-
-const prevMonthDays = ref<number[]>([]); //前一個月天數
 const currentMonthDays = ref<number[]>([]);//當前月天數
-const nextMonthDays = ref<number[]>([]);//下一個月天數
 const calendarControl = {
   localDate: new Date(),
   // 其他程式碼屬性和方法
@@ -102,7 +98,7 @@ const navigateToCurrentMonth = (): void => {
   localDate.value.setFullYear(currentYear);
   setCalenderData();
 }
-
+let todayindex = ref(0);
 const setCalenderData = () => {
   currentMonthDays.value = [];
   const firstDayOfMonth = firstDayNumber()
@@ -113,6 +109,12 @@ const setCalenderData = () => {
   }
   for (let day = 1; day <= daysPerMonth; day++) {
     currentMonthDays.value.push(day);
+    if (day === today.value) {
+      todayindex.value = currentMonthDays.value.indexOf(day);
+      console.log(todayindex.value);
+      
+    }
+
   }
 }
 onMounted(() => {
@@ -195,16 +197,9 @@ watch(localDate, () => {
 
 // 中部
 
-.calendar .calendar-today-date {
-  display: grid;
-  text-align: center;
-  cursor: pointer;
-  margin: 3px 0px;
-  background: #1b1f21;
-  padding: 8px 0px;
-  border-radius: 10px;
-  width: 80%;
-  margin: auto;
+.calendar-today-date {
+  background-color: yellow;
+  border-radius: 1em;
 }
 
 // 底部

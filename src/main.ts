@@ -21,8 +21,6 @@ import {
   OiClock, //時間
   OiLocation, //地點
 } from "oh-vue-icons/icons";
-import firebaseInit from "./firebaseInit" ;
-
 addIcons(
   MdNoteaddOutlined,
   RiDeleteBin2Line,
@@ -41,7 +39,7 @@ addIcons(
   OiLocation
 );
 
-firebaseInit();
+
 // 創建一個 Vue 應用實例。它接受一個根組件作為參數,App
 
 const app = createApp(App)

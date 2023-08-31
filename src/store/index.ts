@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
 import { ITask } from "../types/Task";
+import { firebaseInit } from "../firebaseInit";
+import { addDoc, collection, getFirestore, setDoc } from "firebase/firestore";
 export interface State {
   task: ITask[];
 }
@@ -28,7 +30,6 @@ export default createStore({
         }
         return 0;
       });
-
     },
     removeTask(state, taskId: number) {
       const newArray = state.task.filter((task) => task.id !== taskId);
@@ -39,8 +40,13 @@ export default createStore({
     },
   },
   actions: {
-    addTask({ commit }, newTask: ITask) {
+    async addTask({ commit }, newTask: ITask) {
       commit("addTask", newTask);
+      const { app, analytics } = firebaseInit();
+      const database = getFirestore(app);
+      // console.log(database);
+      const dbRef = collection(database, "users");
+      await addDoc(dbRef, newTask);
     },
     removeTask({ commit }, taskId) {
       commit("removeTask", taskId);
@@ -48,9 +54,9 @@ export default createStore({
     updateTask({ commit }) {
       commit("updateTask");
     },
-    sortByDate({ commit }){
-        commit('sortByDate');
-    }
+    sortByDate({ commit }) {
+      commit("sortByDate");
+    },
   },
   modules: {},
   plugins: [],

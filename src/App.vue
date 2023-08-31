@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import * as firebase from "firebase/app";
+import "firebase/storage";
 </script>
 
 <template>

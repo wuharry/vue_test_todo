@@ -56,7 +56,7 @@ defineExpose({
         <VIcon class="icon" @click="router.push('/calendar')" name="bi-calendar-day" />
       </div>
       <div class="options">
-        <VIcon class="icon" name="md-noteadd-outlined" />
+        <VIcon class="icon" @click="router.push('/note')" name="md-noteadd-outlined" />
       </div>
     </div>
     <div class="context">

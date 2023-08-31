@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from '../views/LoginPage.vue';
 import HomeVue from "../views/ToDoPage.vue";
 import Calendar from "../views/CalenderPage.vue"
+import Note from "../views/NotePage.vue"
 const routes = [
   {
     path: "/",
@@ -20,6 +21,13 @@ const routes = [
     name:"calendar",
     component:Calendar,
     meta:{hidden:true,title:'calendar'}
+
+  },
+  {
+    path:'/note',
+    name:"note",
+    component:Note,
+    meta:{hidden:true,title:'note'}
 
   }
 ];

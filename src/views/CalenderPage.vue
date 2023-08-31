@@ -10,7 +10,6 @@ import {
 } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import { TaskList } from "../components/ToDoComponents";
 import { WeatherWidget, Calendar } from "../components/informationColumn";
 /**
  * 倉庫
@@ -30,10 +29,7 @@ const router = useRouter();
  */
 const data = reactive({});
 /* 獲取後端數據(不需要寫在生命週期)
-
-
 */
-
 onBeforeMount(() => {
   //console.log('2.組件掛載頁面之前執行----onBeforeMount')
 });
@@ -64,8 +60,7 @@ defineExpose({
       </div>
     </div>
     <div class="context">
-      <span>Task</span>
-      <TaskList />
+      <span>Calender</span>
     </div>
     <div class="informationColumn">
       <!-- 資訊欄 -->

@@ -35,8 +35,6 @@ const fetchWeatherData = async (): Promise<void> => {
   } catch (error) {
     console.error(error);
   }
-  console.log(weatherData.value.weather);
-
 };
 
 fetchWeatherData();

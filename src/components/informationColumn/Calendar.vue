@@ -111,8 +111,6 @@ const setCalenderData = () => {
     currentMonthDays.value.push(day);
     if (day === today.value) {
       todayindex.value = currentMonthDays.value.indexOf(day);
-      console.log(todayindex.value);
-      
     }
 
   }

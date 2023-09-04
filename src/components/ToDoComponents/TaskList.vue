@@ -4,6 +4,8 @@ import { useStore } from "vuex";
 import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
+import { firebaseInit } from "../../firebaseInit";
+import { collection, getDocs, getFirestore, setDoc } from "firebase/firestore";
 const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -90,8 +92,18 @@ const deletAllTask = (): void => {
 }
 
 const searchValue = ref<string>('');
-const searchTask = (): void => {
-
+const { app, analytics } = firebaseInit();
+const database = getFirestore(app);
+const searchTask = async (): Promise<void> => {
+  // console.log(searchValue.value);
+  const dbRef = collection(database, "users");
+  const querySnapshot = await getDocs(dbRef);
+  querySnapshot.forEach((doc) => {
+    const documentData = doc.data();
+    console.log(documentData);
+    
+    // 在这里使用文档数据
+  });
 }
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
@@ -101,7 +113,6 @@ onMounted(() => {
     : [];
   store.commit('updateTask', preTaskList);
   // progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
-  console.log(taskArray.value);
 });
 
 </script>

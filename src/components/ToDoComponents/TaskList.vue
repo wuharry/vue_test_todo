@@ -20,8 +20,22 @@ let showDialog = ref<boolean>(false);
 const callTaskDialog = () => {
   showDialog.value = true;
 };
+// firebase初始化
+const { app, analytics } = firebaseInit();
+const database = getFirestore(app);
+let taskArray = ref<ITask[]>([]);
+const getTasksData = async (): Promise<void> => {
+  const dbRef = collection(database, "users");
+  const querySnapshot = await getDocs(dbRef);
+    // querySnapshot 是firebase回傳的object並不是普通的object,所以可以直接使用forEach方法
+    //但是不能使用filter方法
+    querySnapshot.forEach((doc) => {
+      const documentData = doc.data() as ITask;
+      taskArray.value.push(documentData);
+    });
+}
 
-let taskArray = computed(() => store.state.task);
+// let taskArray = computed(() => store.state.task);
 const isInvalid = ref<boolean>(false);
 const errorMessage = computed(() => (isInvalid.value ? "輸入不正確" : ""));
 // 存入localStorage
@@ -70,7 +84,6 @@ const calculateCompletionPercentage = (completedTasks: number, total: number): n
   return completionPercentage
 }
 const jobDoneEvent = (taskID: number, checked: boolean): void => {
-
   taskArray.value.map((task: ITask) => {
     if (checked && task.id === taskID) {
       completedTasks.value++;
@@ -92,18 +105,26 @@ const deletAllTask = (): void => {
 }
 
 const searchValue = ref<string>('');
-const { app, analytics } = firebaseInit();
-const database = getFirestore(app);
+
 const searchTask = async (): Promise<void> => {
-  // console.log(searchValue.value);
   const dbRef = collection(database, "users");
   const querySnapshot = await getDocs(dbRef);
-  querySnapshot.forEach((doc) => {
-    const documentData = doc.data();
-    console.log(documentData);
-    
-    // 在这里使用文档数据
-  });
+  if (searchValue.value !== '') {
+    // querySnapshot 是firebase回傳的object並不是普通的object,所以可以直接使用forEach方法
+    //但是不能使用filter方法
+    querySnapshot.forEach((doc) => {
+      const documentData = doc.data();
+      if (documentData.name === searchValue.value) {
+        console.log(`test`);
+        
+        taskArray.value.filter((task: ITask) => {
+          console.log(task.name === documentData.name);
+
+          return task.name === documentData.name
+        })
+      }
+    });
+  }
 }
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
@@ -112,7 +133,7 @@ onMounted(() => {
     ? JSON.parse(taskListFromLocalStorage)
     : [];
   store.commit('updateTask', preTaskList);
-  // progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+  getTasksData()
 });
 
 </script>

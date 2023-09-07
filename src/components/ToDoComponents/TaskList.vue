@@ -5,7 +5,7 @@ import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
-import { collection, getDocs, getFirestore, addDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc } from "firebase/firestore";
 const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -24,13 +24,18 @@ const callTaskDialog = () => {
 const { app, analytics } = firebaseInit();
 const database = getFirestore(app);
 // 獲取firebase資料庫中"users"的集合
-const dbRef = collection(database, "users");
+
 let taskArray = ref<ITask[]>([]);
 let taskList = computed(() => taskArray.value);
 const getTasksData = async (): Promise<void> => {
   const dbRef = collection(database, "users");
   const querySnapshot = await getDocs(dbRef);
-  taskArray.value = querySnapshot.docs.map((doc) => doc.data() as ITask);
+  taskArray.value = querySnapshot.docs.map((doc) => {
+    console.log(doc.id);
+    return doc.data() as ITask
+  });
+
+
 }
 
 // let taskArray = computed(() => store.state.task);
@@ -55,8 +60,10 @@ const submitTask = async (): Promise<void> => {
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
   // store.dispatch("addTask", newTask);
-
-  await addDoc(dbRef, newTask);
+  const dbRef = collection(database, "users");
+  const id = newTask.id.toString()
+  const docRef = doc(dbRef, id); // 使用doc函數來創建DocumentReference
+  await setDoc(docRef, newTask);
   getTasksData();
   storeTaskAtBrowser();
   for (const key in taskValue) {
@@ -67,9 +74,8 @@ const submitTask = async (): Promise<void> => {
 const deletTask = async (id: number): Promise<void> => {
   const taskID = id.toString();
   const docRef = doc(database, "users", taskID);
-  // 删除文档
   await deleteDoc(docRef);
-  // getTasksData()
+  getTasksData()
   storeTaskAtBrowser();
 };
 

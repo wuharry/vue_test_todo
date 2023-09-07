@@ -64,23 +64,12 @@ const submitTask = async (): Promise<void> => {
   }
 };
 
-const deletTask = (id: number): void => {
+const deletTask = async (id: number): Promise<void> => {
   const taskID = id.toString();
   const docRef = doc(database, "users", taskID);
   // 删除文档
-  deleteDoc(docRef)
-    .then(() => {
-      console.log("文档删除成功！");
-      return getTasksData();
-    }).then(() => {
-      getTasksData()
-      console.log(taskList.value.length);
-      console.log(taskList.value);
-    })
-    .catch((error) => {
-      console.error("删除文档时出错：", error);
-    });
-
+  await deleteDoc(docRef);
+  // getTasksData()
   storeTaskAtBrowser();
 };
 

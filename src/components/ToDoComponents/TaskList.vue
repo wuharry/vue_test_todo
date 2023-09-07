@@ -5,7 +5,7 @@ import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
-import { collection, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { collection, getDocs, getFirestore, addDoc, doc, deleteDoc } from "firebase/firestore";
 const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -23,16 +23,14 @@ const callTaskDialog = () => {
 // firebase初始化
 const { app, analytics } = firebaseInit();
 const database = getFirestore(app);
+// 獲取firebase資料庫中"users"的集合
+const dbRef = collection(database, "users");
 let taskArray = ref<ITask[]>([]);
+let taskList = computed(() => taskArray.value);
 const getTasksData = async (): Promise<void> => {
   const dbRef = collection(database, "users");
   const querySnapshot = await getDocs(dbRef);
-    // querySnapshot 是firebase回傳的object並不是普通的object,所以可以直接使用forEach方法
-    //但是不能使用filter方法
-    querySnapshot.forEach((doc) => {
-      const documentData = doc.data() as ITask;
-      taskArray.value.push(documentData);
-    });
+  taskArray.value = querySnapshot.docs.map((doc) => doc.data() as ITask);
 }
 
 // let taskArray = computed(() => store.state.task);
@@ -44,7 +42,7 @@ const storeTaskAtBrowser = (): void => {
   localStorage.setItem("taskList", JSON.stringify(plainTaskArray));
 };
 
-const submitTask = (): void => {
+const submitTask = async (): Promise<void> => {
   isInvalid.value = taskValue.name == "" || taskValue.name == undefined;
   if (isInvalid.value) {
     setTimeout(() => {
@@ -56,20 +54,33 @@ const submitTask = (): void => {
     ...taskValue,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
+  // store.dispatch("addTask", newTask);
 
-
-  store.dispatch("addTask", newTask);
+  await addDoc(dbRef, newTask);
+  getTasksData();
   storeTaskAtBrowser();
-  /**
-   這裡要有api將資料送出到backend
-   */
   for (const key in taskValue) {
     taskValue[key] = "";
   }
 };
 
 const deletTask = (id: number): void => {
-  store.dispatch("removeTask", id);
+  const taskID = id.toString();
+  const docRef = doc(database, "users", taskID);
+  // 删除文档
+  deleteDoc(docRef)
+    .then(() => {
+      console.log("文档删除成功！");
+      return getTasksData();
+    }).then(() => {
+      getTasksData()
+      console.log(taskList.value.length);
+      console.log(taskList.value);
+    })
+    .catch((error) => {
+      console.error("删除文档时出错：", error);
+    });
+
   storeTaskAtBrowser();
 };
 
@@ -105,26 +116,9 @@ const deletAllTask = (): void => {
 }
 
 const searchValue = ref<string>('');
-
 const searchTask = async (): Promise<void> => {
   const dbRef = collection(database, "users");
   const querySnapshot = await getDocs(dbRef);
-  if (searchValue.value !== '') {
-    // querySnapshot 是firebase回傳的object並不是普通的object,所以可以直接使用forEach方法
-    //但是不能使用filter方法
-    querySnapshot.forEach((doc) => {
-      const documentData = doc.data();
-      if (documentData.name === searchValue.value) {
-        console.log(`test`);
-        
-        taskArray.value.filter((task: ITask) => {
-          console.log(task.name === documentData.name);
-
-          return task.name === documentData.name
-        })
-      }
-    });
-  }
 }
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
@@ -176,7 +170,7 @@ onMounted(() => {
 
     <div class="taskList">
       <ul>
-        <div v-for="task in taskArray" :key="task.id">
+        <div v-for="task in taskList" :key="task.id">
           <TaskItem :task="task" @deletTask="deletTask" @jobDoneEvent="jobDoneEvent" />
         </div>
       </ul>

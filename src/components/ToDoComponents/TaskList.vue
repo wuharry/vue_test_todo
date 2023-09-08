@@ -145,7 +145,8 @@ onMounted(() => {
         <span class="text">{{ errorMessage }}</span>
       </div>
       <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
-      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser" />
+      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
+        @getTasksData="getTasksData" />
     </div>
     <div class="userInput">
       <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />

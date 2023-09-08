@@ -5,7 +5,7 @@ import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
-import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where } from "firebase/firestore";
 const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -31,11 +31,8 @@ const getTasksData = async (): Promise<void> => {
   const dbRef = collection(database, "users");
   const querySnapshot = await getDocs(dbRef);
   taskArray.value = querySnapshot.docs.map((doc) => {
-    console.log(doc.id);
     return doc.data() as ITask
   });
-
-
 }
 
 // let taskArray = computed(() => store.state.task);
@@ -85,11 +82,12 @@ const closeDialog = (): void => {
 
 let progreso = ref(0);
 const completedTasks = ref(0);
+
 const calculateCompletionPercentage = (completedTasks: number, total: number): number => {
   const completionPercentage = (completedTasks / total) * 100;
   return completionPercentage
 }
-const jobDoneEvent = (taskID: number, checked: boolean): void => {
+const taskDoneEvent = (taskID: number, checked: boolean): void => {
   taskArray.value.map((task: ITask) => {
     if (checked && task.id === taskID) {
       completedTasks.value++;
@@ -112,8 +110,19 @@ const deletAllTask = (): void => {
 
 const searchValue = ref<string>('');
 const searchTask = async (): Promise<void> => {
-  const dbRef = collection(database, "users");
-  const querySnapshot = await getDocs(dbRef);
+  if (searchValue.value !== '') {
+    const dbRef = collection(database, "users");
+    const queryCondition = query(dbRef, where("name", "==", searchValue.value));
+    // 搜尋結果
+    const querySnapshot = await getDocs(queryCondition);
+    taskArray.value = querySnapshot.docs.map((doc) => {
+      return doc.data() as ITask
+    });
+  } else if (searchValue.value === '') {
+    getTasksData()
+  }
+
+
 }
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
@@ -166,7 +175,7 @@ onMounted(() => {
     <div class="taskList">
       <ul>
         <div v-for="task in taskList" :key="task.id">
-          <TaskItem :task="task" @deletTask="deletTask" @jobDoneEvent="jobDoneEvent" />
+          <TaskItem :task="task" @deletTask="deletTask" @taskDoneEvent="taskDoneEvent" />
         </div>
       </ul>
     </div>

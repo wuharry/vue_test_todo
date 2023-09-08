@@ -46,27 +46,8 @@ defineExpose({
 
 <template>
   <div class="container">
-    <div class="optionList">
-      <!-- 左側 -->
-      <div class="">Option List</div>
-      <div class="options">
-        <VIcon class="icon"  @click="router.push('/todo')"  name="la-list-alt-solid" />
-      </div>
-      <div class="options">
-        <VIcon class="icon" @click="router.push('/calendar')" name="bi-calendar-day" />
-      </div>
-      <div class="options">
-        <VIcon class="icon" @click="router.push('/note')" name="md-noteadd-outlined" />
-      </div>
-    </div>
     <div class="context">
       <span>Notes</span>
-    </div>
-    <div class="informationColumn">
-      <!-- 資訊欄 -->
-      <!-- <span>informationColumn</span> -->
-      <WeatherWidget />
-      <Calendar />
     </div>
   </div>
 </template>
@@ -84,20 +65,6 @@ defineExpose({
   font-family: "Monospace", monospace;
   font-weight: 700;
 }
-
-.optionList {
-  flex: 2;
-  display: grid;
-  //   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  justify-items: center;
-
-  /* 將子容器水平置中 */
-  border: none;
-  background-color: rgb(241, 245, 249);
-  // box-shadow: 1px -1px teal;
-}
-
 .context {
   flex: 8;
   display: flex;
@@ -105,33 +72,5 @@ defineExpose({
   // justify-content: center;
   align-items: center;
   font-family: "Monospace", monospace;
-}
-
-.informationColumn {
-  flex: 2;
-  display: grid;
-  // grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
-  justify-items: center;
-  /* 將子容器水平置中 */
-  border: none;
-  background-color: rgb(241, 245, 249);
-  // box-shadow: 1px -1px teal;
-}
-
-.options {
-  height: 6.5em;
-}
-
-.options:hover {
-  border: 1px ;
-  border-style:outset;
-  border-radius: .5em;
-  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
-}
-
-.icon {
-  width: 5.5em;
-  height: 5.5em;
 }
 </style>

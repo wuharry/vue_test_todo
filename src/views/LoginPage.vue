@@ -57,7 +57,7 @@ const loginHandler = () => {
     loginData.value.password = '';
     // if(axios回傳true的話){
     // 跳轉頁面到Homepage}
-    router.push('/todo');
+    router.push('/main');
 }
 
 const remeberEvent = () => {

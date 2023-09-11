@@ -6,7 +6,7 @@ import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy } from "firebase/firestore";
-const store = useStore();
+// const store = useStore();
 let task = ref<ITask>({
   id: 0,
   name: "",
@@ -120,7 +120,7 @@ const taskDoneEvent = (taskID: number, checked: boolean): void => {
   })
 
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
-  store.commit('updateTask', taskArray.value);
+  // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
   // 在進行deletallTask,使用for迴圈去異步更改state,會間接影響到taskArray(它有computed屬性去監聽state)
@@ -153,7 +153,7 @@ onMounted(() => {
   const preTaskList: ITask[] = taskListFromLocalStorage
     ? JSON.parse(taskListFromLocalStorage)
     : [];
-  store.commit('updateTask', preTaskList);
+  // store.commit('updateTask', preTaskList);
   getTasksData()
 });
 

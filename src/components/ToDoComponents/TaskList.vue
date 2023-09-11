@@ -5,7 +5,7 @@ import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
-import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy } from "firebase/firestore";
 const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -25,15 +25,38 @@ const { app, analytics } = firebaseInit();
 const database = getFirestore(app);
 // 獲取firebase資料庫中"users"的集合
 
+
+const sortingTask = (currentTask: ITask, nextTask: ITask): number => {
+  const priorityMap: { [key: string]: number } = {
+    Height: 3,
+    Low: 2,
+    "No matter": 1,
+  };
+  const currentVal = priorityMap[currentTask?.priority || ""] || 0;
+  const nextVal = priorityMap[nextTask?.priority || ""] || 0;
+
+  if (currentVal > nextVal) {
+    return -1;
+  }
+  if (currentVal < nextVal) {
+    return 1;
+  }
+  return 0;
+}
 let taskArray = ref<ITask[]>([]);
 let taskList = computed(() => taskArray.value);
 const getTasksData = async (): Promise<void> => {
   const dbRef = collection(database, "users");
-  const querySnapshot = await getDocs(dbRef);
+  // 在firebase排序
+  const shortedTask = query(dbRef, orderBy("deadline","desc"));
+  // 獲取排序好的資料
+  const querySnapshot = await getDocs(shortedTask);
+  // 綁定model
   taskArray.value = querySnapshot.docs.map((doc) => {
     return doc.data() as ITask
   });
 }
+
 
 // let taskArray = computed(() => store.state.task);
 const isInvalid = ref<boolean>(false);

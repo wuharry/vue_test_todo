@@ -5,5 +5,4 @@ export interface ITask {
   deadline: string | null;
   priority: string | null;
   description :string | null;
-  completed: boolean;
 }

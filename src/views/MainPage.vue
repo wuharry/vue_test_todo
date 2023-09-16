@@ -54,13 +54,13 @@ defineExpose({
             <!-- 左側 -->
             <div class="">Option List</div>
             <div class="options">
-                <VIcon class="icon" @click="router.push({name:'ToDo'})" name="la-list-alt-solid" />
+                <VIcon class="icon" @click="router.push({ name: 'ToDo' })" name="la-list-alt-solid" />
             </div>
             <div class="options">
-                <VIcon class="icon" @click="router.push({name:'Calendar'})" name="bi-calendar-day" />
+                <VIcon class="icon" @click="router.push({ name: 'Calendar' })" name="bi-calendar-day" />
             </div>
             <div class="options">
-                <VIcon class="icon" @click="router.push({name:'Note'})" name="md-noteadd-outlined" />
+                <VIcon class="icon" @click="router.push({ name: 'Note' })" name="md-noteadd-outlined" />
             </div>
         </div>
         <div class="context">
@@ -90,8 +90,11 @@ defineExpose({
 .optionList {
     flex: 2;
     display: grid;
-    //   grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: auto;
+    /* grid 0fr 空間壓縮到內容最小值,auto 自动调整大小以容纳内容的高度或宽度，而不会强制将其大小压缩为最小值。*/
+    /* 因為內容會隨著使用者輸入而增加高度,所以我需要將 */
+    grid-template-rows: 0fr 0fr 0fr auto;
+    gap: 4em;
     justify-items: center;
 
     /* 將子容器水平置中 */
@@ -110,9 +113,13 @@ defineExpose({
 }
 
 .informationColumn {
-    flex: 2;
     display: grid;
-    // grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: auto;
+    /* grid 0fr 空間壓縮到內容最小值,auto 自动调整大小以容纳内容的高度或宽度，而不会强制将其大小压缩为最小值。*/
+    grid-template-rows: 0fr 1fr auto;
+
+    /* grid-template-rows: repeat(3, auto); */
+    /* 自适应行高 */
     gap: 10px;
     justify-items: center;
     /* 將子容器水平置中 */

@@ -136,6 +136,7 @@ watch(localDate, () => {
   font-family: 'IBM Plex Sans', sans-serif;
   padding: 10px 10px;
   max-width: 50rem;
+  max-height: 20em;
   position: relative;
   margin: 20px auto;
   box-sizing: border-box;

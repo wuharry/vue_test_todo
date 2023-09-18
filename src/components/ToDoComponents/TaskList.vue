@@ -48,7 +48,7 @@ let taskList = computed(() => taskArray.value);
 const getTasksData = async (): Promise<void> => {
   const dbRef = collection(database, "users");
   // 在firebase排序
-  const shortedTask = query(dbRef, orderBy("deadline","desc"));
+  const shortedTask = query(dbRef, orderBy('priority'));
   // 獲取排序好的資料
   const querySnapshot = await getDocs(shortedTask);
   // 綁定model
@@ -75,6 +75,7 @@ const submitTask = async (): Promise<void> => {
     }, 1500);
     return;
   }
+  taskValue.priority='No matter';
   const newTask = {
     ...taskValue,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),

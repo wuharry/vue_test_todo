@@ -26,23 +26,6 @@ const database = getFirestore(app);
 // 獲取firebase資料庫中"users"的集合
 
 
-const sortingTask = (currentTask: ITask, nextTask: ITask): number => {
-  const priorityMap: { [key: string]: number } = {
-    Height: 3,
-    Low: 2,
-    "No matter": 1,
-  };
-  const currentVal = priorityMap[currentTask?.priority || ""] || 0;
-  const nextVal = priorityMap[nextTask?.priority || ""] || 0;
-
-  if (currentVal > nextVal) {
-    return -1;
-  }
-  if (currentVal < nextVal) {
-    return 1;
-  }
-  return 0;
-}
 let taskArray = ref<ITask[]>([]);
 let taskList = computed(() => taskArray.value);
 const getTasksData = async (): Promise<void> => {
@@ -85,7 +68,7 @@ const submitTask = async (): Promise<void> => {
   const id = newTask.id.toString()
   const docRef = doc(dbRef, id); // 使用doc函數來創建DocumentReference
   await setDoc(docRef, newTask);
-  getTasksData();
+  await getTasksData();
   // 存資料到本地端
   storeTaskAtBrowser();
   for (const key in taskValue) {
@@ -97,7 +80,7 @@ const deletTask = async (id: number): Promise<void> => {
   const taskID = id.toString();
   const docRef = doc(database, "users", taskID);
   await deleteDoc(docRef);
-  getTasksData()
+  await getTasksData()
   storeTaskAtBrowser();
 };
 
@@ -114,16 +97,14 @@ const calculateCompletionPercentage = (completedTasks: number, total: number): n
 }
 // 計算已經完成的task
 const taskProgress = () => {
-  // completedTasks.value = 0;
-  let i = 0
+  completedTasks.value = 0;
   console.log(taskArray.value);
   taskArray.value.map((task: ITask) => {
     if (task.completed) {
-      i++
+      completedTasks.value++
     }
   })
-  console.log(i);
-  // progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+  progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
 }
 const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> => {
   // 改變firbasetask資料
@@ -136,7 +117,7 @@ const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> =>
   taskProgress()
 
   // refresh page
-  getTasksData();
+  await getTasksData();
   // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
@@ -159,18 +140,18 @@ const searchTask = async (): Promise<void> => {
       return doc.data() as ITask
     });
   } else if (searchValue.value === '') {
-    getTasksData()
+    await getTasksData()
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   // 之後這邊要抓取後端的store,然後存到localstorge
   // const taskListFromLocalStorage = localStorage.getItem("taskList");
   // const preTaskList: ITask[] = taskListFromLocalStorage
   //   ? JSON.parse(taskListFromLocalStorage)
   //   : [];
   // store.commit('updateTask', preTaskList);
-  getTasksData()
+  await getTasksData()
   taskProgress()
 });
 

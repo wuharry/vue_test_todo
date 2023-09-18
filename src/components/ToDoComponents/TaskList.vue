@@ -5,7 +5,7 @@ import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
-import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
 // const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -75,7 +75,7 @@ const submitTask = async (): Promise<void> => {
     }, 1500);
     return;
   }
-  taskValue.priority='No matter';
+  taskValue.priority = 'No matter';
   const newTask = {
     ...taskValue,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
@@ -86,6 +86,7 @@ const submitTask = async (): Promise<void> => {
   const docRef = doc(dbRef, id); // 使用doc函數來創建DocumentReference
   await setDoc(docRef, newTask);
   getTasksData();
+  // 存資料到本地端
   storeTaskAtBrowser();
   for (const key in taskValue) {
     taskValue[key] = "";
@@ -111,7 +112,17 @@ const calculateCompletionPercentage = (completedTasks: number, total: number): n
   const completionPercentage = (completedTasks / total) * 100;
   return completionPercentage
 }
-const taskDoneEvent = (taskID: number, checked: boolean): void => {
+const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> => {
+  console.log(`觸發`);
+  
+  // 改變firbasetask資料
+  const dbRef = collection(database, "users");
+  const docRef = doc(dbRef, taskID.toString()); // 使用doc函數來創建DocumentReference
+  const newTask = {
+    completed: (!checked)
+  }
+  await updateDoc(docRef, newTask);
+  // 計算已經完成的task
   taskArray.value.map((task: ITask) => {
     if (checked && task.id === taskID) {
       completedTasks.value++;
@@ -119,8 +130,10 @@ const taskDoneEvent = (taskID: number, checked: boolean): void => {
       completedTasks.value--;
     }
   })
-
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+  // refresh page
+  getTasksData();
+
   // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
@@ -148,6 +161,7 @@ const searchTask = async (): Promise<void> => {
 
 
 }
+
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
   const taskListFromLocalStorage = localStorage.getItem("taskList");

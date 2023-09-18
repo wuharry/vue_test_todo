@@ -1,28 +1,29 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useStore } from "vuex";
+import { ref, onMounted, reactive } from "vue";
 import { ITask } from '@/types/Task';
 const props = defineProps<{
   task: ITask;
 }>();
 const emit = defineEmits<{
   deletTask: [id: number];
-  jobDoneEvent: [id: number, checked: boolean];
+  taskDoneEvent: [taskID: number, checked: boolean];
 }>();
 const checked = ref(false);
 const task: ITask = props.task;
 const taskStatus = ref<boolean>(false);
 // html element
 const taskBackground = ref();
-const taskDataRef = ref();
+const taskDataRef = {
+  name: ref(null),
+  description: ref(null),
+  deadline: ref(null),
+};
 
-const jobDoneEvent = (value: number): void => {
-  emit("jobDoneEvent", value, (!checked.value));
-  if (taskStatus.value) {
-    taskDataRef.value.classList.add('taskDone');
-  }
+const jobDoneEvent = (task: ITask): void => {
+  emit("taskDoneEvent",task.id, task.completed)
 };
 const taskDeletEvent = (): void => {
+  // 傳送事件到父組件去
   emit("deletTask", task.id);
 };
 const taskEditEvent = (): void => { };
@@ -48,22 +49,22 @@ onMounted(() => {
 <template>
   <div class="taskContain" ref="taskBackground">
     <!-- <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent" /> -->
-    <div class="TaskStatement" ref="taskDataRef">
+    <div class="TaskStatement">
       <div style="display: flex">
-        <h4>TaskName:</h4> <span>{{ task.name }}</span>
+        <h4>TaskName:</h4> <span ref="taskDataRef[0]">{{ task.name }}</span>
       </div>
       <div style="display: flex">
-        <h4>Description:</h4><span>{{ task.description }}</span>
+        <h4>Description:</h4><span ref="taskDataRef[1]">{{ task.description }}</span>
       </div>
       <div style="display: flex">
-        <h4>Deadline:</h4><span>{{ task.deadline }}</span>
+        <h4>Deadline:</h4><span ref="taskDataRef[2]">{{ task.deadline }}</span>
       </div>
     </div>
     <div class="editTask">
 
       <div class="checkbox-wrapper-44">
         <label class="toggleButton">
-          <input type="checkbox" @click="jobDoneEvent(task.id)" v-model="checked">
+          <input type="checkbox" @click="jobDoneEvent(task)" v-model="checked">
           <div>
             <svg viewBox="0 0 44 44">
               <path

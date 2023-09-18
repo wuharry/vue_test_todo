@@ -8,9 +8,8 @@ const emit = defineEmits<{
   deletTask: [id: number];
   taskDoneEvent: [taskID: number, checked: boolean];
 }>();
-const checked = ref(false);
+const checked = props.task.completed;
 const task: ITask = props.task;
-const taskStatus = ref<boolean>(false);
 // html element
 const taskBackground = ref();
 const taskDataRef = {
@@ -18,6 +17,7 @@ const taskDataRef = {
   description: ref(null),
   deadline: ref(null),
 };
+
 
 const jobDoneEvent = (task: ITask): void => {
   emit("taskDoneEvent",task.id, task.completed)

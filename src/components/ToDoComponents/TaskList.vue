@@ -112,9 +112,20 @@ const calculateCompletionPercentage = (completedTasks: number, total: number): n
   const completionPercentage = (completedTasks / total) * 100;
   return completionPercentage
 }
+// 計算已經完成的task
+const taskProgress = () => {
+  // completedTasks.value = 0;
+  let i = 0
+  console.log(taskArray.value);
+  taskArray.value.map((task: ITask) => {
+    if (task.completed) {
+      i++
+    }
+  })
+  console.log(i);
+  // progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+}
 const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> => {
-  console.log(`觸發`);
-  
   // 改變firbasetask資料
   const dbRef = collection(database, "users");
   const docRef = doc(dbRef, taskID.toString()); // 使用doc函數來創建DocumentReference
@@ -122,18 +133,10 @@ const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> =>
     completed: (!checked)
   }
   await updateDoc(docRef, newTask);
-  // 計算已經完成的task
-  taskArray.value.map((task: ITask) => {
-    if (checked && task.id === taskID) {
-      completedTasks.value++;
-    } else if (!checked && task.id === taskID) {
-      completedTasks.value--;
-    }
-  })
-  progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+  taskProgress()
+
   // refresh page
   getTasksData();
-
   // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
@@ -158,18 +161,17 @@ const searchTask = async (): Promise<void> => {
   } else if (searchValue.value === '') {
     getTasksData()
   }
-
-
 }
 
 onMounted(() => {
   // 之後這邊要抓取後端的store,然後存到localstorge
-  const taskListFromLocalStorage = localStorage.getItem("taskList");
-  const preTaskList: ITask[] = taskListFromLocalStorage
-    ? JSON.parse(taskListFromLocalStorage)
-    : [];
+  // const taskListFromLocalStorage = localStorage.getItem("taskList");
+  // const preTaskList: ITask[] = taskListFromLocalStorage
+  //   ? JSON.parse(taskListFromLocalStorage)
+  //   : [];
   // store.commit('updateTask', preTaskList);
   getTasksData()
+  taskProgress()
 });
 
 </script>

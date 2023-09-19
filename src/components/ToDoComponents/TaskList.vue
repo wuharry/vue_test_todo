@@ -6,6 +6,7 @@ import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
+import { nextTick } from "process";
 // const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -96,9 +97,9 @@ const calculateCompletionPercentage = (completedTasks: number, total: number): n
   return completionPercentage
 }
 // 計算已經完成的task
-const taskProgress = () => {
+const taskProgress = async () => {
+  await getTasksData();
   completedTasks.value = 0;
-  console.log(taskArray.value);
   taskArray.value.map((task: ITask) => {
     if (task.completed) {
       completedTasks.value++
@@ -114,10 +115,8 @@ const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> =>
     completed: (!checked)
   }
   await updateDoc(docRef, newTask);
-  taskProgress()
-
   // refresh page
-  await getTasksData();
+  taskProgress()
   // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {

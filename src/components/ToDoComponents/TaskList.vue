@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch, computed } from "vue";
-import { useStore } from "vuex";
 import { ITask } from '@/types/Task';
 import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
@@ -104,19 +103,25 @@ const taskProgress = async () => {
     if (task.completed) {
       completedTasks.value++
     }
+    console.log(task.completed);
   })
+  console.log(`==================`);
+  
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
+
 }
 const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> => {
   // 改變firbasetask資料
   const dbRef = collection(database, "users");
   const docRef = doc(dbRef, taskID.toString()); // 使用doc函數來創建DocumentReference
+  console.log(`check ${checked}`);
+  
   const newTask = {
     completed: (!checked)
   }
   await updateDoc(docRef, newTask);
   // refresh page
-  taskProgress()
+   taskProgress()
   // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {

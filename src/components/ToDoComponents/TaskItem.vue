@@ -8,7 +8,7 @@ const emit = defineEmits<{
   deletTask: [id: number];
   taskDoneEvent: [taskID: number, checked: boolean];
 }>();
-const checked = props.task.completed;
+const checked = ref<boolean>(false);
 const task: ITask = props.task;
 // html element
 const taskBackground = ref();
@@ -20,7 +20,8 @@ const taskDataRef = {
 
 
 const jobDoneEvent = (task: ITask): void => {
-  emit("taskDoneEvent",task.id, task.completed)
+  console.log(`子組件的 ${checked}`);
+  emit("taskDoneEvent", task.id, checked.value)
 };
 const taskDeletEvent = (): void => {
   // 傳送事件到父組件去

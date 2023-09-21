@@ -105,10 +105,7 @@ const taskProgress = async () => {
     if (task.completed) {
       completedTasks.value++
     }
-    console.log(task.completed);
   })
-  console.log(`==================`);
-
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
 
 }
@@ -116,7 +113,6 @@ const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> =>
   // 改變firbasetask資料
   const dbRef = collection(database, "users");
   const docRef = doc(dbRef, taskID.toString()); // 使用doc函數來創建DocumentReference
-  console.log(`check ${checked}`);
 
   const newTask = {
     completed: (!checked)

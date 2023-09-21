@@ -11,8 +11,6 @@ export default createStore({
       } else {
         state.taskStatus[taskid]=!state.taskStatus[taskid]
       }
-      console.log(state.taskStatus);
-      
     },
   },
   actions: {

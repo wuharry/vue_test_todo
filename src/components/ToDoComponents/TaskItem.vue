@@ -20,7 +20,6 @@ const taskDataRef = {
 
 
 const jobDoneEvent = (task: ITask): void => {
-  console.log(`子組件的 ${checked}`);
   emit("taskDoneEvent", task.id, checked.value)
 };
 const taskDeletEvent = (): void => {

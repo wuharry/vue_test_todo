@@ -5,7 +5,7 @@ import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
-import { nextTick } from "process";
+import style from'./TaskList_style.module.scss';
 // const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -162,43 +162,43 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="createTask">
-    <div class="userInput">
+  <div :class="style.createTask">
+    <div :class="style.userInput">
       <input type="text" v-model="task.name" @keyup.enter="submitTask" placeholder="Task Name" />
-      <div class="inputFeedback" v-if="isInvalid">
-        <span class="icon">❌</span>
-        <span class="text">{{ errorMessage }}</span>
+      <div :class="style.inputFeedback" v-if="isInvalid">
+        <span :class="style.icon">❌</span>
+        <span :class="style.text">{{ errorMessage }}</span>
       </div>
-      <button class="CreatTaskBtn" @click="callTaskDialog">Create Task</button>
+      <button :class="style.CreatTaskBtn" @click="callTaskDialog">Create Task</button>
       <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
         @getTasksData="getTasksData" />
     </div>
-    <div class="userInput">
+    <div :class="style.userInput">
       <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />
-      <div class="inputFeedback" v-if="isInvalid">
-        <span class="icon">❌</span>
-        <span class="text">{{ errorMessage }}</span>
+      <div :class="style.inputFeedback" v-if="isInvalid">
+        <span :class="style.icon">❌</span>
+        <span :class="style.text">{{ errorMessage }}</span>
       </div>
-      <button class="CreatTaskBtn" @click="searchTask">Search Task</button>
+      <button :class="style.CreatTaskBtn" @click="searchTask">Search Task</button>
     </div>
 
   </div>
-  <div class="showTaskData">
-    <div class="taskStatus">
+  <div :class="style.showTaskData">
+    <div :class="style.taskStatus">
       <span>Task List({{ taskArray.length }} Tasks)</span>
-      <div class="progress">
+      <div :class="style.progress">
         <!-- 進度條:role="progressbar",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100"
         這些屬性是html原生的-->
-        <div class="progressBar" role="progressbar" v-bind:style='"width: " + progreso + "%"' aria-valuenow="25"
+        <div :class="style.progressBar" role="progressbar" v-bind:style='"width: " + progreso + "%"' aria-valuenow="25"
           aria-valuemin="0" aria-valuemax="100">{{ progreso }}%
         </div>
       </div>
-      <button class="iconButton" @click="deletAllTask">
-        <VIcon class="icon" name="ri-delete-bin-2-line" />
+      <button :class="style.iconButton" @click="deletAllTask">
+        <VIcon :class="style.icon" name="ri-delete-bin-2-line" />
       </button>
     </div>
 
-    <div class="taskList">
+    <div :class="style.taskList">
       <ul>
         <div v-for="task in taskList" :key="task.id">
           <TaskItem :task="task" @deletTask="deletTask" @taskDoneEvent="taskDoneEvent" />
@@ -208,152 +208,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped lang="scss">
-.createTask {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  height: 2.5em;
-  font-family: "Monospace", monospace;
-  margin-bottom: 2em;
-}
 
-.userInput {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-
-  input::placeholder {
-    color: rgba(206, 184, 184, 0.671);
-  }
-}
-
-.inputFeedback {
-  font-size: smaller;
-  color: rgba(248, 10, 10, 0.852);
-}
-
-.optionalInput {
-  display: flex;
-  visibility: hidden;
-  opacity: 0;
-  width: 20em;
-  margin-top: 10px;
-  transition: visibility 0s linear 0.33s, opacity 0.33s linear;
-}
-
-.showExtraInput {
-  visibility: visible;
-  opacity: 1;
-  transition-delay: 0s;
-}
-
-input[type="text"] {
-  appearance: none; //使得開發者可以完全自定義元素的外觀。
-  padding: 0.75rem;
-  border: 2px solid;
-  border-radius: 0.5em;
-  border-width: 2px;
-  border-color: transparent;
-  color: rgb(71 85 105 / var(--tw-text-opacity));
-  font-weight: 700;
-  font-size: 12px;
-  outline: 0;
-  font: inherit;
-  width: 10em;
-  height: 1em;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.CreatTaskBtn {
-  width: 25%;
-  height: 5em;
-  border-radius: 0.5rem;
-  border-width: 2px;
-  border-color: transparent;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  padding-left: .5rem;
-  padding-right: .5rem;
-  margin-left: .4em;
-  background-color: rgb(34, 132, 245);
-  color: white;
-  font-size: 50%;
-  text-align: center;
-}
-
-/* button {
-  width: 20%;
-} */
-.taskStatus {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.progress {
-  display: flex;
-  height: 1rem;
-  width: 20em;
-  overflow: hidden;
-  line-height: 0;
-  font-size: .75rem;
-  background-color: #bec1c5;
-  border-radius: 0.25rem;
-}
-
-.progressBar {
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -ms-flex-pack: center;
-  justify-content: center;
-  overflow: hidden;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  background-color: #007bff;
-  transition: width .6s ease;
-}
-
-.iconButton {
-  // 移除button格式
-  background-color: transparent;
-  width: 2.2em;
-  height: 2.2em;
-  border: none;
-  margin: .6em;
-  padding: 0;
-  text-align: inherit;
-  font: inherit;
-  border-radius: 0;
-  appearance: none; // Just in case we missed anything.
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.taskList {
-  display: flex;
-  width: 100%;
-
-  ul {
-    width: 90%;
-  }
-}
-
-.showTaskData {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  // height: 2.5em;
-  padding: .5em 1em;
-  font-family: "Monospace", monospace;
-}
-</style>

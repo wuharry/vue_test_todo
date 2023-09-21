@@ -12,15 +12,20 @@ const checked = ref<boolean>(false);
 const task: ITask = props.task;
 // html element
 const taskBackground = ref();
-const taskDataRef = {
-  name: ref(null),
-  description: ref(null),
-  deadline: ref(null),
-};
-
-
+const taskName = ref<HTMLElement>();
+const taskDescription = ref<HTMLElement>();
+const taskDeadline = ref<HTMLElement>();
 const jobDoneEvent = (task: ITask): void => {
   emit("taskDoneEvent", task.id, checked.value)
+  if (!checked.value) {
+    taskName.value?.classList.add('taskDone');
+    taskDescription.value?.classList.add('taskDone');
+    taskDeadline.value?.classList.add('taskDone');
+  } else {
+    taskName.value?.classList.remove('taskDone');
+    taskDescription.value?.classList.remove('taskDone');
+    taskDeadline.value?.classList.remove('taskDone');
+  }
 };
 const taskDeletEvent = (): void => {
   // 傳送事件到父組件去
@@ -51,13 +56,13 @@ onMounted(() => {
     <!-- <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent" /> -->
     <div class="TaskStatement">
       <div style="display: flex">
-        <h4>TaskName:</h4> <span ref="taskDataRef[0]">{{ task.name }}</span>
+        <h4>TaskName:</h4> <span ref="taskName">{{ task.name }}</span>
       </div>
       <div style="display: flex">
-        <h4>Description:</h4><span ref="taskDataRef[1]">{{ task.description }}</span>
+        <h4>Description:</h4><span ref="taskDescription">{{ task.description }}</span>
       </div>
       <div style="display: flex">
-        <h4>Deadline:</h4><span ref="taskDataRef[2]">{{ task.deadline }}</span>
+        <h4>Deadline:</h4><span ref="taskDeadline">{{ task.deadline }}</span>
       </div>
     </div>
     <div class="editTask">
@@ -85,7 +90,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
 
 <style scoped lang="scss">
 @import url("https://fonts.cdnfonts.com/css/sketch");
@@ -179,14 +183,12 @@ onMounted(() => {
 }
 
 //外部置入
-
 // 隱藏原生元素
 .checkbox-wrapper-44 input[type="checkbox"] {
   display: none;
   visibility: hidden;
 }
 
-// 
 .checkbox-wrapper-44 *,
 .checkbox-wrapper-44 *::before,
 .checkbox-wrapper-44 *::after {
@@ -413,5 +415,4 @@ onMounted(() => {
     opacity: 0;
     transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
   }
-}
-</style>
+}</style>

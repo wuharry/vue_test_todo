@@ -172,7 +172,7 @@ onMounted(async () => {
         <span :class="style.text">{{ errorMessage }}</span>
       </div>
       <button :class="style.CreatTaskBtn" @click="callTaskDialog">Create Task</button>
-      <div  :class="style.dialog_Container" v-if="showDialog">
+      <div :class="style.dialog_Container" v-if="showDialog">
         <Dialog :class="style.dialog_wrapper" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
           @getTasksData="getTasksData" />
       </div>

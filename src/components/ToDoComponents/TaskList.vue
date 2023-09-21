@@ -5,7 +5,7 @@ import TaskItem from "./TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
-import style from'./TaskList_style.module.scss';
+import style from './TaskList_style.module.scss';
 // const store = useStore();
 let task = ref<ITask>({
   id: 0,
@@ -17,8 +17,10 @@ let task = ref<ITask>({
 });
 const { value: taskValue } = task;
 let showDialog = ref<boolean>(false);
+const dialog = ref();
 const callTaskDialog = () => {
   showDialog.value = true;
+  // dialog.value.classLsit.add('style.dialog_Container');
 };
 // firebase初始化
 const { app, analytics } = firebaseInit();
@@ -106,7 +108,7 @@ const taskProgress = async () => {
     console.log(task.completed);
   })
   console.log(`==================`);
-  
+
   progreso.value = calculateCompletionPercentage(completedTasks.value, taskArray.value.length);
 
 }
@@ -115,13 +117,13 @@ const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> =>
   const dbRef = collection(database, "users");
   const docRef = doc(dbRef, taskID.toString()); // 使用doc函數來創建DocumentReference
   console.log(`check ${checked}`);
-  
+
   const newTask = {
     completed: (!checked)
   }
   await updateDoc(docRef, newTask);
   // refresh page
-   taskProgress()
+  taskProgress()
   // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
@@ -170,8 +172,10 @@ onMounted(async () => {
         <span :class="style.text">{{ errorMessage }}</span>
       </div>
       <button :class="style.CreatTaskBtn" @click="callTaskDialog">Create Task</button>
-      <Dialog v-if="showDialog" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
-        @getTasksData="getTasksData" />
+      <div  :class="style.dialog_Container" v-if="showDialog">
+        <Dialog :class="style.dialog_wrapper" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
+          @getTasksData="getTasksData" />
+      </div>
     </div>
     <div :class="style.userInput">
       <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />

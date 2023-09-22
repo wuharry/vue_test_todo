@@ -160,11 +160,6 @@ onMounted(async () => {
 <template>
   <div :class="style.createTask">
     <div :class="style.userInput">
-      <input type="text" v-model="task.name" @keyup.enter="submitTask" placeholder="Task Name" />
-      <div :class="style.inputFeedback" v-if="isInvalid">
-        <span :class="style.icon">❌</span>
-        <span :class="style.text">{{ errorMessage }}</span>
-      </div>
       <button :class="style.CreatTaskBtn" @click="callTaskDialog">Create Task</button>
       <div :class="style.dialog_Container" v-if="showDialog">
         <Dialog :class="style.dialog_wrapper" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
@@ -187,7 +182,7 @@ onMounted(async () => {
         <span :class="style.icon">❌</span>
         <span :class="style.text">{{ errorMessage }}</span>
       </div>
-      <button :class="style.CreatTaskBtn" @click="searchTask">Add Tag</button>
+      <!-- <button :class="style.CreatTaskBtn" @click="searchTask">Add Tag</button> -->
     </div>
   </div>
   <div :class="style.showTaskData">

@@ -66,13 +66,13 @@ onMounted(() => {
   <div class="taskContain" ref="taskBackground">
     <!-- <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent" /> -->
     <div class="TaskStatement">
-      <div style="display: flex">
+      <div>
         <h4>TaskName:</h4> <span ref="taskName">{{ task.name }}</span>
       </div>
-      <div style="display: flex">
+      <div>
         <h4>Description:</h4><span ref="taskDescription">{{ task.description }}</span>
       </div>
-      <div style="display: flex">
+      <div>
         <h4>Deadline:</h4><span ref="taskDeadline">{{ task.deadline }}</span>
       </div>
     </div>
@@ -110,7 +110,7 @@ onMounted(() => {
   /* grid的列布局,auto-fill=根据容器的宽度自动填充
     minmax(21em, 1fr) 则表示每列的最小宽度是 21em 
   */
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2.5fr 1.5fr;
   /* 两个列的比例是 3:1 */
   width: 100%;
   height: 5em;
@@ -140,11 +140,14 @@ onMounted(() => {
   animation: slide-in 0.33s linear;
   height: 10em;
 
-  .TaskStatement *span {
+  .TaskStatement span {
     white-space: normal;
     word-wrap: break-word;
     word-break: break-all;
-    max-width: 10em;
+    // max-width: 10em;
+  }
+  .TaskStatement div {
+    max-height: 3em;
   }
 }
 
@@ -153,8 +156,9 @@ onMounted(() => {
 .TaskStatement {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   align-items: start;
+
   // overflow: hidden;
   * h4 {
     font-family: "Monospace", monospace;
@@ -162,7 +166,7 @@ onMounted(() => {
     margin: 0;
   }
 
-  *span {
+  span {
     display: inline-block;
     max-height: 1.4em;
     max-width: 12em;
@@ -172,6 +176,10 @@ onMounted(() => {
     /* 在内容超出最大高度时显示省略号 */
     white-space: nowrap;
     /* 防止内容换行 */
+  }
+
+  div {
+    display: flex;
   }
 }
 

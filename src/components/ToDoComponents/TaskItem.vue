@@ -34,8 +34,10 @@ const taskDeletEvent = (): void => {
 const taskEditEvent = (): void => { };
 const checkSelectedTask = (id: number): void => {
   if (task.id === id) {
-
     console.log(task.name);
+    taskBackground.value.classList.add('taskContentExpand');
+  } else {
+    taskBackground.value.classList.remove('taskContentExpand');
   }
 };
 defineExpose({
@@ -75,7 +77,6 @@ onMounted(() => {
       </div>
     </div>
     <div class="editTask">
-
       <div class="checkbox-wrapper-44">
         <label class="toggleButton">
           <input type="checkbox" @click="jobDoneEvent(task)" v-model="checked">
@@ -123,13 +124,38 @@ onMounted(() => {
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 }
 
+@keyframes slide-in {
+  0% {
+    height: 5em;
+    padding-top: 1px;
+  }
+
+  100% {
+    padding-top: 0;
+    height: 10em;
+  }
+}
+
+.taskContentExpand {
+  animation: slide-in 0.33s linear;
+  height: 10em;
+
+  .TaskStatement *span {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+    max-width: 10em;
+  }
+}
+
+
+
 .TaskStatement {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  overflow: hidden;
-
+  // overflow: hidden;
   * h4 {
     font-family: "Monospace", monospace;
     padding: 0;
@@ -138,7 +164,8 @@ onMounted(() => {
 
   *span {
     display: inline-block;
-    max-height: 1em;
+    max-height: 1.4em;
+    max-width: 12em;
     /* 适当调整最大高度 */
     overflow: hidden;
     text-overflow: ellipsis;

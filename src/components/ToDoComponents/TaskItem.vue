@@ -111,7 +111,7 @@ onMounted(() => {
     minmax(21em, 1fr) 则表示每列的最小宽度是 21em 
   */
   grid-template-columns: 2.5fr 1.5fr;
-  /* 两个列的比例是 3:1 */
+  /* 两个列的比例是 2.5:1.5 這樣不會影響到15吋的電腦 */
   width: 100%;
   height: 5em;
   border: 0.5px solid hsla(0, 0%, 100%, 0.2);
@@ -132,26 +132,29 @@ onMounted(() => {
 
   100% {
     padding-top: 0;
-    height: 10em;
+    height: 15em;
   }
 }
 
 .taskContentExpand {
   animation: slide-in 0.33s linear;
-  height: 10em;
+  height: 15em;
+
+  .TaskStatement div {
+    display: block;
+  }
 
   .TaskStatement span {
     white-space: normal;
+    /* 将 white-space 属性设置为 normal，以支持自动换行 */
     word-wrap: break-word;
     word-break: break-all;
-    // max-width: 10em;
-  }
-  .TaskStatement div {
-    max-height: 3em;
+    overflow: visible;
+    /* 可选，根据需要添加 */
+    max-width: none;
+    /* 可选，根据需要添加 */
   }
 }
-
-
 
 .TaskStatement {
   display: flex;
@@ -459,5 +462,4 @@ onMounted(() => {
     opacity: 0;
     transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
   }
-}
-</style>
+}</style>

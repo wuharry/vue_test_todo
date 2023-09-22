@@ -11,7 +11,6 @@ import {
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { TaskList } from "../components/ToDoComponents";
-import { WeatherWidget, Calendar } from "../components/informationColumn";
 /**
  * 倉庫
  */

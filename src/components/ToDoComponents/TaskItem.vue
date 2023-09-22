@@ -15,6 +15,7 @@ const taskBackground = ref();
 const taskName = ref<HTMLElement>();
 const taskDescription = ref<HTMLElement>();
 const taskDeadline = ref<HTMLElement>();
+checked.value=task.completed;
 const jobDoneEvent = (task: ITask): void => {
   emit("taskDoneEvent", task.id, checked.value)
   if (!checked.value) {
@@ -34,7 +35,6 @@ const taskDeletEvent = (): void => {
 const taskEditEvent = (): void => { };
 const checkSelectedTask = (id: number): void => {
   if (task.id === id) {
-    console.log(task.name);
     taskBackground.value.classList.add('taskContentExpand');
   } else {
     taskBackground.value.classList.remove('taskContentExpand');
@@ -64,7 +64,6 @@ onMounted(() => {
 
 <template>
   <div class="taskContain" ref="taskBackground">
-    <!-- <input type="checkbox" v-model="taskStatus" @change="jobDoneEvent" /> -->
     <div class="TaskStatement">
       <div>
         <h4>TaskName:</h4> <span ref="taskName">{{ task.name }}</span>
@@ -462,4 +461,5 @@ onMounted(() => {
     opacity: 0;
     transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
   }
-}</style>
+}
+</style>

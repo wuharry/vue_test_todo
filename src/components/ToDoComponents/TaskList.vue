@@ -12,7 +12,8 @@ let task = ref<ITask>({
   deadline: null,
   priority: null,
   description: null,
-  completed: false
+  completed: false,
+  classification:null
 });
 const { value: taskValue } = task;
 let showDialog = ref<boolean>(false);
@@ -149,8 +150,6 @@ const checkSelectedTask = (id: number): void => {
     task.checkSelectedTask(id)
   })
 }
-
-
 onMounted(async () => {
   await getTasksData()
   taskProgress()
@@ -172,15 +171,24 @@ onMounted(async () => {
           @getTasksData="getTasksData" />
       </div>
     </div>
-    <div :class="style.userInput">
+    <!-- 搜尋 -->
+    <!-- <div :class="style.userInput">
       <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Search Task" />
       <div :class="style.inputFeedback" v-if="isInvalid">
         <span :class="style.icon">❌</span>
         <span :class="style.text">{{ errorMessage }}</span>
       </div>
       <button :class="style.CreatTaskBtn" @click="searchTask">Search Task</button>
+    </div> -->
+    <!-- 新增分類標籤 -->
+    <div :class="style.userInput">
+      <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Enter Tag Name" />
+      <div :class="style.inputFeedback" v-if="isInvalid">
+        <span :class="style.icon">❌</span>
+        <span :class="style.text">{{ errorMessage }}</span>
+      </div>
+      <button :class="style.CreatTaskBtn" @click="searchTask">Add Tag</button>
     </div>
-
   </div>
   <div :class="style.showTaskData">
     <div :class="style.taskStatus">

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch, computed } from "vue";
 import { ITask } from '@/types/Task';
-import TaskItem from "./TaskItem.vue";
+import TaskItem from "../TaskItem/TaskItem.vue";
 import Dialog from "./Dialog.vue";
-import { firebaseInit } from "../../firebaseInit";
+import { firebaseInit } from "../../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
 import style from './TaskList_style.module.scss';
 let task = ref<ITask>({
@@ -210,7 +210,7 @@ onMounted(async () => {
         <div v-for="(task, index) in taskList" :key="task.id">
           <div @click="checkSelectedTask(task.id)">
             <TaskItem :task="task" @deletTask="deletTask" @taskDoneEvent="taskDoneEvent"
-              :ref="el => setTaskRef(el, index)" />
+              :ref="(el: any) => setTaskRef(el, index)" />
           </div>
         </div>
       </ul>

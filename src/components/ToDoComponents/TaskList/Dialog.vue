@@ -2,17 +2,18 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { ITask } from '@/types/Task';
 import { useStore } from "vuex";
-import { firebaseInit } from '../../firebaseInit';
+import { firebaseInit } from '../../../firebaseInit';
 import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 
 const emit = defineEmits(['closeDialog', 'storeTaskAtBrowser','getTasksData']);
 const task = ref<ITask>({
-  name: "",
-  deadline: "",
-  priority: "",
-  description: "",
-  id: 0,
-  completed: false
+name: "",
+deadline: "",
+priority: "",
+description: "",
+id: 0,
+completed: false,
+classification: null
 });
 defineProps({
   msg: String,

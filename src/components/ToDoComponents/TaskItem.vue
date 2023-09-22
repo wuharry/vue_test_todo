@@ -32,6 +32,15 @@ const taskDeletEvent = (): void => {
   emit("deletTask", task.id);
 };
 const taskEditEvent = (): void => { };
+const checkSelectedTask = (id: number): void => {
+  if (task.id === id) {
+
+    console.log(task.name);
+  }
+};
+defineExpose({
+  checkSelectedTask
+})
 onMounted(() => {
   switch (task.priority) {
     case "Height":
@@ -415,4 +424,5 @@ onMounted(() => {
     opacity: 0;
     transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
   }
-}</style>
+}
+</style>

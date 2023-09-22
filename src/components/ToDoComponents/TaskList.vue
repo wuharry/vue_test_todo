@@ -6,7 +6,6 @@ import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
 import style from './TaskList_style.module.scss';
-// const store = useStore();
 let task = ref<ITask>({
   id: 0,
   name: "",
@@ -17,17 +16,13 @@ let task = ref<ITask>({
 });
 const { value: taskValue } = task;
 let showDialog = ref<boolean>(false);
-const dialog = ref();
 const callTaskDialog = () => {
   showDialog.value = true;
-  // dialog.value.classLsit.add('style.dialog_Container');
 };
 // firebase初始化
 const { app, analytics } = firebaseInit();
 const database = getFirestore(app);
 // 獲取firebase資料庫中"users"的集合
-
-
 let taskArray = ref<ITask[]>([]);
 let taskList = computed(() => taskArray.value);
 const getTasksData = async (): Promise<void> => {
@@ -120,7 +115,6 @@ const taskDoneEvent = async (taskID: number, checked: boolean): Promise<void> =>
   await updateDoc(docRef, newTask);
   // refresh page
   taskProgress()
-  // store.commit('updateTask', taskArray.value);
 }
 const deletAllTask = (): void => {
   // 在進行deletallTask,使用for迴圈去異步更改state,會間接影響到taskArray(它有computed屬性去監聽state)
@@ -145,14 +139,19 @@ const searchTask = async (): Promise<void> => {
     await getTasksData()
   }
 }
+// 點擊task事件
+const taskRef = ref<any>([]);
+const setTaskRef = (el: any, index: number) => {
+  taskRef.value[index] = el
+};
+const checkSelectedTask = (id: number): void => {
+  taskRef.value.forEach((task: any) => {
+    task.checkSelectedTask(id)
+  })
+}
+
 
 onMounted(async () => {
-  // 之後這邊要抓取後端的store,然後存到localstorge
-  // const taskListFromLocalStorage = localStorage.getItem("taskList");
-  // const preTaskList: ITask[] = taskListFromLocalStorage
-  //   ? JSON.parse(taskListFromLocalStorage)
-  //   : [];
-  // store.commit('updateTask', preTaskList);
   await getTasksData()
   taskProgress()
 });
@@ -200,8 +199,11 @@ onMounted(async () => {
 
     <div :class="style.taskList">
       <ul>
-        <div v-for="task in taskList" :key="task.id">
-          <TaskItem :task="task" @deletTask="deletTask" @taskDoneEvent="taskDoneEvent" />
+        <div v-for="(task, index) in taskList" :key="task.id">
+          <div @click="checkSelectedTask(task.id)">
+            <TaskItem :task="task" @deletTask="deletTask" @taskDoneEvent="taskDoneEvent"
+              :ref="el => setTaskRef(el, index)" />
+          </div>
         </div>
       </ul>
     </div>

@@ -20,13 +20,13 @@ checked.value = task.completed;
 const jobDoneEvent = (task: ITask): void => {
   emit("taskDoneEvent", task.id, checked.value)
   if (!checked.value) {
-    taskName.value?.classList.add('style.taskDone');
-    taskDescription.value?.classList.add('style.taskDone');
-    taskDeadline.value?.classList.add('style.taskDone');
+    taskName.value?.classList.add(style.taskDone);
+    taskDescription.value?.classList.add(style.taskDone);
+    taskDeadline.value?.classList.add(style.taskDone);
   } else {
-    taskName.value?.classList.remove('style.taskDone');
-    taskDescription.value?.classList.remove('style.taskDone');
-    taskDeadline.value?.classList.remove('style.taskDone');
+    taskName.value?.classList.remove(style.taskDone);
+    taskDescription.value?.classList.remove(style.taskDone);
+    taskDeadline.value?.classList.remove(style.taskDone);
   }
 };
 const taskDeletEvent = (): void => {
@@ -36,9 +36,9 @@ const taskDeletEvent = (): void => {
 const taskEditEvent = (): void => { };
 const checkSelectedTask = (id: number): void => {
   if (task.id === id) {
-    taskBackground.value.classList.add('style.taskContentExpand');
+    taskBackground.value.classList.add(style.taskContentExpand);
   } else {
-    taskBackground.value.classList.remove('style.taskContentExpand');
+    taskBackground.value.classList.remove(style.taskContentExpand);
   }
 };
 defineExpose({
@@ -47,17 +47,17 @@ defineExpose({
 onMounted(() => {
   switch (task.priority) {
     case "Height":
-      taskBackground.value.classList.add("style.priorityHeight");
+      taskBackground.value.classList.add(style.priorityHeight);
       break;
     case "Low":
-      taskBackground.value.classList.add("style.priorityLow");
+      taskBackground.value.classList.add(style.priorityLow);
       break;
     case "No matter":
-      taskBackground.value.classList.add("style.priorityNoMatter");
+      taskBackground.value.classList.add(style.priorityNoMatter);
       break;
 
     default:
-      taskBackground.value.classList.add("style.priorityNoMatter");
+      taskBackground.value.classList.add(style.priorityNoMatter);
       break;
   }
 });

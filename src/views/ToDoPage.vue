@@ -50,7 +50,6 @@ defineExpose({
 <template>
   <div class="container">
     <div class="context">
-      <span>Task</span>
       <TaskList />
     </div>
   </div>
@@ -76,5 +75,6 @@ defineExpose({
   // justify-content: center;
   align-items: center;
   font-family: "Monospace", monospace;
+  padding-top: .5em;
 }
 </style>

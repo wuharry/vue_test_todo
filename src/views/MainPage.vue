@@ -52,7 +52,6 @@ defineExpose({
     <div class="container">
         <div class="optionList">
             <!-- 左側 -->
-            <div class="">Option List</div>
             <div class="options">
                 <VIcon class="icon" @click="router.push({ name: 'ToDo' })" name="la-list-alt-solid" />
             </div>
@@ -129,6 +128,7 @@ defineExpose({
 }
 
 .options {
+    padding-top: .5em;
     height: 6.5em;
 }
 

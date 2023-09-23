@@ -142,6 +142,10 @@ const sentTasks = async () => {
   width: 20em;
   margin-top: 10px;
   transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+  input:hover{
+    border: darkblue 3px solid;
+    // cursor: crosshair;
+  }
 }
 
 .inputFeedback {

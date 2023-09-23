@@ -13,7 +13,7 @@ let task = ref<ITask>({
   priority: null,
   description: null,
   completed: false,
-  classification:null
+  classification: null
 });
 const { value: taskValue } = task;
 let showDialog = ref<boolean>(false);
@@ -126,19 +126,10 @@ const deletAllTask = (): void => {
   });
 }
 
-const searchValue = ref<string>('');
-const searchTask = async (): Promise<void> => {
-  if (searchValue.value !== '') {
-    const dbRef = collection(database, "users");
-    const queryCondition = query(dbRef, where("name", "==", searchValue.value));
-    // 搜尋結果
-    const querySnapshot = await getDocs(queryCondition);
-    taskArray.value = querySnapshot.docs.map((doc) => {
-      return doc.data() as ITask
-    });
-  } else if (searchValue.value === '') {
-    await getTasksData()
-  }
+const tag = ref<string>(''); 
+const createTag = (): void => {
+  console.log(tag.value);
+  
 }
 // 點擊task事件
 const taskRef = ref<any>([]);
@@ -177,7 +168,10 @@ onMounted(async () => {
     </div> -->
     <!-- 新增分類標籤 -->
     <div :class="style.userInput">
-      <input type="text" v-model="searchValue" @keyup.enter="searchTask" placeholder="Enter Tag Name" />
+      <div>
+        Create Tag
+        <input type="text" v-model="tag" @keyup.enter="createTag" placeholder="Tag Name" />
+      </div>
       <div :class="style.inputFeedback" v-if="isInvalid">
         <span :class="style.icon">❌</span>
         <span :class="style.text">{{ errorMessage }}</span>

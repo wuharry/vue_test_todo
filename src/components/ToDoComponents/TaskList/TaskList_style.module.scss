@@ -15,6 +15,10 @@
   input::placeholder {
     color: rgba(206, 184, 184, 0.671);
   }
+  input:hover {
+    border: darkblue 3px solid;
+    // cursor: crosshair;
+  }
 }
 
 .inputFeedback {
@@ -78,44 +82,44 @@ input[type="text"] {
 /* CSS */
 
 @keyframes fadeIn {
-    0% {
-      /* 起始樣式 */
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-    16.67% {
-      /* 大約 1 秒內的樣式 */
-      opacity: 0.2;
-      transform: translateY(-80%);
-    }
-    33.33% {
-      /* 大約 2 秒內的樣式 */
-      opacity: 0.4;
-      transform: translateY(-60%);
-    }
-    50% {
-        /* 大約 3 秒內的樣式 */
-        opacity: 0.5;
-        transform: translateY(-40);
-      }
-      66.67% {
-        /* 大約 4 秒內的樣式 */
-        opacity: 0.6;
-        transform: translateY(-20%);
-      }
-      83.33% {
-        /* 大約 5 秒內的樣式 */
-        opacity: 0.8;
-        transform: translateY(-10%);
-      }
-    100% {
-      /* 結束樣式 */
-      opacity: 1;
-      transform: translateY(0%);
-    }
+  0% {
+    /* 起始樣式 */
+    opacity: 0;
+    transform: translateY(-100%);
   }
-  .dialog_Container{
-    animation: fadeIn .33s linear ;
+  16.67% {
+    /* 大約 1 秒內的樣式 */
+    opacity: 0.2;
+    transform: translateY(-80%);
+  }
+  33.33% {
+    /* 大約 2 秒內的樣式 */
+    opacity: 0.4;
+    transform: translateY(-60%);
+  }
+  50% {
+    /* 大約 3 秒內的樣式 */
+    opacity: 0.5;
+    transform: translateY(-40);
+  }
+  66.67% {
+    /* 大約 4 秒內的樣式 */
+    opacity: 0.6;
+    transform: translateY(-20%);
+  }
+  83.33% {
+    /* 大約 5 秒內的樣式 */
+    opacity: 0.8;
+    transform: translateY(-10%);
+  }
+  100% {
+    /* 結束樣式 */
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+.dialog_Container {
+  animation: fadeIn 0.33s linear;
 }
 
 .progress {
@@ -181,6 +185,6 @@ input[type="text"] {
   font-family: "Monospace", monospace;
 }
 
-.selectedTask{
-    height: 5em;
+.selectedTask {
+  height: 5em;
 }

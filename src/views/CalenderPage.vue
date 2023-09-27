@@ -10,7 +10,7 @@ import {
 } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import { Calendar } from "../components/clender";
+import { CalendarTop, CalendarMonth } from "../components/clender";
 /**
  * 倉庫
  */
@@ -47,7 +47,23 @@ defineExpose({
 <template>
   <div class="container">
     <div class="context">
-      <Calendar></Calendar>
+      <!-- <div>
+        <CalendarTop></CalendarTop>
+      </div> -->
+
+      <!-- 根據上方欄提供的狀態來顯示月,周,日 -->
+      <template v-if="true">
+        <CalendarMonth></CalendarMonth>
+      </template>
+
+      <template>
+
+      </template>
+
+      <template>
+
+      </template>
+
     </div>
   </div>
 </template>
@@ -65,6 +81,7 @@ defineExpose({
   font-family: "Monospace", monospace;
   font-weight: 700;
 }
+
 .context {
   flex: 8;
   display: flex;

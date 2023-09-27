@@ -10,7 +10,7 @@ import {
 } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import { WeatherWidget, Calendar } from "../components/informationColumn";
+import { Calendar } from "../components/clender";
 /**
  * 倉庫
  */
@@ -47,7 +47,7 @@ defineExpose({
 <template>
   <div class="container">
     <div class="context">
-      <span>Calender</span>
+      <Calendar></Calendar>
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@
             {{ day }}
         </div>
         <!--前一個月多出的天數  -->
-        <div></div>
+        <!-- <div></div> -->
         <!-- 月天數顯示 -->
         <div v-for="day in currentMonthDays">
             <div class="Day">
@@ -27,7 +27,7 @@ const calMonthName = [
 const month = computed(() => calMonthName[localDate.value.getMonth()]);
 const today = computed(() => localDate.value.getDate());//當前日期
 const calWeekDays = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-const currentMonthDays = ref<number[]>([]);//當前月天數
+const currentMonthDays = ref<string[]>([]);//當前月天數
 const calendarControl = {
     localDate: new Date(),
     // 其他程式碼屬性和方法
@@ -85,21 +85,24 @@ const navigateToCurrentMonth = (): void => {
 let todayindex = ref(0);
 const setCalenderData = (): void => {
     currentMonthDays.value = [];
-    const firstDayOfMonth = lastDayNumber()
-    const daysPerMonth = daysInMonth(year.value, (localDate.value.getMonth() + 1));
-    const daysPreMonth = getPreviousMonthLastDate();
-    console.log(daysPreMonth);
-    
-    for (let day = firstDayOfMonth; day > 0; day--) {
-        console.log(daysPreMonth + 1 - day);
-        currentMonthDays.value.push(daysPreMonth + 1 - day);
+    // 補上前一個月多出顯示的天數
+    let firstDay = firstDayNumber();//該月第一天
+    for (let day = 0; day < firstDay; day++) {
+        currentMonthDays.value.push(" ");
     }
+    const daysPerMonth = daysInMonth(year.value, (localDate.value.getMonth() + 1));
     for (let day = 1; day <= daysPerMonth; day++) {
-        currentMonthDays.value.push(day);
+        currentMonthDays.value.push(day.toString());
         if (day === today.value) {
-            todayindex.value = currentMonthDays.value.indexOf(day);
+            todayindex.value = currentMonthDays.value.indexOf(day.toString());
         }
-
+    }
+    // 補上下一個月的天數(如果長度可以被7整除就不用加如果沒有的話就push)
+    if (currentMonthDays.value.length % 7 != 0) {
+        let nextmonthday = currentMonthDays.value.length % 7;
+        for (let index = 0; index < nextmonthday; index++) {
+            currentMonthDays.value.push(" ");
+        }
     }
 }
 setCalenderData();
@@ -133,7 +136,7 @@ setCalenderData();
 .Day {
     @include custom-border;
     width: 100%;
-    height: 5.7em;
+    height: 6.8em;
 }
 
 @keyframes slideIn {

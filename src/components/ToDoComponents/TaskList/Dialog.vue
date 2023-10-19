@@ -1,42 +1,45 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, defineProps, defineEmits, computed } from 'vue';
 import { ITask } from '@/types/Task';
 import { useStore } from "vuex";
 import { firebaseInit } from '../../../firebaseInit';
 import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 
-const emit = defineEmits(['closeDialog', 'storeTaskAtBrowser','getTasksData']);
+const emit = defineEmits(['closeDialog', 'storeTaskAtBrowser', 'getTasksData']);
+const props = defineProps({ msg: String });
+
 const task = ref<ITask>({
-name: "",
-deadline: "",
-priority: "",
-description: "",
-id: 0,
-completed: false,
-classification: null
+  name: "",
+  deadline: "",
+  priority: "none",
+  description: "",
+  id: 0,
+  completed: false,
+  classification: null
 });
-defineProps({
-  msg: String,
-})
+
 const clearDialogData = (): void => {
   for (const key in task.value) {
     task.value[key] = "";
   }
-}
+};
+
 const closeDialog = (): void => {
   emit('closeDialog');
-  clearDialogData()
-}
+  clearDialogData();
+};
 
-  
 const store = useStore();
 const taskNameInvalid = ref(false);
 const taskDateInvalid = ref(false);
+
 const errortaskName = computed(() => (taskNameInvalid.value ? "TaskName輸入不正確" : ""));
 const errortaskDate = computed(() => (taskDateInvalid.value ? "請輸入DeadLine" : ""));
+
 const sentTasks = async () => {
   taskNameInvalid.value = task.value.name == "" || task.value.name == undefined;
   taskDateInvalid.value = task.value.deadline == "" || task.value.deadline == undefined;
+
   if (taskNameInvalid.value || taskDateInvalid.value) {
     setTimeout(() => {
       taskNameInvalid.value = false;
@@ -44,22 +47,21 @@ const sentTasks = async () => {
     }, 1500);
     return;
   }
+
   const newTask = {
     ...task.value,
     id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000),
   };
-  // store.dispatch("addTask", newTask);
-  // emit('storeTaskAtBrowser')
+
   const { app, analytics } = firebaseInit();
   const database = getFirestore(app);
   const dbRef = collection(database, "users");
-  const id = newTask.id.toString()
-  const docRef = doc(dbRef, id); // 使用doc函數來創建DocumentReference
+  const id = newTask.id.toString();
+  const docRef = doc(dbRef, id);
   await setDoc(docRef, newTask);
   emit('getTasksData');
-  closeDialog()
-}
-
+  closeDialog();
+};
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch, computed } from "vue";
 import { ITask } from '../../../types/Task';
-import TaskItem from "../TaskItem//TaskItem.vue";
+import TaskItem from "../TaskItem/TaskItem.vue";
 import Dialog from "./Dialog.vue";
 import { firebaseInit } from "../../../firebaseInit";
 import { collection, getDocs, getFirestore, setDoc, doc, deleteDoc, query, where, orderBy, updateDoc } from "firebase/firestore";
@@ -90,8 +90,11 @@ let progreso = ref(0);
 const completedTasks = ref(0);
 
 const calculateCompletionPercentage = (completedTasks: number, total: number): number => {
+  console.log('total',total);
+
   const completionPercentage = (completedTasks / total) * 100;
-  return completionPercentage
+  return total !== 0 ? completionPercentage : 0;
+
 }
 // 計算已經完成的task
 const taskProgress = async () => {
@@ -126,10 +129,10 @@ const deletAllTask = (): void => {
   });
 }
 
-const tag = ref<string>(''); 
+const tag = ref<string>('');
 const createTag = (): void => {
   console.log(tag.value);
-  
+
 }
 // 點擊task事件
 const taskRef = ref<any>([]);
@@ -145,16 +148,21 @@ onMounted(async () => {
   await getTasksData()
   taskProgress()
 });
-
 </script>
 
 <template>
   <div :class="style.createTask">
     <div :class="style.userInput">
-      <button :class="style.CreatTaskBtn" @click="callTaskDialog">Create Task</button>
+      <button :class="style.CreatTaskBtn" @click="callTaskDialog">
+        Create Task
+      </button>
       <div :class="style.dialog_Container" v-if="showDialog">
-        <Dialog :class="style.dialog_wrapper" @closeDialog="closeDialog" @storeTaskAtBrowser="storeTaskAtBrowser"
-          @getTasksData="getTasksData" />
+        <Dialog
+          :class="style.dialog_wrapper"
+          @closeDialog="closeDialog"
+          @storeTaskAtBrowser="storeTaskAtBrowser"
+          @getTasksData="getTasksData"
+        />
       </div>
     </div>
     <!-- 搜尋 -->
@@ -170,7 +178,12 @@ onMounted(async () => {
     <div :class="style.userInput">
       <div>
         Create Tag
-        <input type="text" v-model="tag" @keyup.enter="createTag" placeholder="Tag Name" />
+        <input
+          type="text"
+          v-model="tag"
+          @keyup.enter="createTag"
+          placeholder="Tag Name"
+        />
       </div>
       <div :class="style.inputFeedback" v-if="isInvalid">
         <span :class="style.icon">❌</span>
@@ -185,8 +198,15 @@ onMounted(async () => {
       <div :class="style.progress">
         <!-- 進度條:role="progressbar",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100"
         這些屬性是html原生的-->
-        <div :class="style.progressBar" role="progressbar" v-bind:style='"width: " + progreso + "%"' aria-valuenow="25"
-          aria-valuemin="0" aria-valuemax="100">{{ progreso }}%
+        <div
+          :class="style.progressBar"
+          role="progressbar"
+          v-bind:style="'width: ' + progreso + '%'"
+          aria-valuenow="25"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          {{ progreso }}%
         </div>
       </div>
       <button :class="style.iconButton" @click="deletAllTask">
@@ -198,13 +218,15 @@ onMounted(async () => {
       <ul>
         <div v-for="(task, index) in taskList" :key="task.id">
           <div @click="checkSelectedTask(task.id)">
-            <TaskItem :task="task" @deletTask="deletTask" @taskDoneEvent="taskDoneEvent"
-              :ref="(el: any) => setTaskRef(el, index)" />
+            <TaskItem
+              :task="task"
+              @deletTask="deletTask"
+              @taskDoneEvent="taskDoneEvent"
+              :ref="(el: any) => setTaskRef(el, index)"
+            />
           </div>
         </div>
       </ul>
     </div>
   </div>
 </template>
-
-
